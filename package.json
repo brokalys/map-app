@@ -1,0 +1,19 @@
+{
+  "name": "realestate-heatmap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brokalys/realestate-heatmap.git"
+  },
+  "author": "Matiss Janis Aboltins <matiss@mja.lv>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Brokalys/realestate-heatmap/issues"
+  },
+  "homepage": "https://github.com/Brokalys/realestate-heatmap#readme"
+}
