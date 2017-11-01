@@ -2,7 +2,7 @@
   "name": "realestate-heatmap",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Brokalys/realestate-heatmap/issues"
   },
-  "homepage": "https://github.com/Brokalys/realestate-heatmap#readme"
+  "homepage": "https://github.com/Brokalys/realestate-heatmap#readme",
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "moment": "^2.19.1",
+    "mysql": "^2.15.0",
+    "prompt": "^1.0.0"
+  }
 }

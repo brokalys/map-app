@@ -1,6 +1,7 @@
-var prices = Object.keys(avgPrices).map(function(key) { return avgPrices[key]; });
-var maxPrice = Math.max.apply(null, prices);
-var minPrice = Math.min.apply(null, prices);
+var prices = prices.median;
+var mappedPrices = Object.keys(prices).map(function(key) { return prices[key]; });
+var maxPrice = Math.max.apply(null, mappedPrices);
+var minPrice = Math.min.apply(null, mappedPrices);
 
 function calcHue(price) {
   var cur = price - minPrice;
@@ -38,22 +39,31 @@ function hslToHex(h, s, l) {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
+var infoWindow;
+
 function setPolygon(map, region) {
-  var triangleCoords = regions[region].map(function(row) {
+  var coords = regions[region].map(function(row) {
     return { lng: row[0], lat: row[1] };
   });
 
-  var color = calcHue(avgPrices[region]);
+  var color = calcHue(prices[region]);
 
-  var bermudaTriangle = new google.maps.Polygon({
-    paths: triangleCoords,
+  var polygon = new google.maps.Polygon({
+    paths: coords,
     strokeColor: color,
     strokeOpacity: 0.8,
     strokeWeight: 2,
     fillColor: color,
     fillOpacity: 0.35,
   });
-  bermudaTriangle.setMap(map);
+  polygon.setMap(map);
+
+  polygon.addListener('click', function(event) {
+    infoWindow.setContent('Cena: ' + prices[region] + ' EUR');
+    infoWindow.setPosition(event.latLng);
+
+    infoWindow.open(map);
+  });
 }
 
 function initMap() {
@@ -65,6 +75,8 @@ function initMap() {
     },
     mapTypeId: 'terrain',
   });
+
+  infoWindow = new google.maps.InfoWindow;
 
   Object.keys(regions).forEach(function (key) {
     setPolygon(map, key);
