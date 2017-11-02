@@ -24,7 +24,7 @@ const schema = {
     month: {
       description: 'Month (YYYY-MM-DD)',
       pattern: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/,
-      default: moment().remove(1, 'month').startOf('month').format('YYYY-MM-DD'),
+      default: moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
     },
   },
 };
@@ -45,11 +45,14 @@ prompt.get(schema, (err, result) => {
   Object.keys(regions).forEach((regionKey) => {
     const region = regions[regionKey].map((row) => row.join(' ')).join(', ');
 
+    const rentType = result.type === 'rent' ? `AND (rent_type IS NULL OR rent_type = "monthly")` : '';
+
     const query = `
       SELECT price
       FROM ??
       WHERE category = ?
         AND type = ?
+        ${rentType}
         AND created_at >= ?
         AND created_at < ?
         AND ST_Contains(ST_GeomFromText('POLYGON((${region}))'), point(lng, lat))
