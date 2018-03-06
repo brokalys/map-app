@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Brokalys/realestate-heatmap#readme",
   "devDependencies": {
-    "dotenv": "^4.0.0",
-    "moment": "^2.19.1",
+    "dotenv": "^5.0.1",
+    "moment": "^2.21.0",
     "mysql": "^2.15.0",
     "prompt": "^1.0.0"
   }
