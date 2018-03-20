@@ -116,7 +116,7 @@ xhr.onreadystatechange = function () {
     var header = parts[0].map((name) => slugify(name));
     var priceData = parts[parts.length - 2];
 
-    for (var i = 0; i < header.length; i++) {
+    for (var i = 3; i < header.length; i++) {
       prices[header[i]] = parseInt(priceData[i], 10);
     }
 
