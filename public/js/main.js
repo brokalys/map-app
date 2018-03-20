@@ -64,10 +64,48 @@ function initMap() {
       lat: 56.946285,
       lng: 24.105078,
     },
-    mapTypeId: 'terrain',
+    mapTypeId: 'roadmap',
+    styles: [{
+      "featureType": "all",
+      "elementType": "all",
+      "stylers": [{
+        "invert_lightness": true
+      }, {
+        "saturation": 10
+      }, {
+        "lightness": 30
+      }, {
+         "gamma": 0.5
+      }, {
+        "hue": "#435158"
+      }]
+    }]
   });
 
   infoWindow = new google.maps.InfoWindow;
+
+  map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json');
+
+  map.data.setStyle(function(feature) {
+    var region = slugify(feature.getProperty('apkaime'));
+    var color = calcHue(prices[region]);
+
+    return {
+      strokeColor: color,
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: color,
+      fillOpacity: 0.2,
+    };
+  });
+
+  map.data.addListener('click', function(event) {
+    var region = slugify(event.feature.getProperty('apkaime'));
+    infoWindow.setContent('Mediānā dzīvokļa cena: ' + prices[region] + ' EUR');
+    infoWindow.setPosition(event.latLng);
+
+    infoWindow.open(map);
+  });
 }
 
 var xhr = new XMLHttpRequest();
@@ -87,28 +125,6 @@ xhr.onreadystatechange = function () {
     minPrice = Math.min.apply(null, mappedPrices);
 
     initMap();
-    map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json');
-
-    map.data.setStyle(function(feature) {
-      var region = slugify(feature.getProperty('apkaime'));
-      var color = calcHue(prices[region]);
-
-      return {
-        strokeColor: color,
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: color,
-        fillOpacity: 0.35,
-      };
-    });
-
-    map.data.addListener('click', function(event) {
-      var region = slugify(event.feature.getProperty('apkaime'));
-      infoWindow.setContent('Mediānā dzīvokļa cena: ' + prices[region] + ' EUR');
-      infoWindow.setPosition(event.latLng);
-
-      infoWindow.open(map);
-    });
   }
 };
 xhr.send();
