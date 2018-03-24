@@ -1712,6 +1712,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-react-class@^15.5.2:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -1853,6 +1861,10 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-0.2.37.tgz#541097234cb2513c83ceed3acddc27ff27987d54"
   dependencies:
     cssom "0.3.x"
+
+csv-parse@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.4.tgz#5b469596766ee07f2cbd71aced7ae76b3c73c901"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -2679,7 +2691,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -5609,6 +5621,13 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
+react-gmaps@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-gmaps/-/react-gmaps-1.9.0.tgz#e4911fa7dadd1de7555e7a7b7291e2975a7f2b8e"
+  dependencies:
+    create-react-class "^15.5.2"
+    object-assign "^4.0.1"
+
 react-scripts@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-1.1.1.tgz#279d449f7311fed910506987a1ade014027788a8"
@@ -6183,6 +6202,10 @@ slice-ansi@1.0.0:
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-1.0.0.tgz#044f1a49d8842ff307aad6b505ed178bd950134d"
   dependencies:
     is-fullwidth-code-point "^2.0.0"
+
+slugify@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.2.9.tgz#c3d518f5136b3c69345d5d0bbbcde7412b5694aa"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
