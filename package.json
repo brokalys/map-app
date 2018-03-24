@@ -1,7 +1,7 @@
 {
   "name": "realestate-heatmap",
   "version": "0.1.0",
-  "homepage": "https://maps.brokalys.com",
+  "homepage": "https://map.brokalys.com",
   "private": true,
   "dependencies": {
     "colormap": "^2.3.0",
