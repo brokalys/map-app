@@ -25,6 +25,8 @@ npm test
 ```
 
 ## Deployment
+Environment variables MUST for deployments to work. They should be placed in a new untracked file (`.env.production.local`).
+
 ```sh
 yarn deploy
 # or
