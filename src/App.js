@@ -4,7 +4,7 @@ import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
 
 const coords = {
-  lat: 56.946285,
+  lat: 56.98,
   lng: 24.105078,
 };
 
@@ -35,7 +35,9 @@ class App extends React.Component {
     map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json')
 
     map.setOptions({
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      zoomControl: true,
+      fullscreenControl: true,
     });
 
     const { header, body } = await this.loadPriceData();
@@ -43,10 +45,10 @@ class App extends React.Component {
     const uniquePrices = [...new Set(priceData)].length;
 
     const colors = colormap({
-      colormap: 'jet',
+      colormap: 'autumn',
       nshades: uniquePrices,
       format: 'hex',
-    });
+    }).reverse();
 
     this.regions = header.map((name, index) => {
       return {
@@ -75,8 +77,7 @@ class App extends React.Component {
 
       return {
         strokeColor: region.color,
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
+        strokeWeight: .1,
         fillColor: region.color,
         fillOpacity: 0.4,
       };
@@ -88,7 +89,7 @@ class App extends React.Component {
       const region = this.findRegionByName(regionName);
       const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
 
-      infoWindow.setContent(`Mediānā dzīvokļa pārdošanas cena: ${price} EUR (${region.name})`);
+      infoWindow.setContent(`Mediānā dzīvokļa pārdošanas cena:<br>${price} EUR (${region.name})`);
       infoWindow.setPosition(event.latLng);
       infoWindow.open(map);
     });
@@ -101,7 +102,7 @@ class App extends React.Component {
         height={'100%'}
         lat={coords.lat}
         lng={coords.lng}
-        zoom={12}
+        zoom={11}
         params={params}
         styles={styles}
         onMapCreated={this.onMapCreated.bind(this)}>
