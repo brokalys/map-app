@@ -24,7 +24,10 @@ const styles = [{
   }],
 }];
 
-const params = {v: '3.exp'}; // @todo: key
+const params = {
+  v: '3.exp',
+  key: process.env.REACT_APP_GMAPS_KEY || undefined,
+};
 
 class App extends React.Component {
 
