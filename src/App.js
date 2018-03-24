@@ -37,7 +37,6 @@ class App extends React.Component {
     map.setOptions({
       disableDefaultUI: true,
       zoomControl: true,
-      fullscreenControl: true,
     });
 
     const { header, body } = await this.loadPriceData();
