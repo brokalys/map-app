@@ -1,25 +1,20 @@
 {
   "name": "realestate-heatmap",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/run.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Brokalys/realestate-heatmap.git"
-  },
-  "author": "Matiss Janis Aboltins <matiss@mja.lv>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Brokalys/realestate-heatmap/issues"
-  },
-  "homepage": "https://github.com/Brokalys/realestate-heatmap#readme",
   "devDependencies": {
-    "dotenv": "^5.0.1",
-    "moment": "^2.21.0",
-    "mysql": "^2.15.0",
-    "prompt": "^1.0.0"
+    "gh-pages": "^1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "npm run build && cp CNAME build && gh-pages -d build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
