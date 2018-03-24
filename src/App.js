@@ -54,7 +54,12 @@ class App extends React.Component {
 
     map.data.setStyle((feature) => {
       const region = slugify(feature.getProperty('apkaime'));
-      const color = this.calcHue(prices[region], maxPrice, minPrice);
+      const price = prices[region];
+      const color = this.calcHue(price, maxPrice, minPrice);
+
+      if (price <= 0) {
+        return;
+      }
 
       return {
         strokeColor: color,
@@ -65,16 +70,16 @@ class App extends React.Component {
       };
     });
 
-    console.log(map);
-    // map.data.addListener('click', (event) => {
-    //   const name = event.feature.getProperty('apkaime');
-    //   const region = slugify(name);
-    //   const infoWindow = new google.maps.InfoWindow;
+    const infoWindow = new window.google.maps.InfoWindow;
+    map.data.addListener('click', (event) => {
+      const name = event.feature.getProperty('apkaime');
+      const region = slugify(name);
+      const price = prices[region].toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
 
-    //   infoWindow.setContent(`Mediānā dzīvokļa cena: ${prices[region]} EUR (${name})`);
-    //   infoWindow.setPosition(event.latLng);
-    //   infoWindow.open(map);
-    // });
+      infoWindow.setContent(`Mediānā dzīvokļa pārdošanas cena: ${price} EUR (${name})`);
+      infoWindow.setPosition(event.latLng);
+      infoWindow.open(map);
+    });
   }
 
   render() {
