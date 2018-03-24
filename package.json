@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "colormap": "^2.3.0",
     "csv-parse": "^2.0.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-gmaps": "^1.9.0",
-    "react-scripts": "1.1.1",
-    "slugify": "^1.2.9"
+    "react-scripts": "1.1.1"
   },
   "devDependencies": {
     "gh-pages": "^1.1.0"
