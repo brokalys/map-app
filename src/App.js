@@ -1,6 +1,6 @@
 import React from 'react';
 import { Gmaps } from 'react-gmaps';
-import parse from 'csv-parse/lib/sync';
+import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
 
 const coords = {
@@ -79,7 +79,7 @@ class App extends React.Component {
       };
     });
 
-    const infoWindow = new window.google.maps.InfoWindow;
+    const infoWindow = new window.google.maps.InfoWindow();
     map.data.addListener('click', (event) => {
       const regionName = event.feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
