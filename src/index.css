@@ -1,5 +1,22 @@
-html, body, #root {
+html, body, #root, .wrapper {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+
+.buttons {
+  position: fixed;
+  bottom: 30px;
+  z-index: 100;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-group {
+  padding: 0 10px;
+}
+
+button.btn-outline-danger {
+  background-color: #fff;
+}
+
