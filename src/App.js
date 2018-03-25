@@ -2,6 +2,7 @@ import React from 'react';
 import { Gmaps } from 'react-gmaps';
 import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
+import progress from 'nprogress';
 
 import Toolbar from './Toolbar';
 
@@ -43,6 +44,13 @@ class App extends React.Component {
       category: 'apartment',
       type: 'sell'
     };
+
+    progress.configure({
+      showSpinner: false,
+      speed: 1000,
+      trickleSpeed: 150,
+    });
+    progress.start();
   }
 
   async onMapCreated(map) {
@@ -55,6 +63,10 @@ class App extends React.Component {
   }
 
   async onMapChanged() {
+    if (progress.isStarted() === false) {
+      progress.start();
+    }
+
     const map = this.map;
 
     this.infoWindow.close();
@@ -122,6 +134,8 @@ class App extends React.Component {
       this.infoWindow.setPosition(event.latLng);
       this.infoWindow.open(map);
     });
+
+    progress.done();
   }
 
   onToolbarUpdate(change) {

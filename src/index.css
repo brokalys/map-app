@@ -20,3 +20,6 @@ button.btn-outline-danger {
   background-color: #fff;
 }
 
+#nprogress .bar {
+  background-color: #fd6c6c;
+}
