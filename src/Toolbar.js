@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class Toolbar extends React.Component {
@@ -85,5 +86,11 @@ class Toolbar extends React.Component {
   }
 
 }
+
+Toolbar.propTypes = {
+  category: PropTypes.string,
+  type: PropTypes.string,
+  onUpdate: PropTypes.func,
+};
 
 export default Toolbar;
