@@ -1,8 +1,9 @@
 import React from 'react';
 import { Gmaps } from 'react-gmaps';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
+
+import Toolbar from './Toolbar';
 
 const coords = {
   lat: 56.98,
@@ -36,50 +37,27 @@ class App extends React.Component {
     super(props);
 
     this.onMapCreated = this.onMapCreated.bind(this);
-    this.toggleCategory = this.toggleCategory.bind(this);
-    this.toggleType = this.toggleType.bind(this);
+    this.onToolbarUpdate = this.onToolbarUpdate.bind(this);
+
     this.state = {
-      categoryDropdownOpen: false,
-      typeDropdownOpen: false,
       category: 'apartment',
       type: 'sell'
     };
   }
 
-  toggleCategory() {
-    this.setState((prevState) => ({
-      categoryDropdownOpen: !prevState.categoryDropdownOpen,
-    }));
-  }
-
-  toggleType() {
-    this.setState((prevState) => ({
-      typeDropdownOpen: !prevState.typeDropdownOpen,
-    }));
-  }
-
-  onSelectCategory(value) {
-    this.setState({
-      category: value,
-    }, () => {
-      this.onMapCreated(this.map);
-    });
-  }
-
-  onSelectType(value) {
-    this.setState({
-      type: value,
-    }, () => {
-      this.onMapCreated(this.map);
-    });
-  }
-
   async onMapCreated(map) {
-    if (this.map === undefined) {
-      map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json')
-    }
+    map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json')
 
     this.map = map;
+    this.infoWindow = new window.google.maps.InfoWindow();
+
+    this.onMapChanged();
+  }
+
+  async onMapChanged() {
+    const map = this.map;
+
+    this.infoWindow.close();
 
     map.setOptions({
       disableDefaultUI: true,
@@ -133,11 +111,6 @@ class App extends React.Component {
       };
     });
 
-    if (this.infoWindow === undefined) {
-      this.infoWindow = new window.google.maps.InfoWindow();
-    }
-
-    this.infoWindow.close();
     map.data.addListener('click', (event) => {
       const regionName = event.feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
@@ -151,31 +124,13 @@ class App extends React.Component {
     });
   }
 
+  onToolbarUpdate(change) {
+    this.setState(change, () => {
+      this.onMapChanged();
+    });
+  }
+
   render() {
-    let selectedType;
-    let selectedCategory;
-
-    switch (this.state.type) {
-      case 'rent':
-        selectedType = 'Izīrē';
-        break;
-      case 'sell':
-        selectedType = 'Pārdod';
-        break;
-    }
-
-    switch (this.state.category) {
-      case 'apartment':
-        selectedCategory = 'Dzīvoklis';
-        break;
-      case 'house':
-        selectedCategory = 'Māja';
-        break;
-      case 'land':
-        selectedCategory = 'Zeme';
-        break;
-    }
-
     return (
       <div className="wrapper">
         <Gmaps
@@ -189,30 +144,10 @@ class App extends React.Component {
           onMapCreated={this.onMapCreated}>
         </Gmaps>
 
-        <div className="buttons">
-
-          <ButtonDropdown isOpen={this.state.categoryDropdownOpen} toggle={this.toggleCategory}>
-            <DropdownToggle outline color="danger" caret>
-              { selectedCategory }
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={this.onSelectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
-              <DropdownItem onClick={this.onSelectCategory.bind(this, 'house')}>Māja</DropdownItem>
-              <DropdownItem onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-
-          <ButtonDropdown isOpen={this.state.typeDropdownOpen} toggle={this.toggleType}>
-            <DropdownToggle outline color="danger" caret>
-              { selectedType }
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem key="sell" onClick={this.onSelectType.bind(this, 'sell')}>Pārdod</DropdownItem>
-              <DropdownItem key="rent" onClick={this.onSelectType.bind(this, 'rent')}>Izīrē</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-
-        </div>
+        <Toolbar
+          category={this.state.category}
+          type={this.state.type}
+          onUpdate={this.onToolbarUpdate} />
       </div>
     );
   }
