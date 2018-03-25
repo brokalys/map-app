@@ -47,25 +47,31 @@ class App extends React.Component {
   }
 
   toggleCategory() {
+    this.setState((prevState) => ({
+      categoryDropdownOpen: !prevState.categoryDropdownOpen,
+    }));
+  }
+
+  toggleType() {
+    this.setState((prevState) => ({
+      typeDropdownOpen: !prevState.typeDropdownOpen,
+    }));
+  }
+
+  onSelectCategory(value) {
     this.setState({
-      categoryDropdownOpen: !this.state.categoryDropdownOpen,
+      category: value,
+    }, () => {
+      this.onMapCreated(this.map);
     });
   }
 
-  toggleType(gg) {
+  onSelectType(value) {
     this.setState({
-      typeDropdownOpen: !this.state.typeDropdownOpen,
+      type: value,
+    }, () => {
+      this.onMapCreated(this.map);
     });
-  }
-
-  selectCategory(value) {
-    this.state.category = value;
-    this.onMapCreated(this.map);
-  }
-
-  selectType(value) {
-    this.state.type = value;
-    this.onMapCreated(this.map);
   }
 
   async onMapCreated(map) {
@@ -83,8 +89,9 @@ class App extends React.Component {
       },
     });
 
-    const { header, body } = await this.loadPriceData();
+    const { header, body, timeframes } = await this.loadPriceData();
     const priceData = body[body.length - 1];
+    const [start, end] = timeframes[timeframes.length - 1];
     const uniquePrices = [...new Set(priceData)].length;
 
     const colors = colormap({
@@ -126,15 +133,21 @@ class App extends React.Component {
       };
     });
 
-    const infoWindow = new window.google.maps.InfoWindow();
+    if (this.infoWindow === undefined) {
+      this.infoWindow = new window.google.maps.InfoWindow();
+    }
+
+    this.infoWindow.close();
     map.data.addListener('click', (event) => {
       const regionName = event.feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
       const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
+      const priceStr = region.price > 0 ? `${price} EUR` : 'nav dati';
+      const timeframe = [start, end].join(' - ');
 
-      infoWindow.setContent(`Mediānā cena:<br>${price} EUR (${region.name})`);
-      infoWindow.setPosition(event.latLng);
-      infoWindow.open(map);
+      this.infoWindow.setContent(`Mediānā cena:<br><strong>${priceStr}</strong> (${region.name})<hr>${timeframe}`);
+      this.infoWindow.setPosition(event.latLng);
+      this.infoWindow.open(map);
     });
   }
 
@@ -183,9 +196,9 @@ class App extends React.Component {
               { selectedCategory }
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem onClick={this.selectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
-              <DropdownItem onClick={this.selectCategory.bind(this, 'house')}>Māja</DropdownItem>
-              <DropdownItem onClick={this.selectCategory.bind(this, 'land')}>Zeme</DropdownItem>
+              <DropdownItem onClick={this.onSelectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
+              <DropdownItem onClick={this.onSelectCategory.bind(this, 'house')}>Māja</DropdownItem>
+              <DropdownItem onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
 
@@ -194,8 +207,8 @@ class App extends React.Component {
               { selectedType }
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem key="sell" onClick={this.selectType.bind(this, 'sell')}>Pārdod</DropdownItem>
-              <DropdownItem key="rent" onClick={this.selectType.bind(this, 'rent')}>Izīrē</DropdownItem>
+              <DropdownItem key="sell" onClick={this.onSelectType.bind(this, 'sell')}>Pārdod</DropdownItem>
+              <DropdownItem key="rent" onClick={this.onSelectType.bind(this, 'rent')}>Izīrē</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
 
@@ -212,6 +225,7 @@ class App extends React.Component {
     return {
       header: data[0].slice(3),
       body: data.slice(1).map((row) => row.slice(3)),
+      timeframes: data.slice(1).map((row) => row.slice(0, 2)),
     };
   }
 
