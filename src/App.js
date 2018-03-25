@@ -79,7 +79,17 @@ class App extends React.Component {
       },
     });
 
-    const { header, body, timeframes } = await this.loadPriceData();
+    let data;
+
+    try {
+      data = await this.loadPriceData();
+    } catch (e) {
+      alert('Something really bad happened. Please try again later.');
+      return;
+    }
+
+    const { header, body, timeframes } = data;
+
     const priceData = body[body.length - 1];
     const [start, end] = timeframes[timeframes.length - 1];
     const uniquePrices = [...new Set(priceData)].length;
