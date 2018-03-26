@@ -84,6 +84,7 @@ class App extends React.Component {
     try {
       data = await this.loadPriceData();
     } catch (e) {
+      console.error(e);
       alert('Something really bad happened. Please try again later.');
       return;
     }
@@ -121,8 +122,11 @@ class App extends React.Component {
       const regionName = feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
 
-      if (region.price <= 0) {
-        return;
+      if (!region || region.price <= 0) {
+        return {
+          strokeWeight: 0,
+          fillOpacity: 0,
+        };
       }
 
       return {
@@ -136,11 +140,15 @@ class App extends React.Component {
     map.data.addListener('click', (event) => {
       const regionName = event.feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
+
+      if (!region || region.price <= 0) {
+        return;
+      }
+
       const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
-      const priceStr = region.price > 0 ? `${price} EUR` : 'nav dati';
       const timeframe = [start, end].join(' - ');
 
-      this.infoWindow.setContent(`Mediānā cena:<br><strong>${priceStr}</strong> (${region.name})<hr>${timeframe}`);
+      this.infoWindow.setContent(`Mediānā cena:<br><strong>${price} EUR</strong> (${region.name})<hr>${timeframe}`);
       this.infoWindow.setPosition(event.latLng);
       this.infoWindow.open(map);
     });
