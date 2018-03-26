@@ -7,13 +7,21 @@ class Toolbar extends React.Component {
   constructor(props) {
     super(props);
 
+    this.toggleRegion = this.toggleRegion.bind(this);
     this.toggleCategory = this.toggleCategory.bind(this);
     this.toggleType = this.toggleType.bind(this);
 
     this.state = {
+      regionDropdownOpen: false,
       categoryDropdownOpen: false,
       typeDropdownOpen: false,
     };
+  }
+
+  toggleRegion() {
+    this.setState((prevState) => ({
+      regionDropdownOpen: !prevState.regionDropdownOpen,
+    }));
   }
 
   toggleCategory() {
@@ -26,6 +34,16 @@ class Toolbar extends React.Component {
     this.setState((prevState) => ({
       typeDropdownOpen: !prevState.typeDropdownOpen,
     }));
+  }
+
+  onSelectRegion(region) {
+    const data = { region };
+
+    if (region === 'latvia' && this.props.category === 'land') {
+      data.category = 'apartment';
+    }
+
+    this.props.onUpdate(data);
   }
 
   onSelectCategory(value) {
@@ -60,6 +78,16 @@ class Toolbar extends React.Component {
     return (
       <div className="buttons">
 
+        <ButtonDropdown isOpen={this.state.regionDropdownOpen} toggle={this.toggleRegion}>
+          <DropdownToggle outline color="danger" caret>
+            { this.props.region === 'latvia' ? 'Latvija' : 'Rīga' }
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={this.onSelectRegion.bind(this, 'riga')}>Rīga</DropdownItem>
+            <DropdownItem onClick={this.onSelectRegion.bind(this, 'latvia')}>Latvija</DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+
         <ButtonDropdown isOpen={this.state.categoryDropdownOpen} toggle={this.toggleCategory}>
           <DropdownToggle outline color="danger" caret>
             { selectedCategory }
@@ -67,7 +95,9 @@ class Toolbar extends React.Component {
           <DropdownMenu>
             <DropdownItem onClick={this.onSelectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
             <DropdownItem onClick={this.onSelectCategory.bind(this, 'house')}>Māja</DropdownItem>
-            <DropdownItem onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
+            { this.props.region !== 'latvia' &&
+              <DropdownItem onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
+            }
           </DropdownMenu>
         </ButtonDropdown>
 
@@ -88,6 +118,7 @@ class Toolbar extends React.Component {
 }
 
 Toolbar.propTypes = {
+  region: PropTypes.string,
   category: PropTypes.string,
   type: PropTypes.string,
   onUpdate: PropTypes.func,

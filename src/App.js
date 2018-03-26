@@ -41,9 +41,12 @@ class App extends React.Component {
     this.onToolbarUpdate = this.onToolbarUpdate.bind(this);
 
     this.state = {
+      region: 'riga',
       category: 'apartment',
       type: 'sell'
     };
+
+    this.loadedRegions = [];
 
     progress.configure({
       showSpinner: false,
@@ -53,13 +56,24 @@ class App extends React.Component {
     progress.start();
   }
 
-  async onMapCreated(map) {
-    map.data.loadGeoJson('https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/riga-geojson.json')
+  onMapCreated(map) {
+    this.loadRegion(map);
 
     this.map = map;
     this.infoWindow = new window.google.maps.InfoWindow();
 
     this.onMapChanged();
+  }
+
+  loadRegion(map) {
+    const region = this.state.region;
+
+    if (this.loadedRegions.indexOf(region) >= 0) {
+      return;
+    }
+
+    this.loadedRegions.push(region);
+    map.data.loadGeoJson(`https://raw.githubusercontent.com/brokalys/sls-data-extraction/master/data/${region}-geojson.json`);
   }
 
   async onMapChanged() {
@@ -122,10 +136,9 @@ class App extends React.Component {
       const regionName = feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
 
-      if (!region || region.price <= 0) {
+      if (!region || region.price <= 0 || feature.getProperty('Level') < 3) {
         return {
-          strokeWeight: 0,
-          fillOpacity: 0,
+          visible: false,
         };
       }
 
@@ -133,7 +146,8 @@ class App extends React.Component {
         strokeColor: region.color,
         strokeWeight: .1,
         fillColor: region.color,
-        fillOpacity: 0.4,
+        fillOpacity: 0.5,
+        zIndex: feature.getProperty('Level') || 1,
       };
     });
 
@@ -158,6 +172,10 @@ class App extends React.Component {
 
   onToolbarUpdate(change) {
     this.setState(change, () => {
+      if (change.region) {
+        this.loadRegion(this.map);
+      }
+
       this.onMapChanged();
     });
   }
@@ -177,6 +195,7 @@ class App extends React.Component {
         </Gmaps>
 
         <Toolbar
+          region={this.state.region}
           category={this.state.category}
           type={this.state.type}
           onUpdate={this.onToolbarUpdate} />
@@ -185,7 +204,7 @@ class App extends React.Component {
   }
 
   async loadPriceData() {
-    const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-monthly-riga.csv`);
+    const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-monthly-${this.state.region}.csv`);
     const csvData = await response.text();
     const data = parse(csvData);
 
