@@ -11,21 +11,23 @@ const coords = {
   lng: 24.105078,
 };
 
-const styles = [{
-  featureType: 'all',
-  elementType: 'all',
-  stylers: [{
-    invert_lightness: true,
-  }, {
-    saturation: 10,
-  }, {
-    lightness: 30,
-  }, {
-     gamma: 0.5,
-  }, {
-    hue: '#435158',
-  }],
-}];
+const styles = [
+  {
+    featureType: 'all',
+    elementType: 'all',
+    stylers: [{
+      invert_lightness: true,
+    }, {
+      saturation: 10,
+    }, {
+      lightness: 30,
+    }, {
+       gamma: 0.5,
+    }, {
+      hue: '#435158',
+    }],
+  },
+];
 
 const params = {
   v: '3.exp',
@@ -43,7 +45,7 @@ class App extends React.Component {
     this.state = {
       region: 'riga',
       category: 'apartment',
-      type: 'sell'
+      type: 'sell',
     };
 
     this.loadedRegions = [];
@@ -115,12 +117,10 @@ class App extends React.Component {
       format: 'hex',
     }).reverse();
 
-    this.regions = header.map((name, index) => {
-      return {
-        name,
-        price: parseInt(priceData[index], 10),
-      };
-    })
+    this.regions = header.map((name, index) => ({
+      name,
+      price: parseInt(priceData[index], 10),
+    }))
       .sort((a, b) => a.price - b.price)
       .map((region, index,  all) => {
         const prev = all[index - 1] || {};
@@ -144,7 +144,7 @@ class App extends React.Component {
 
       return {
         strokeColor: region.color,
-        strokeWeight: .1,
+        strokeWeight: 0.1,
         fillColor: region.color,
         fillOpacity: 0.5,
         zIndex: feature.getProperty('Level') || 1,
@@ -191,14 +191,15 @@ class App extends React.Component {
           zoom={11}
           params={params}
           styles={styles}
-          onMapCreated={this.onMapCreated}>
-        </Gmaps>
+          onMapCreated={this.onMapCreated}
+        />
 
         <Toolbar
           region={this.state.region}
           category={this.state.category}
           type={this.state.type}
-          onUpdate={this.onToolbarUpdate} />
+          onUpdate={this.onToolbarUpdate}
+        />
       </div>
     );
   }
