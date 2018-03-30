@@ -12,7 +12,9 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-gmaps": "^1.9.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
+    "react-vis": "^1.9.2",
     "reactstrap": "^5.0.0"
   },
   "devDependencies": {
