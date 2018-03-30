@@ -185,7 +185,7 @@ class App extends React.Component {
   }
 
   async loadPriceData() {
-    const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-monthly.csv`);
+    const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-monthly-riga.csv`);
     const csvData = await response.text();
     const data = parse(csvData);
 
