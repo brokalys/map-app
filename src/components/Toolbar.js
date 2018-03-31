@@ -10,6 +10,7 @@ import {
   Navbar,
   UncontrolledDropdown,
 } from 'reactstrap';
+import Notification from './Notification';
 
 class Toolbar extends React.Component {
 
@@ -78,6 +79,8 @@ class Toolbar extends React.Component {
 
     return (
       <footer>
+        <Notification></Notification>
+
         { this.state.showMonthSlider &&
           <div className="slider">
             <Slider vertical dots min={0} max={maxTimeframe} marks={this.props.timeframes} step={1} onChange={this.onSliderChange} value={this.props.activeTimeframe} included={false} />
