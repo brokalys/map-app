@@ -136,6 +136,7 @@ class Home extends React.Component {
       const regionName = feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
 
+      // eslint-disable-next-line
       if (!region || region.price <= 0 || feature.getProperty('Level') < 2 && regionName !== 'Rīga') {
         return {
           visible: false,
