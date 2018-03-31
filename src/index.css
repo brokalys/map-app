@@ -81,7 +81,7 @@ html, body, #root, .wrapper {
   background-color: #1e2225 !important;
 }
 
-.nav button,
+.nav .btn,
 .nav .dropdown .nav-link {
   color: #babed1;
 }
