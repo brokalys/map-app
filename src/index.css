@@ -29,10 +29,13 @@ button.btn-outline-danger {
 
 .slider {
   position: fixed;
-  top: 100px;
-  bottom: 100px;
-  left: 15px;
+  top: 85px;
+  bottom: 85px;
+  background: #fff;
+  padding: 15px;
   color: #dc3545;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .rc-slider-handle,
 .rc-slider-handle:active,
@@ -53,6 +56,9 @@ button.btn-outline-danger {
 .rc-slider-mark-text {
   color: #dc3545;
   min-width: 100px;
+  background: #fff;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 @media only screen and (max-device-width: 480px) {
