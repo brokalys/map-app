@@ -3,6 +3,7 @@ import { Gmaps } from 'react-gmaps';
 import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
 import progress from 'nprogress';
+import Slider from 'rc-slider';
 
 import Toolbar from '../components/Toolbar';
 
@@ -40,15 +41,19 @@ class Home extends React.Component {
     super(props);
 
     this.onMapCreated = this.onMapCreated.bind(this);
+    this.onSliderChange = this.onSliderChange.bind(this);
     this.onToolbarUpdate = this.onToolbarUpdate.bind(this);
 
     this.state = {
       region: 'riga',
       category: 'apartment',
       type: 'sell',
+      timeframes: {},
+      activeTimeframe: 0,
     };
 
     this.loadedRegions = [];
+    this.priceData = [];
 
     progress.configure({
       showSpinner: false,
@@ -85,8 +90,6 @@ class Home extends React.Component {
 
     const map = this.map;
 
-    this.infoWindow.close();
-
     map.setOptions({
       disableDefaultUI: true,
       zoomControl: true,
@@ -95,20 +98,47 @@ class Home extends React.Component {
       },
     });
 
-    let data;
-
     try {
-      data = await this.loadPriceData();
+      this.priceData = await this.loadPriceData();
+
+      const values = this.priceData.timeframes.map((row, key) => this.getMonthName(key));
+      this.setState({
+        timeframes: Object.assign({}, values),
+        activeTimeframe: values.length - 1,
+      });
     } catch (e) {
       console.error(e);
       alert('Something really bad happened. Please try again later.');
       return;
     }
 
-    const { header, body, timeframes } = data;
+    this.changeActiveTimeframe();
 
-    const priceData = body[body.length - 1];
-    const [start, end] = timeframes[timeframes.length - 1];
+    map.data.addListener('click', (event) => {
+      const regionName = event.feature.getProperty('apkaime');
+      const region = this.findRegionByName(regionName);
+
+      if (!region || region.price <= 0) {
+        return;
+      }
+
+      const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
+      const timeframe = this.getMonthName(this.state.activeTimeframe);
+
+      this.infoWindow.setContent(`Mediānā cena:<br><strong>${price} EUR</strong> (${region.name})<hr>${timeframe}`);
+      this.infoWindow.setPosition(event.latLng);
+      this.infoWindow.open(map);
+    });
+
+    progress.done();
+  }
+
+  changeActiveTimeframe() {
+    this.infoWindow.close();
+
+    const { header, body } = this.priceData;
+
+    const priceData = body[this.state.activeTimeframe];
     const uniquePrices = [...new Set(priceData)].length;
 
     const colors = colormap({
@@ -132,7 +162,7 @@ class Home extends React.Component {
         return region;
       });
 
-    map.data.setStyle((feature) => {
+    this.map.data.setStyle((feature) => {
       const regionName = feature.getProperty('apkaime');
       const region = this.findRegionByName(regionName);
 
@@ -151,24 +181,14 @@ class Home extends React.Component {
         zIndex: feature.getProperty('Level') || 1,
       };
     });
+  }
 
-    map.data.addListener('click', (event) => {
-      const regionName = event.feature.getProperty('apkaime');
-      const region = this.findRegionByName(regionName);
-
-      if (!region || region.price <= 0) {
-        return;
-      }
-
-      const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
-      const timeframe = [start, end].join(' - ');
-
-      this.infoWindow.setContent(`Mediānā cena:<br><strong>${price} EUR</strong> (${region.name})<hr>${timeframe}`);
-      this.infoWindow.setPosition(event.latLng);
-      this.infoWindow.open(map);
+  onSliderChange(change) {
+    this.setState({
+      activeTimeframe: change,
+    }, () => {
+      this.changeActiveTimeframe();
     });
-
-    progress.done();
   }
 
   onToolbarUpdate(change) {
@@ -182,6 +202,7 @@ class Home extends React.Component {
   }
 
   render() {
+    const maxTimeframe = Object.keys(this.state.timeframes).length - 1;
     return (
       <div className="wrapper">
         <Gmaps
@@ -194,6 +215,10 @@ class Home extends React.Component {
           styles={styles}
           onMapCreated={this.onMapCreated}
         />
+
+        <div className="slider">
+          <Slider vertical dots min={0} max={maxTimeframe} marks={this.state.timeframes} step={1} onChange={this.onSliderChange} value={this.state.activeTimeframe} />
+        </div>
 
         <Toolbar
           region={this.state.region}
@@ -219,6 +244,54 @@ class Home extends React.Component {
 
   findRegionByName(name) {
     return this.regions.find((region) => region.name === name);
+  }
+
+  getMonthName(index) {
+    let month;
+    const year = 2018 + Math.floor(index / 12);
+
+    switch (index % 12) {
+      case 0:
+        month = 'Janvāris';
+        break;
+      case 1:
+        month = 'Februāris';
+        break;
+      case 2:
+        month = 'Marts';
+        break;
+      case 3:
+        month = 'Aprīlis';
+        break;
+      case 4:
+        month = 'Maijs';
+        break;
+      case 5:
+        month = 'Jūnijs';
+        break;
+      case 6:
+        month = 'Jūlijs';
+        break;
+      case 7:
+        month = 'Augusts';
+        break;
+      case 8:
+        month = 'Septembris';
+        break;
+      case 9:
+        month = 'Oktobris';
+        break;
+      case 10:
+        month = 'Novembris';
+        break;
+      case 11:
+        month = 'Decembris';
+        break;
+      default:
+        break;
+    }
+
+    return [month, year].join(', ');
   }
 
 }

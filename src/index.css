@@ -1,4 +1,5 @@
 @import "~react-vis/dist/style.css";
+@import "~rc-slider/assets/index.css";
 
 html, body, #root, .wrapper {
   height: 100%;
@@ -24,4 +25,38 @@ button.btn-outline-danger {
 
 #nprogress .bar {
   background-color: #fd6c6c;
+}
+
+.slider {
+  position: fixed;
+  top: 100px;
+  bottom: 100px;
+  left: 15px;
+  color: #dc3545;
+}
+.rc-slider-handle,
+.rc-slider-handle:active,
+.rc-slider-handle:hover,
+.rc-slider-handle:focus,
+.rc-slider-dot-active {
+  border-color: #dc3545;
+}
+.rc-slider-handle:active {
+  box-shadow: 0 0 5px #dc3545;
+}
+.rc-slider-handle:focus {
+  box-shadow: 0 0 0 5px #dc3545;
+}
+.rc-slider-track {
+  background-color: #dc3545;
+}
+.rc-slider-mark-text {
+  color: #dc3545;
+  min-width: 100px;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .rc-slider-mark {
+    display: none;
+  }
 }
