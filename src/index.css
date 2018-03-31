@@ -32,7 +32,7 @@ button.btn-outline-danger {
   top: 85px;
   bottom: 85px;
   background: #fff;
-  padding: 15px;
+  padding: 20px 10px;
   color: #dc3545;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -59,6 +59,16 @@ button.btn-outline-danger {
   background: #fff;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+.rc-slider-dot {
+  width: 15px;
+  height: 15px;
+  margin-left: -8px;
+}
+.rc-slider-vertical .rc-slider-handle {
+  width: 20px;
+  height: 20px;
+  margin-left: -8px;
 }
 
 @media only screen and (max-device-width: 480px) {
