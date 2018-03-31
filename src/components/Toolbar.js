@@ -1,39 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import Slider from 'rc-slider';
+import {
+  Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
+  Navbar,
+  UncontrolledDropdown,
+} from 'reactstrap';
 
 class Toolbar extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.toggleRegion = this.toggleRegion.bind(this);
-    this.toggleCategory = this.toggleCategory.bind(this);
-    this.toggleType = this.toggleType.bind(this);
+    this.toggleMonthSlider = this.toggleMonthSlider.bind(this);
+    this.onSliderChange = this.onSliderChange.bind(this);
 
     this.state = {
-      regionDropdownOpen: false,
-      categoryDropdownOpen: false,
-      typeDropdownOpen: false,
+      showMonthSlider: false,
     };
   }
 
-  toggleRegion() {
-    this.setState((prevState) => ({
-      regionDropdownOpen: !prevState.regionDropdownOpen,
-    }));
-  }
-
-  toggleCategory() {
-    this.setState((prevState) => ({
-      categoryDropdownOpen: !prevState.categoryDropdownOpen,
-    }));
-  }
-
-  toggleType() {
-    this.setState((prevState) => ({
-      typeDropdownOpen: !prevState.typeDropdownOpen,
-    }));
+  toggleMonthSlider() {
+    this.setState({
+      showMonthSlider: !this.state.showMonthSlider,
+    });
   }
 
   onSelectRegion(region) {
@@ -58,7 +52,14 @@ class Toolbar extends React.Component {
     });
   }
 
+  onSliderChange(change) {
+    this.props.onUpdate({
+      activeTimeframe: change,
+    });
+  }
+
   render() {
+    const maxTimeframe = Object.keys(this.props.timeframes).length - 1;
     let selectedCategory;
 
     switch (this.props.category) {
@@ -76,42 +77,75 @@ class Toolbar extends React.Component {
     }
 
     return (
-      <div className="buttons">
+      <footer>
+        { this.state.showMonthSlider &&
+          <div className="slider">
+            <Slider vertical dots min={0} max={maxTimeframe} marks={this.props.timeframes} step={1} onChange={this.onSliderChange} value={this.props.activeTimeframe} included={false} />
+          </div>
+        }
 
-        <ButtonDropdown isOpen={this.state.regionDropdownOpen} toggle={this.toggleRegion}>
-          <DropdownToggle outline color="danger" caret>
-            { this.props.region === 'latvia' ? 'Latvija' : 'Rīga' }
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={this.onSelectRegion.bind(this, 'riga')}>Rīga</DropdownItem>
-            <DropdownItem onClick={this.onSelectRegion.bind(this, 'latvia')}>Latvija</DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
+        <Navbar className="navbar-dark bg-dark fixed-bottom">
+          <Nav>
 
-        <ButtonDropdown isOpen={this.state.categoryDropdownOpen} toggle={this.toggleCategory}>
-          <DropdownToggle outline color="danger" caret>
-            { selectedCategory }
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={this.onSelectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
-            <DropdownItem onClick={this.onSelectCategory.bind(this, 'house')}>Māja</DropdownItem>
-            { this.props.region !== 'latvia' &&
-              <DropdownItem onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
-            }
-          </DropdownMenu>
-        </ButtonDropdown>
+            <Button color="link" className={this.state.showMonthSlider ? 'active' : ''} onClick={this.toggleMonthSlider}>
+              <i className="far fa-calendar-alt"></i>
+              <span className="ml-2 d-none d-sm-inline-block">
+                { this.props.timeframes[this.props.activeTimeframe] }
+              </span>
+            </Button>
 
-        <ButtonDropdown isOpen={this.state.typeDropdownOpen} toggle={this.toggleType}>
-          <DropdownToggle outline color="danger" caret>
-            { this.props.type === 'rent' ? 'Īrē' : 'Pārdod' }
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem key="sell" onClick={this.onSelectType.bind(this, 'sell')}>Pārdod</DropdownItem>
-            <DropdownItem key="rent" onClick={this.onSelectType.bind(this, 'rent')}>Īrē</DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
+            <UncontrolledDropdown>
+              <DropdownToggle nav>
+                <i className="far fa-map"></i>
+                <span className="ml-2 d-none d-sm-inline-block">
+                  { this.props.region === 'latvia' ? 'Latvija' : 'Rīga' }
+                </span>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem header>Reģions</DropdownItem>
+                <DropdownItem active={this.props.region === 'riga'} onClick={this.onSelectRegion.bind(this, 'riga')}>
+                  Rīga
+                </DropdownItem>
+                <DropdownItem active={this.props.region === 'latvia'} onClick={this.onSelectRegion.bind(this, 'latvia')}>
+                  Latvija
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
 
-      </div>
+            <UncontrolledDropdown>
+              <DropdownToggle nav>
+                <i className="far fa-building"></i>
+                <span className="ml-2 d-none d-sm-inline-block">
+                  { selectedCategory }
+                </span>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Īpašuma veids</DropdownItem>
+                <DropdownItem active={this.props.category === 'apartment'} onClick={this.onSelectCategory.bind(this, 'apartment')}>Dzīvoklis</DropdownItem>
+                <DropdownItem active={this.props.category === 'house'} onClick={this.onSelectCategory.bind(this, 'house')}>Māja</DropdownItem>
+                { this.props.region !== 'latvia' &&
+                  <DropdownItem active={this.props.category === 'land'} onClick={this.onSelectCategory.bind(this, 'land')}>Zeme</DropdownItem>
+                }
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
+            <UncontrolledDropdown>
+              <DropdownToggle nav>
+                <i className="far fa-handshake"></i>
+                <span className="ml-2 d-none d-sm-inline-block">
+                  { this.props.type === 'rent' ? 'Īrē' : 'Pārdod' }
+                </span>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Darījumu tips</DropdownItem>
+                <DropdownItem active={this.props.type === 'sell'} onClick={this.onSelectType.bind(this, 'sell')}>Pārdod</DropdownItem>
+                <DropdownItem active={this.props.type === 'rent'} onClick={this.onSelectType.bind(this, 'rent')}>Īrē</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
+          </Nav>
+        </Navbar>
+      </footer>
     );
   }
 
@@ -121,6 +155,7 @@ Toolbar.propTypes = {
   region: PropTypes.string,
   category: PropTypes.string,
   type: PropTypes.string,
+  activeTimeframe: PropTypes.number,
   onUpdate: PropTypes.func,
 };
 

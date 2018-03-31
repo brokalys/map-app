@@ -17,7 +17,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div className="wrapper">
+        <div className="wrapper" style={{height: 'calc(100% - 56px)'}}>
           <Route exact path="/" component={Home} />
           <Route path="/daily" component={Daily} />
         </div>

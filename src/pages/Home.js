@@ -3,7 +3,6 @@ import { Gmaps } from 'react-gmaps';
 import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
 import progress from 'nprogress';
-import Slider from 'rc-slider';
 
 import Toolbar from '../components/Toolbar';
 
@@ -41,7 +40,6 @@ class Home extends React.Component {
     super(props);
 
     this.onMapCreated = this.onMapCreated.bind(this);
-    this.onSliderChange = this.onSliderChange.bind(this);
     this.onToolbarUpdate = this.onToolbarUpdate.bind(this);
 
     this.state = {
@@ -49,7 +47,7 @@ class Home extends React.Component {
       category: 'apartment',
       type: 'sell',
       timeframes: {},
-      activeTimeframe: 0,
+      activeTimeframe: null,
     };
 
     this.loadedRegions = [];
@@ -104,8 +102,14 @@ class Home extends React.Component {
       const values = this.priceData.timeframes.map((row, key) => this.getMonthName(key));
       this.setState({
         timeframes: Object.assign({}, values),
-        activeTimeframe: values.length - 1,
       });
+
+      // Only on initial load
+      if (this.state.activeTimeframe === null) {
+        this.setState({
+          activeTimeframe: values.length - 1,
+        });
+      }
     } catch (e) {
       console.error(e);
       alert('Something really bad happened. Please try again later.');
@@ -183,26 +187,23 @@ class Home extends React.Component {
     });
   }
 
-  onSliderChange(change) {
-    this.setState({
-      activeTimeframe: change,
-    }, () => {
-      this.changeActiveTimeframe();
-    });
-  }
-
   onToolbarUpdate(change) {
     this.setState(change, () => {
       if (change.region) {
         this.loadRegion(this.map);
       }
 
-      this.onMapChanged();
+      if (change.activeTimeframe !== undefined) {
+        this.changeActiveTimeframe();
+      }
+
+      if (change.category || change.type || change.region) {
+        this.onMapChanged();
+      }
     });
   }
 
   render() {
-    const maxTimeframe = Object.keys(this.state.timeframes).length - 1;
     return (
       <div className="wrapper">
         <Gmaps
@@ -216,14 +217,12 @@ class Home extends React.Component {
           onMapCreated={this.onMapCreated}
         />
 
-        <div className="slider">
-          <Slider vertical dots min={0} max={maxTimeframe} marks={this.state.timeframes} step={1} onChange={this.onSliderChange} value={this.state.activeTimeframe} />
-        </div>
-
         <Toolbar
           region={this.state.region}
           category={this.state.category}
           type={this.state.type}
+          timeframes={this.state.timeframes}
+          activeTimeframe={this.state.activeTimeframe}
           onUpdate={this.onToolbarUpdate}
         />
       </div>
