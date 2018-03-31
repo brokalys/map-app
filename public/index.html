@@ -7,6 +7,12 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png">
     <title>Brokalys || Riga real estate price map</title>
+
+    <!-- Bugsnag -->
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+    <script>
+      window.bugsnagClient = bugsnag('%REACT_APP_BUGSNAG_KEY%');
+    </script>
   </head>
   <body>
     <noscript>
@@ -22,8 +28,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'UA-99989310-4');
+      gtag('config', '%REACT_APP_GANALYTICS_ID%');
     </script>
   </body>
 </html>

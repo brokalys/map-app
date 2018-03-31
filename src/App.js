@@ -8,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
+        <div class="wrapper">
           <Route exact path="/" component={Home} />
           <Route path="/daily" component={Daily} />
         </div>

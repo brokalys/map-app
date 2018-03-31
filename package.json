@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "bugsnag-react": "^1.0.1",
     "colormap": "^2.3.0",
     "csv-parse": "^2.0.4",
     "nprogress": "^0.2.0",
