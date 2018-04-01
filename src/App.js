@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Loadable from 'react-loadable';
+import loadable from 'react-loadable';
 import Loading from './components/Loading';
 
-const Home = Loadable({
+const Home = loadable({
   loader: () => import('./pages/Home'),
   loading: Loading,
 });
-const Daily = Loadable({
+const Daily = loadable({
   loader: () => import('./pages/Daily'),
   loading: Loading,
 });
