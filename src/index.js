@@ -1,3 +1,5 @@
+import 'core-js/library/es6';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createPlugin from 'bugsnag-react';
