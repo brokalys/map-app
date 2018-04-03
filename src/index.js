@@ -1,4 +1,4 @@
-import 'core-js/library/es6';
+import 'core-js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
