@@ -7,6 +7,8 @@ import {
   DropdownMenu,
   DropdownToggle,
   Nav,
+  NavItem,
+  NavLink,
   Navbar,
   UncontrolledDropdown,
 } from 'reactstrap';
@@ -146,6 +148,9 @@ class Toolbar extends React.Component {
               </DropdownMenu>
             </UncontrolledDropdown>
 
+            <NavItem>
+              <NavLink href="/pulse">Atvērt tirgus pulsu</NavLink>
+            </NavItem>
           </Nav>
         </Navbar>
       </footer>

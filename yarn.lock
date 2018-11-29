@@ -8384,6 +8384,13 @@ react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
+react-trend@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-trend/-/react-trend-1.2.4.tgz#498987286abd43ee3dff881115cd64d1c8e72d95"
+  integrity sha1-SYmHKGq9Q+49/4gRFc1k0cjnLZU=
+  dependencies:
+    prop-types "^15.5.8"
+
 react-vis@^1.9.2:
   version "1.11.5"
   resolved "https://registry.yarnpkg.com/react-vis/-/react-vis-1.11.5.tgz#d2aa4931fd125ba2eafb7216a3e63e825360d261"
