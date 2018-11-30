@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'rc-slider';
+import { NavLink } from 'react-router-dom';
 import {
   Button,
   DropdownItem,
@@ -8,7 +9,6 @@ import {
   DropdownToggle,
   Nav,
   NavItem,
-  NavLink,
   Navbar,
   UncontrolledDropdown,
 } from 'reactstrap';
@@ -149,7 +149,7 @@ class Toolbar extends React.Component {
             </UncontrolledDropdown>
 
             <NavItem>
-              <NavLink href="#/pulse" className="text-danger">Atvērt tirgus pulsu</NavLink>
+              <NavLink to="/pulse" className="nav-link text-danger">Atvērt tirgus pulsu</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
