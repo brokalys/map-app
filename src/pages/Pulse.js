@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Trend from 'react-trend';
 import parse from 'csv-parse/lib/es5/sync';
 
@@ -54,6 +55,7 @@ class Pulse extends React.Component {
 
     return (
       <div className="container">
+        <Link to="/"><i class="fa fa-arrow-left"></i>Atpakaļ uz karti</Link>
         <h1>Nekustamā īpašuma pulss Rīgā</h1>
         <h2>{start} - {end}</h2>
         <hr />
