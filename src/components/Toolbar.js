@@ -149,7 +149,7 @@ class Toolbar extends React.Component {
             </UncontrolledDropdown>
 
             <NavItem>
-              <NavLink href="/pulse" className="text-danger">Atvērt tirgus pulsu</NavLink>
+              <NavLink href="#/pulse" className="text-danger">Atvērt tirgus pulsu</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
