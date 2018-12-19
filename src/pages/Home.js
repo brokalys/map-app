@@ -52,6 +52,7 @@ class Home extends React.Component {
 
     this.loadedRegions = [];
     this.priceData = [];
+    this.pricePerSqmData = [];
 
     progress.configure({
       showSpinner: false,
@@ -98,6 +99,7 @@ class Home extends React.Component {
 
     try {
       this.priceData = await this.loadPriceData();
+      this.pricePerSqmData = await this.loadPricePerSqmData();
 
       const values = this.priceData.timeframes.map((row, key) => this.getMonthName(key));
       this.setState({
@@ -127,9 +129,10 @@ class Home extends React.Component {
       }
 
       const price = region.price.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
+      const pricePerSqm = region.pricePerSqm.toFixed().replace(/(\d)(?=(\d{3})+(,|$))/g, '$1\'');
       const timeframe = this.getMonthName(this.state.activeTimeframe);
 
-      this.infoWindow.setContent(`Mediānā cena:<br><strong>${price} EUR</strong> (${region.name})<hr>${timeframe}`);
+      this.infoWindow.setContent(`Mediānā cena:<br><strong>${price} EUR</strong><br>Mediānā cena par m2:<br><strong>${pricePerSqm} EUR</strong> (${region.name})<hr>${timeframe}`);
       this.infoWindow.setPosition(event.latLng);
       this.infoWindow.open(map);
     });
@@ -143,6 +146,7 @@ class Home extends React.Component {
     const { header, body } = this.priceData;
 
     const priceData = body[this.state.activeTimeframe];
+    const pricePerSqmData = this.pricePerSqmData.body[this.state.activeTimeframe];
     const uniquePrices = [...new Set(priceData)].length;
 
     const colors = colormap({
@@ -154,6 +158,7 @@ class Home extends React.Component {
     this.regions = header.map((name, index) => ({
       name,
       price: parseInt(priceData[index], 10),
+      pricePerSqm: parseInt(pricePerSqmData[index], 10),
     }))
       .sort((a, b) => a.price - b.price)
       .map((region, index,  all) => {
@@ -231,6 +236,18 @@ class Home extends React.Component {
 
   async loadPriceData() {
     const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-monthly-${this.state.region}.csv`);
+    const csvData = await response.text();
+    const data = parse(csvData);
+
+    return {
+      header: data[0].slice(3),
+      body: data.slice(1).map((row) => row.slice(3)),
+      timeframes: data.slice(1).map((row) => row.slice(0, 2)),
+    };
+  }
+
+  async loadPricePerSqmData() {
+    const response = await fetch(`https://raw.githubusercontent.com/brokalys/data/master/data/${this.state.category}/${this.state.type}-price-per-sqm-monthly-${this.state.region}.csv`);
     const csvData = await response.text();
     const data = parse(csvData);
 
