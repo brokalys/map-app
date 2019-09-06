@@ -8,6 +8,7 @@ import {
   DiscreteColorLegend
 } from 'react-vis';
 import parse from 'csv-parse/lib/es5/sync';
+import fetch from 'cross-fetch';
 
 class Daily extends React.Component {
 

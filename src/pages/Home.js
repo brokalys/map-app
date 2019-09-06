@@ -3,6 +3,7 @@ import { Gmaps } from 'react-gmaps';
 import parse from 'csv-parse/lib/es5/sync';
 import colormap from 'colormap';
 import progress from 'nprogress';
+import fetch from 'cross-fetch';
 
 import Toolbar from '../components/Toolbar';
 

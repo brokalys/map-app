@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Trend from 'react-trend';
 import parse from 'csv-parse/lib/es5/sync';
+import fetch from 'cross-fetch';
 
 class Pulse extends React.Component {
 
