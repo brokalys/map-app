@@ -9,7 +9,7 @@
     "colormap": "^2.3.0",
     "core-js": "^2.5.4",
     "cross-fetch": "^3.0.4",
-    "csv-parse": "^4.0.1",
+    "csv-parse": "^4.4.6",
     "nprogress": "^0.2.0",
     "prop-types": "^15.6.1",
     "rc-slider": "^8.6.1",
