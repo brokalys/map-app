@@ -1,35 +1,25 @@
-import React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
-import loadable from 'react-loadable';
+import React, { Suspense, lazy } from 'react';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Loading from './components/Loading';
 
-const Home = loadable({
-  loader: () => import('./pages/Home'),
-  loading: Loading,
-});
-const Daily = loadable({
-  loader: () => import('./pages/Daily'),
-  loading: Loading,
-});
-const Pulse = loadable({
-  loader: () => import('./pages/Pulse'),
-  loading: Loading,
-});
+const Home = lazy(() => import('./pages/Home'));
+const Daily = lazy(() => import('./pages/Daily'));
+const Pulse = lazy(() => import('./pages/Pulse'));
 
-class App extends React.Component {
-
-  render() {
-    return (
-      <Router>
+function App() {
+  return (
+    <Router>
+      <Suspense fallback={<Loading />}>
         <div className="wrapper" style={{height: 'calc(100% - 56px)'}}>
-          <Route exact path="/" component={Home} />
-          <Route path="/daily" component={Daily} />
-          <Route path="/pulse" component={Pulse} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/daily" component={Daily} />
+            <Route path="/pulse" component={Pulse} />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
-
+      </Suspense>
+    </Router>
+  );
 }
 
 export default App;

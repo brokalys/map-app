@@ -56,7 +56,7 @@ class Pulse extends React.Component {
 
     return (
       <div className="container">
-        <Link to="/"><i class="fa fa-arrow-left"></i>Atpakaļ uz karti</Link>
+        <Link to="/"><i className="fa fa-arrow-left"></i>Atpakaļ uz karti</Link>
         <h1>Nekustamā īpašuma pulss Rīgā</h1>
         <h2>{start} - {end}</h2>
         <hr />

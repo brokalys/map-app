@@ -4,10 +4,10 @@
   "homepage": "https://map.brokalys.com",
   "private": true,
   "dependencies": {
-    "@bugsnag/plugin-react": "^5.0.1",
+    "@bugsnag/plugin-react": "^6.4.0",
     "bootstrap": "^4.3.1",
     "colormap": "^2.3.0",
-    "core-js": "^2.5.4",
+    "core-js": "^3.3.4",
     "cross-fetch": "^3.0.4",
     "csv-parse": "^4.0.1",
     "nprogress": "^0.2.0",
@@ -16,12 +16,11 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-gmaps": "^1.9.0",
-    "react-loadable": "^5.3.1",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "^2.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.2.0",
     "react-trend": "^1.2.4",
     "react-vis": "^1.9.2",
-    "reactstrap": "^6.5.0"
+    "reactstrap": "^8.1.1"
   },
   "devDependencies": {
     "gh-pages": "^2.0.1"
