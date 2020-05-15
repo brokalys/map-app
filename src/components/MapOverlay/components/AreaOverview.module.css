@@ -1,0 +1,23 @@
+.currency,
+.label {
+  color: #7D8989;
+  vertical-align: top;
+}
+
+.currency {
+  margin-right: 5px;
+  float: left;
+}
+
+.amount {
+  font-size: 25px;
+  font-weight: bold;
+  height: 32px;
+  width: 100%;
+  padding-left: 15px;
+}
+
+.label {
+  margin-top: 5px;
+  font-size: 12px;
+}

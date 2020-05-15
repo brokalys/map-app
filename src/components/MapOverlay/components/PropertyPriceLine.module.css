@@ -1,0 +1,8 @@
+.container {
+  height: 80px;
+}
+
+.container,
+.chartMargin {
+  margin-top: 25px;
+}

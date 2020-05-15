@@ -1,0 +1,28 @@
+.container {
+  padding: 30px 40px;
+  height: 100%;
+}
+
+.grid {
+  max-height: 100%;
+  background-color: #fff;
+  border-radius: 25px;
+  margin: 0 10px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.leftPanel {
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 27px 40px 25px 50px !important;
+  overflow-y: scroll;
+}
+
+.leftPanel::-webkit-scrollbar-track {
+  background: none;
+}
+
+.rightPanel {
+  padding: 0 !important;
+}

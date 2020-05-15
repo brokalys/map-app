@@ -1,0 +1,15 @@
+.statisticAddon {
+  float: right;
+  font-size: 12px;
+  line-height: 1.5em;
+  margin-left: 10px;
+  text-transform: none;
+}
+
+.textGreen {
+  color: #21ba45;
+}
+
+.textRed {
+  color: #db2828;
+}

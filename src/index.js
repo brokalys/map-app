@@ -1,28 +1,23 @@
-import 'core-js';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import bugsnagReact from '@bugsnag/plugin-react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'nprogress/nprogress.css';
+import { ApolloProvider } from '@apollo/client';
+
+import client from './apollo-client';
+import App from './App.jsx';
+import * as serviceWorker from './serviceWorker';
+
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
-const bugsnagClient = window.bugsnagClient;
-
-if (bugsnagClient) {
-  bugsnagClient.use(bugsnagReact, React);
-  const ErrorBoundary = bugsnagClient.getPlugin('react');
-
-  ReactDOM.render(
-    <ErrorBoundary>
+ReactDOM.render(
+  <React.StrictMode>
+    <ApolloProvider client={client}>
       <App />
-    </ErrorBoundary>,
-    document.getElementById('root'),
-  );
-} else {
-  ReactDOM.render(<App />, document.getElementById('root'));
-}
+    </ApolloProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-registerServiceWorker();
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

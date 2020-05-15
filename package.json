@@ -1,41 +1,49 @@
 {
-  "name": "brokalys-map",
+  "name": "map-app",
   "version": "0.1.0",
   "homepage": "https://map.brokalys.com",
   "private": true,
   "dependencies": {
-    "@bugsnag/plugin-react": "^6.4.0",
-    "bootstrap": "^4.3.1",
-    "colormap": "^2.3.0",
-    "core-js": "^3.3.4",
-    "cross-fetch": "^3.0.4",
-    "csv-parse": "^4.4.6",
-    "nprogress": "^0.2.0",
-    "prop-types": "^15.6.1",
-    "rc-slider": "^8.6.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-gmaps": "^1.9.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.2.0",
-    "react-trend": "^1.2.4",
-    "react-vis": "^1.9.2",
-    "reactstrap": "^8.1.1"
+    "@apollo/client": "^3.0.0-beta.45",
+    "@nivo/bar": "^0.61.1",
+    "@nivo/line": "^0.61.1",
+    "google-map-react": "^1.1.7",
+    "graphql": "^15.0.0",
+    "moment": "^2.25.3",
+    "moment-range": "^4.0.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-loading-skeleton": "^2.0.1",
+    "semantic-ui-react": "^0.88.2",
+    "use-debounce": "^3.4.2"
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "node-sass": "^4.14.1",
+    "react-scripts": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && cp CNAME build && gh-pages -d build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
