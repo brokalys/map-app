@@ -1,3 +1,3 @@
-import LastThirtyDayOverview from './LastThirtyDayOverview';
+import LastThirtyDayOverview from "./LastThirtyDayOverview";
 
 export default LastThirtyDayOverview;

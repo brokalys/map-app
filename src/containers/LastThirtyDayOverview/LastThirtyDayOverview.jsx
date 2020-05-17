@@ -1,7 +1,7 @@
-import React from 'react';
-import { Header, Statistic } from 'semantic-ui-react';
+import React from "react";
+import { Header, Statistic } from "semantic-ui-react";
 
-import styles from './LastThirtyDayOverview.module.css';
+import styles from "./LastThirtyDayOverview.module.css";
 
 function LastThirtyDayOverview() {
   return (
@@ -12,20 +12,29 @@ function LastThirtyDayOverview() {
         <Statistic>
           <Statistic.Value>
             <div className={styles.statisticAddon}>
-              <div><span className={styles.textGreen}>+15.00%</span> MoM</div>
-              <div><span className={styles.textRed}>-3.10%</span> YoY</div>
+              <div>
+                <span className={styles.textGreen}>+15.00%</span> MoM
+              </div>
+              <div>
+                <span className={styles.textRed}>-3.10%</span> YoY
+              </div>
             </div>
-
             1,500
           </Statistic.Value>
-          <Statistic.Label>Median Price (EUR/m<sup>2</sup>)</Statistic.Label>
+          <Statistic.Label>
+            Median Price (EUR/m<sup>2</sup>)
+          </Statistic.Label>
         </Statistic>
 
         <Statistic>
           <Statistic.Value>
             <div className={styles.statisticAddon}>
-              <div><span className={styles.textGreen}>+9.54%</span> MoM</div>
-              <div><span className={styles.textRed}>-1.10%</span> YoY</div>
+              <div>
+                <span className={styles.textGreen}>+9.54%</span> MoM
+              </div>
+              <div>
+                <span className={styles.textRed}>-1.10%</span> YoY
+              </div>
             </div>
 
             <span>240</span>

@@ -1,52 +1,56 @@
-import React from 'react';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import React, { useContext } from "react";
+import { Dropdown, Menu } from "semantic-ui-react";
 
-import styles from './FilterToolbar.module.css';
-
-const locationOptions = [
-  { value: 'mezaparks', text: 'Mežaparks' },
-  { value: 'agenskalns', text: 'Āgenskalns' },
-];
-const categoryOptions = [
-  { value: 'apartment', text: 'Apartment' },
-  { value: 'house', text: 'House' },
-  { value: 'land', text: 'Land' },
-];
-const typeOptions = [
-  { value: 'sell', text: 'Sell' },
-  { value: 'rent', text: 'Rent' },
-];
+import FilterContext from "context/FilterContext";
+import styles from "./FilterToolbar.module.css";
 
 function FilterToolbar() {
+  const context = useContext(FilterContext);
+
+  function onLocationChange(event, data) {
+    context.location.setSelected(data.value);
+  }
+
+  function onCategoryChange(event, data) {
+    context.category.setSelected(data.value);
+  }
+
+  function onTypeChange(event, data) {
+    context.type.setSelected(data.value);
+  }
+
   return (
     <div className={styles.container}>
       <Menu secondary>
         <Menu.Item fitted>
           <Dropdown
-            placeholder='Select location'
+            placeholder="Select location"
             fluid
             search
             selection
-            defaultValue={'agenskalns'}
-            options={locationOptions}
+            defaultValue={context.location.default}
+            options={context.location.options}
+            onChange={onLocationChange}
           />
         </Menu.Item>
         <Menu.Item fitted>
           <Dropdown
-            placeholder='Select category'
+            placeholder="Select category"
             fluid
             selection
-            defaultValue={'apartment'}
-            options={categoryOptions}
+            defaultValue={context.category.default}
+            options={context.category.options}
+            onChange={onCategoryChange}
           />
         </Menu.Item>
         <Menu.Item fitted>
           <Dropdown
-            placeholder='Select type'
+            placeholder="Select type"
             fluid
             selection
-            defaultValue={'sell'}
-            options={typeOptions}
+            defaultValue={context.type.default}
+            options={context.type.options}
+            onChange={onTypeChange}
           />
         </Menu.Item>
       </Menu>

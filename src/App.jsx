@@ -1,10 +1,10 @@
-import React from 'react';
-import { Container, Grid } from 'semantic-ui-react';
+import React from "react";
+import { Container, Grid } from "semantic-ui-react";
 
-import SplitPaneLeft from 'containers/SplitPaneLeft';
-import SplitPaneRight from 'containers/SplitPaneRight';
+import SplitPaneLeft from "containers/SplitPaneLeft";
+import SplitPaneRight from "containers/SplitPaneRight";
 
-import styles from './App.module.css';
+import styles from "./App.module.css";
 
 function App(props) {
   return (

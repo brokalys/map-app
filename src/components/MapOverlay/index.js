@@ -1,3 +1,3 @@
-import MapOverlay from './MapOverlay';
+import MapOverlay from "./MapOverlay";
 
 export default MapOverlay;

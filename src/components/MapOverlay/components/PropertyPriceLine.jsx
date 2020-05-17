@@ -1,30 +1,34 @@
-import React, { useContext, useMemo } from 'react';
-import { Dimmer, Loader, Segment } from 'semantic-ui-react';
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
-import { gql } from '@apollo/client';
-import { ResponsiveLine } from '@nivo/line';
+import React, { useContext, useMemo } from "react";
+import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+import { gql } from "@apollo/client";
+import { ResponsiveLine } from "@nivo/line";
 
-import MapContext from 'context/MapContext';
-import useDebouncedQuery from 'hooks/use-debounced-query';
-import styles from './PropertyPriceLine.module.css';
+import MapContext from "context/MapContext";
+import useDebouncedQuery from "hooks/use-debounced-query";
+import styles from "./PropertyPriceLine.module.css";
 
 const moment = extendMoment(Moment);
-const range = moment().range(moment().utc().startOf('day').subtract(30, 'days'), new Date());
-const dates = Array.from(range.by('day', { excludeEnd: true }));
+const range = moment().range(
+  moment().utc().startOf("day").subtract(30, "days"),
+  new Date()
+);
+const dates = Array.from(range.by("day", { excludeEnd: true }));
 
 const GET_MEDIAN_PRICE = (dates) => gql`
   query(
     $type: String!
     $region: [String!]!
   ) {
-    ${dates.map((date, id) => `
+    ${dates.map(
+      (date, id) => `
       row_${id}: properties(
         filter: {
           type: { eq: $type }
           published_at: {
             gte: "${date.toISOString()}"
-            lte: "${date.clone().endOf('day').toISOString()}"
+            lte: "${date.clone().endOf("day").toISOString()}"
           }
           region: { in: $region }
         }
@@ -35,7 +39,8 @@ const GET_MEDIAN_PRICE = (dates) => gql`
           }
         }
       }
-    `)}
+    `
+    )}
   }
 `;
 
@@ -50,7 +55,7 @@ function transformResponse(data) {
     }
 
     return {
-      x: date.format('YYYY-MM-DD'),
+      x: date.format("YYYY-MM-DD"),
       y: data[`row_${index}`].summary.price.median,
     };
   });
@@ -58,17 +63,26 @@ function transformResponse(data) {
 
 function PropertyPriceLine({ type }) {
   const map = useContext(MapContext);
-  const { loading, data: custom } = useDebouncedQuery(GET_MEDIAN_PRICE(dates), {
-    variables: {
-      type,
-      region: [map.region],
+  const { loading, data: custom } = useDebouncedQuery(
+    GET_MEDIAN_PRICE(dates),
+    {
+      variables: {
+        type,
+        region: [map.region],
+      },
     },
-  }, 2000);
+    2000
+  );
 
-  const data = useMemo(() => [{
-    id: 'test',
-    data: transformResponse(custom),
-  }], [custom]);
+  const data = useMemo(
+    () => [
+      {
+        id: "test",
+        data: transformResponse(custom),
+      },
+    ],
+    [custom]
+  );
 
   return (
     <Segment basic className={styles.container}>
@@ -80,20 +94,20 @@ function PropertyPriceLine({ type }) {
         data={data}
         margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         xScale={{
-            type: 'time',
-            format: '%Y-%m-%d',
-            precision: 'day',
+          type: "time",
+          format: "%Y-%m-%d",
+          precision: "day",
         }}
         xFormat="time:%Y-%m-%d"
         yScale={{
-            type: 'linear',
-            stacked: false,
-            legend: 'mediānā cena m2'
+          type: "linear",
+          stacked: false,
+          legend: "mediānā cena m2",
         }}
-        yFormat={value =>
-            `${Number(value).toLocaleString('lv-LV', {
-                minimumFractionDigits: 2,
-            })} EUR/m2`
+        yFormat={(value) =>
+          `${Number(value).toLocaleString("lv-LV", {
+            minimumFractionDigits: 2,
+          })} EUR/m2`
         }
         colors={["#543193"]}
         axisLeft={{ enable: false, tickSize: 0 }}

@@ -1,12 +1,36 @@
 @keyframes bell-shake {
-  1% { transform: rotateZ(15deg); transform-origin: 50% 0%; }
-  2% { transform: rotateZ(-15deg); transform-origin: 50% 0%;}
-  3% { transform: rotateZ(20deg); transform-origin: 50% 0%; }
-  4% { transform: rotateZ(-20deg); transform-origin: 50% 0%;}
-  5% { transform: rotateZ(15deg); transform-origin: 50% 0%; }
-  6% { transform: rotateZ(-15deg); transform-origin: 50% 0%;}
-  7% { transform: rotateZ(0); transform-origin: 50% 0%;   }
-  100% { transform: rotateZ(0); transform-origin: 50% 0%;   }
+  1% {
+    transform: rotateZ(15deg);
+    transform-origin: 50% 0%;
+  }
+  2% {
+    transform: rotateZ(-15deg);
+    transform-origin: 50% 0%;
+  }
+  3% {
+    transform: rotateZ(20deg);
+    transform-origin: 50% 0%;
+  }
+  4% {
+    transform: rotateZ(-20deg);
+    transform-origin: 50% 0%;
+  }
+  5% {
+    transform: rotateZ(15deg);
+    transform-origin: 50% 0%;
+  }
+  6% {
+    transform: rotateZ(-15deg);
+    transform-origin: 50% 0%;
+  }
+  7% {
+    transform: rotateZ(0);
+    transform-origin: 50% 0%;
+  }
+  100% {
+    transform: rotateZ(0);
+    transform-origin: 50% 0%;
+  }
 }
 
 .shake {

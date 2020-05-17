@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDebounce, useDebouncedCallback } from 'use-debounce';
-import { useLazyQuery } from '@apollo/client';
+import { useEffect, useState } from "react";
+import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useLazyQuery } from "@apollo/client";
 
 export default function useDebouncedQuery(query, nextConfig, time = 1000) {
   const nextConfigStr = JSON.stringify(nextConfig);
@@ -19,7 +19,6 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
     setDebouncedLoading(true);
     performDebouncedQuery();
   }, [nextConfigStr, performDebouncedQuery]);
-
 
   useEffect(() => {
     if (loading === false) {

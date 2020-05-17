@@ -21,15 +21,11 @@ function Map(props) {
       ne: bounds.ne,
 
       sw: {
-        lat:
-          bounds.sw.lat +
-          (bounds.nw.lat - bounds.sw.lat) * percentage,
+        lat: bounds.sw.lat + (bounds.nw.lat - bounds.sw.lat) * percentage,
         lng: bounds.sw.lng,
       },
       se: {
-        lat:
-          bounds.se.lat +
-          (bounds.nw.lat - bounds.se.lat) * percentage,
+        lat: bounds.se.lat + (bounds.nw.lat - bounds.se.lat) * percentage,
         lng: bounds.se.lng,
       },
     };

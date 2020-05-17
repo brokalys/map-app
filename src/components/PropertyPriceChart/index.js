@@ -1,3 +1,3 @@
-import PropertyPriceChart from './PropertyPriceChart';
+import PropertyPriceChart from "./PropertyPriceChart";
 
 export default PropertyPriceChart;
