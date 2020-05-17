@@ -1,7 +1,6 @@
-import React, { useContext, useMemo, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import React, { useContext, useState } from 'react';
 import { gql } from '@apollo/client';
-import { Header } from 'semantic-ui-react';
+import { Dimmer, Header, Loader, Segment } from 'semantic-ui-react';
 import { ResponsiveBar } from '@nivo/bar';
 
 import MapContext from 'context/MapContext';
@@ -74,29 +73,25 @@ const GET_MEDIAN_PRICE = gql`
 `;
 
 function normalizeChartData(data) {
-  if (!data) {
-    return [];
-  }
-
   return [
     {
       category: 'Land',
-      value: data.land_count.summary.count,
+      value: data ? data.land_count.summary.count : 0,
     },
     {
       category: 'House',
-      value: data.house_count.summary.count,
+      value: data ? data.house_count.summary.count : 0,
     },
     {
       category: 'Apartment',
-      value: data.apartment_count.summary.count,
+      value: data ? data.apartment_count.summary.count : 0,
     },
   ];
 }
 
 function PropertyTypeChart({ type, startDate }) {
   const map = useContext(MapContext);
-  const { loading, data: custom } = useDebouncedQuery(GET_MEDIAN_PRICE, {
+  const { loading, data } = useDebouncedQuery(GET_MEDIAN_PRICE, {
     variables: {
       type,
       date: startDate,
@@ -104,7 +99,6 @@ function PropertyTypeChart({ type, startDate }) {
     },
   }, 1000);
   const [colors, setColors] = useState(defaultColors);
-  const data = useMemo(() => normalizeChartData(custom), [custom]);
 
   function onClick({ index }) {
     setColors((state) => {
@@ -121,26 +115,27 @@ function PropertyTypeChart({ type, startDate }) {
   return (
     <div>
       <Header as="h4" className={styles.title}>Property type distribution</Header>
-      <div className={styles.container}>
-        {loading || !data ? <Skeleton height="100%" /> : (
-          <ResponsiveBar
-            data={data}
-            layout="horizontal"
-            enableGridY={false}
-            enableLabel={false}
-            axisLeft={{ tickSize: 0 }}
-            axisBottom={false}
-            keys={['value']}
-            indexBy="category"
-            margin={{ top: 0, right: 0, bottom: 0, left: 60 }}
-            animate={true}
-            colors={colors}
-            colorBy="index"
-            padding={0.4}
-            onClick={onClick}
-          />
-        )}
-      </div>
+      <Segment basic className={styles.container}>
+        <Dimmer inverted active={loading}>
+          <Loader />
+        </Dimmer>
+
+        <ResponsiveBar
+          data={normalizeChartData(data)}
+          layout="horizontal"
+          enableGridY={false}
+          enableLabel={false}
+          axisLeft={{ tickSize: 0 }}
+          axisBottom={false}
+          keys={['value']}
+          indexBy="category"
+          margin={{ top: 0, right: 0, bottom: 0, left: 60 }}
+          animate={true}
+          colors={colors}
+          padding={0.4}
+          onClick={onClick}
+        />
+      </Segment>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { gql } from '@apollo/client';
@@ -70,16 +70,12 @@ function PropertyPriceLine({ type }) {
     data: transformResponse(custom),
   }], [custom]);
 
-  if (loading) {
-    return (
-      <div className={styles.container}>
-        <Skeleton height="100%" />
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.container}>
+    <Segment basic className={styles.container}>
+      <Dimmer inverted active={loading}>
+        <Loader />
+      </Dimmer>
+
       <ResponsiveLine
         data={data}
         margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
@@ -109,7 +105,7 @@ function PropertyPriceLine({ type }) {
         useMesh={false}
         enableSlices="x"
       />
-    </div>
+    </Segment>
   );
 }
 

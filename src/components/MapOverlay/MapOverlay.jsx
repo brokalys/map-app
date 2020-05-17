@@ -65,11 +65,11 @@ function MapOverlay() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="map-overlay">
       <Grid>
         <Grid.Column computer={8}>
           <AreaOverview>
-            { isLoading ? <Skeleton /> : <PriceLabel price={data.properties.summary.price.median} />}
+            {isLoading ? <Skeleton /> : <PriceLabel price={data.properties.summary.price.median} />}
           </AreaOverview>
 
           <PropertyPriceLine type={type} />
