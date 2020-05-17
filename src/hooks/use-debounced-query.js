@@ -26,7 +26,7 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
       setDebouncedLoading(false);
       setPreviousData(data);
     }
-  }, [loading]);
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     loading: loading || debouncedIsLoading,
