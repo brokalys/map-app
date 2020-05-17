@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 
 export default function useDebouncedQuery(query, nextConfig, time = 1000) {
   const nextConfigStr = JSON.stringify(nextConfig);
-  const [debouncedIsLoading, setDebouncedLoading] = useState(false);
+  const [debouncedIsLoading, setDebouncedLoading] = useState(true);
   const [previousData, setPreviousData] = useState(undefined);
   const [config] = useDebounce(nextConfig, time, {
     equalityFn: (prev, next) => JSON.stringify(prev) === JSON.stringify(next),
@@ -21,7 +21,7 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
   }, [nextConfigStr, performDebouncedQuery]);
 
   useEffect(() => {
-    if (loading === false) {
+    if (loading === false && data) {
       setDebouncedLoading(false);
       setPreviousData(data);
     }

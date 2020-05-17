@@ -25,18 +25,34 @@ const typeOptions = [
   { value: "Rent", text: "Rent" },
 ];
 
+function coordinatesToRegion(coordinates) {
+  const parts = coordinates.map((row) => `${row[1]} ${row[0]}`);
+  parts.push(parts[0]);
+  return parts.join(", ");
+}
+
 function SplitPaneLeft() {
   const [filterState, setFilterState] = useState({
     location: {
       options: locationOptions,
       default: "Centrs",
       selected: "Centrs",
+      selectedRegion: coordinatesToRegion(
+        rigaGeojson.features.find(
+          ({ properties }) => properties.apkaime === "Centrs"
+        ).geometry.coordinates[0]
+      ),
       setSelected(selected) {
         setFilterState((state) => ({
           ...state,
           location: {
             ...state.location,
             selected,
+            selectedRegion: coordinatesToRegion(
+              rigaGeojson.features.find(
+                ({ properties }) => properties.apkaime === selected
+              ).geometry.coordinates[0]
+            ),
           },
         }));
       },
