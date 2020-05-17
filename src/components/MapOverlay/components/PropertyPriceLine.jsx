@@ -1,30 +1,39 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useDebouncedCallback } from 'use-debounce';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { ResponsiveLine } from '@nivo/line';
 
 import MapContext from 'context/MapContext';
+import useDebouncedQuery from 'hooks/use-debounced-query';
 import styles from './PropertyPriceLine.module.css';
 
 const moment = extendMoment(Moment);
-const range = moment().range('2019-01-01', new Date());
-const dates = Array.from(range.by('month', { excludeEnd: true })).map((m) => m.format('YYYY-MM-DD'));
+const range = moment().range(moment().utc().startOf('day').subtract(30, 'days'), new Date());
+const dates = Array.from(range.by('day', { excludeEnd: true }));
 
 const GET_MEDIAN_PRICE = (dates) => gql`
   query(
-    $type: Type
-    $region: String!
+    $type: String!
+    $region: [String!]!
   ) {
     ${dates.map((date, id) => `
-      row_${id}: getMedianPrice(
-        type: $type
-        start_date: "${date}"
-        region: $region
+      row_${id}: properties(
+        filter: {
+          type: { eq: $type }
+          published_at: {
+            gte: "${date.toISOString()}"
+            lte: "${date.clone().endOf('day').toISOString()}"
+          }
+          region: { in: $region }
+        }
       ) {
-        price
+        summary {
+          price {
+            median
+          }
+        }
       }
     `)}
   }
@@ -41,45 +50,30 @@ function transformResponse(data) {
     }
 
     return {
-      x: date,
-      y: data[`row_${index}`].price
+      x: date.format('YYYY-MM-DD'),
+      y: data[`row_${index}`].summary.price.median,
     };
   });
 }
 
-function PropertyPriceLine() {
+function PropertyPriceLine({ type }) {
   const map = useContext(MapContext);
-
-  const [hasChangedSinceLastLoad, setHasChangedSinceLastLoad] = useState(false);
-  const [region, setRegion] = useState();
-  const [setRegionDebounced] = useDebouncedCallback(setRegion, 2000);
-  const { loading, data: custom } = useQuery(GET_MEDIAN_PRICE(dates), {
+  const { loading, data: custom } = useDebouncedQuery(GET_MEDIAN_PRICE(dates), {
     variables: {
-      type: 'SELL',
-      region: region,
+      type,
+      region: [map.region],
     },
-    skip: !region,
-  });
+  }, 2000);
 
   const data = useMemo(() => [{
     id: 'test',
     data: transformResponse(custom),
   }], [custom]);
 
-  useEffect(() => {
-    setHasChangedSinceLastLoad(true);
-    setRegionDebounced(map.region);
-  }, [map.region, setRegionDebounced]);
-
-  useEffect(() => {
-    setHasChangedSinceLastLoad(false);
-  }, [data]);
-
-
-  if (hasChangedSinceLastLoad || loading) {
+  if (loading) {
     return (
-      <div className={styles.chartMargin}>
-        <Skeleton height={80} />
+      <div className={styles.container}>
+        <Skeleton height="100%" />
       </div>
     );
   }
@@ -92,7 +86,7 @@ function PropertyPriceLine() {
         xScale={{
             type: 'time',
             format: '%Y-%m-%d',
-            precision: 'month',
+            precision: 'day',
         }}
         xFormat="time:%Y-%m-%d"
         yScale={{
