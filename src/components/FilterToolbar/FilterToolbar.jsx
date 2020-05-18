@@ -25,7 +25,6 @@ function FilterToolbar() {
         <Menu.Item fitted>
           <Dropdown
             placeholder="Select location"
-            fluid
             search
             selection
             defaultValue={context.location.default}

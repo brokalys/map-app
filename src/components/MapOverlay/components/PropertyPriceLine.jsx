@@ -77,7 +77,7 @@ function PropertyPriceLine({ type }) {
   const data = useMemo(
     () => [
       {
-        id: "test",
+        id: "Median price",
         data: transformResponse(custom),
       },
     ],
@@ -102,13 +102,27 @@ function PropertyPriceLine({ type }) {
         yScale={{
           type: "linear",
           stacked: false,
-          legend: "mediānā cena m2",
         }}
-        yFormat={(value) =>
-          `${Number(value).toLocaleString("lv-LV", {
-            minimumFractionDigits: 2,
-          })} EUR/m2`
-        }
+        sliceTooltip={({ slice }) => {
+          return (
+            <div className={styles.tooltip}>
+              {slice.points.map((point) => (
+                <div key={point.id}>
+                  <div>
+                    <strong>{moment(point.data.x).format("YYYY-MM-DD")}</strong>
+                  </div>
+                  <div>
+                    <strong>{point.serieId}:</strong>{" "}
+                    {Number(point.data.yFormatted).toLocaleString("en", {
+                      minimumFractionDigits: 2,
+                    })}{" "}
+                    EUR
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        }}
         colors={["#543193"]}
         axisLeft={{ enable: false, tickSize: 0 }}
         axisBottom={false}

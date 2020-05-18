@@ -1,29 +1,66 @@
 import React, { useContext } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Header, Statistic } from "semantic-ui-react";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import moment from "moment";
 
 import FilterContext from "context/FilterContext";
-import useDebouncedQuery from "hooks/use-debounced-query";
-import styles from "./LastThirtyDayOverview.module.css";
+import styles from "./CurrentMonthOverview.module.css";
+
+const GET_RENTAL_YIELD_DATA = gql`
+  query(
+    $category: String!
+    $current_month_start: String!
+    $region: [String!]!
+  ) {
+    sell: properties(
+      filter: {
+        category: { eq: $category }
+        type: { eq: "sell" }
+        published_at: { gte: $current_month_start }
+        region: { in: $region }
+      }
+    ) {
+      ...MedianPrice
+    }
+
+    rent: properties(
+      filter: {
+        category: { eq: $category }
+        type: { eq: "rent" }
+        published_at: { gte: $current_month_start }
+        region: { in: $region }
+      }
+    ) {
+      ...MedianPrice
+    }
+  }
+
+  fragment MedianPrice on Properties {
+    summary {
+      price {
+        median
+      }
+    }
+  }
+`;
 
 const GET_MEDIAN_PRICE = gql`
   query(
     $type: String!
     $category: String!
-    $last_30_days_start: String!
+    $current_month_start: String!
     $last_month_start: String!
     $last_month_end: String!
     $last_year_start: String!
     $last_year_end: String!
     $region: [String!]!
   ) {
-    last_30_days: properties(
+    current_month: properties(
       filter: {
         category: { eq: $category }
         type: { eq: $type }
-        published_at: { gte: $last_30_days_start }
+        published_at: { gte: $current_month_start }
         region: { in: $region }
       }
     ) {
@@ -69,15 +106,14 @@ const GET_MEDIAN_PRICE = gql`
   }
 `;
 
-const today = moment().utc().startOf("day");
-const lastThirtyDays = today.clone().subtract(30, "days");
+const currentMonth = moment().utc().clone().startOf("month");
 
 function MedianPrice({ loading, data }) {
   if (loading) {
     return <Skeleton height={42} />;
   }
 
-  const { median } = data.last_30_days.summary.price;
+  const { median } = data.current_month.summary.price;
   const momChange = (1 - median / data.last_month.summary.price.median) * 100;
   const yoyChange = (1 - median / data.last_year.summary.price.median) * 100;
 
@@ -114,7 +150,7 @@ function PropertyCount({ loading, data }) {
     return <Skeleton height={42} />;
   }
 
-  const { count } = data.last_30_days.summary;
+  const { count } = data.current_month.summary;
   const momChange = (1 - count / data.last_month.summary.count) * 100;
   const yoyChange = (1 - count / data.last_year.summary.count) * 100;
 
@@ -146,35 +182,51 @@ function PropertyCount({ loading, data }) {
   );
 }
 
-function LastThirtyDayOverview() {
+function RentalYieldValue({ region, category }) {
+  const { loading, data } = useQuery(GET_RENTAL_YIELD_DATA, {
+    variables: {
+      category,
+      current_month_start: currentMonth.toISOString(),
+      region: [region],
+    },
+  });
+
+  if (loading) {
+    return <Skeleton height={40} />;
+  }
+
+  const value =
+    (data.rent.summary.price.median / data.sell.summary.price.median) * 100;
+  return <Statistic.Value>{value.toFixed(2)}%</Statistic.Value>;
+}
+
+function CurrentMonthOverview() {
   const context = useContext(FilterContext);
 
-  const { loading, data } = useDebouncedQuery(
-    GET_MEDIAN_PRICE,
-    {
-      variables: {
-        type: context.type.selected,
-        category: context.category.selected,
-        last_30_days_start: lastThirtyDays.toISOString(),
-        last_month_start: lastThirtyDays
-          .clone()
-          .subtract(1, "month")
-          .toISOString(),
-        last_month_end: today.clone().subtract(1, "month").toISOString(),
-        last_year_start: lastThirtyDays
-          .clone()
-          .subtract(1, "year")
-          .toISOString(),
-        last_year_end: today.clone().subtract(1, "year").toISOString(),
-        region: [context.location.selectedRegion],
-      },
+  const { loading, data } = useQuery(GET_MEDIAN_PRICE, {
+    variables: {
+      type: context.type.selected,
+      category: context.category.selected,
+      current_month_start: currentMonth.toISOString(),
+      last_month_start: currentMonth.clone().subtract(1, "month").toISOString(),
+      last_month_end: currentMonth
+        .clone()
+        .subtract(1, "month")
+        .add(1, "month")
+        .toISOString(),
+      last_year_start: currentMonth.clone().subtract(1, "year").toISOString(),
+      last_year_end: currentMonth
+        .clone()
+        .subtract(1, "year")
+        .add(1, "month")
+        .toISOString(),
+      region: [context.location.selectedRegion],
     },
-    1000
-  );
+  });
 
   return (
     <div>
-      <Header as="h3">Last 30 days</Header>
+      <Header as="h3">Current Month</Header>
 
       <Statistic.Group size="small">
         <Statistic>
@@ -193,10 +245,16 @@ function LastThirtyDayOverview() {
           <Statistic.Label>Classified amount</Statistic.Label>
         </Statistic>
 
-        <Statistic color="green" value={1.5} label="Buy-to-ley ratio" />
+        <Statistic>
+          <RentalYieldValue
+            region={context.location.selectedRegion}
+            category={context.category.selected}
+          />
+          <Statistic.Label>Rental Yield</Statistic.Label>
+        </Statistic>
       </Statistic.Group>
     </div>
   );
 }
 
-export default LastThirtyDayOverview;
+export default CurrentMonthOverview;

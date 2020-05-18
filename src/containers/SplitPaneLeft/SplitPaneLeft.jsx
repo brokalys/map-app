@@ -4,7 +4,7 @@ import { Header } from "semantic-ui-react";
 import FilterToolbar from "components/FilterToolbar";
 import Navigation from "components/Navigation";
 import PropertyPriceChart from "components/PropertyPriceChart";
-import LastThirtyDayOverview from "containers/LastThirtyDayOverview";
+import CurrentMonthOverview from "containers/CurrentMonthOverview";
 import FilterContext from "context/FilterContext";
 import rigaGeojson from "data/riga-geojson.json";
 
@@ -101,7 +101,7 @@ function SplitPaneLeft() {
 
         <FilterToolbar />
         <PropertyPriceChart />
-        <LastThirtyDayOverview />
+        <CurrentMonthOverview />
       </FilterContext.Provider>
     </div>
   );

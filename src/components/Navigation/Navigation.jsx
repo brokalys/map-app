@@ -4,6 +4,10 @@ import { Button, Icon, Menu, Popup } from "semantic-ui-react";
 import styles from "./Navigation.module.css";
 
 function Navigation() {
+  function onFeedbackClick() {
+    window.location.href = "mailto:matiss@brokalys.com?subject=Feedback";
+  }
+
   return (
     <Menu secondary>
       <Menu.Header>
@@ -28,17 +32,22 @@ function Navigation() {
         />
       </Menu.Item>
 
-      <Menu.Item fitted>
+      {/*<Menu.Item fitted>
         <Button basic animated="vertical">
           <Button.Content visible>Compare</Button.Content>
           <Button.Content hidden>
             <Icon name="crosshairs" />
           </Button.Content>
         </Button>
-      </Menu.Item>
+      </Menu.Item>*/}
 
       <Menu.Item fitted>
-        <Button primary>Overview</Button>
+        <Button primary animated="vertical" onClick={onFeedbackClick}>
+          <Button.Content visible>Give feedback</Button.Content>
+          <Button.Content hidden>
+            <Icon name="mail" />
+          </Button.Content>
+        </Button>
       </Menu.Item>
     </Menu>
   );
