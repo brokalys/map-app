@@ -43,7 +43,7 @@ function MapOverlay() {
   const [startDate] = useState(
     moment().subtract(30, "days").format("YYYY-MM-DD")
   );
-  const [type] = useState("SELL"); // @todo: dynamic
+  const [type] = useState("sell"); // @todo: dynamic
   const { loading, error, data } = useDebouncedQuery(
     GET_MEDIAN_PRICE,
     {

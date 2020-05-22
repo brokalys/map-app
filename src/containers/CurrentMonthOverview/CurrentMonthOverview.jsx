@@ -5,45 +5,8 @@ import { gql, useQuery } from "@apollo/client";
 import moment from "moment";
 
 import FilterContext from "context/FilterContext";
+import useBrokalysStaticApi from "hooks/use-brokalys-static-api";
 import styles from "./CurrentMonthOverview.module.css";
-
-const GET_RENTAL_YIELD_DATA = gql`
-  query(
-    $category: String!
-    $current_month_start: String!
-    $region: [String!]!
-  ) {
-    sell: properties(
-      filter: {
-        category: { eq: $category }
-        type: { eq: "sell" }
-        published_at: { gte: $current_month_start }
-        region: { in: $region }
-      }
-    ) {
-      ...MedianPrice
-    }
-
-    rent: properties(
-      filter: {
-        category: { eq: $category }
-        type: { eq: "rent" }
-        published_at: { gte: $current_month_start }
-        region: { in: $region }
-      }
-    ) {
-      ...MedianPrice
-    }
-  }
-
-  fragment MedianPrice on Properties {
-    summary {
-      price {
-        median
-      }
-    }
-  }
-`;
 
 const GET_MEDIAN_PRICE = gql`
   query(
@@ -113,9 +76,10 @@ function MedianPrice({ loading, data }) {
     return <Skeleton height={42} />;
   }
 
-  const { median } = data.current_month.summary.price;
-  const momChange = (1 - median / data.last_month.summary.price.median) * 100;
-  const yoyChange = (1 - median / data.last_year.summary.price.median) * 100;
+  console.log(data);
+  const median = data.price;
+  const momChange = data.priceChange.mom;
+  const yoyChange = data.priceChange.yoy;
 
   return (
     <div>
@@ -182,26 +146,81 @@ function PropertyCount({ loading, data }) {
   );
 }
 
-function RentalYieldValue({ region, category }) {
-  const { loading, data } = useQuery(GET_RENTAL_YIELD_DATA, {
-    variables: {
-      category,
-      current_month_start: currentMonth.toISOString(),
-      region: [region],
-    },
-  });
+function RentalYieldValue({ category, location }) {
+  const { loading, data: value } = useRentalYield(category, location);
 
   if (loading) {
     return <Skeleton height={40} />;
   }
 
-  const value =
-    (data.rent.summary.price.median / data.sell.summary.price.median) * 100;
   return <Statistic.Value>{value.toFixed(2)}%</Statistic.Value>;
+}
+
+function useLastPrice(category, type, location) {
+  const [{ loading, error, data }] = useBrokalysStaticApi(
+    category,
+    type,
+    location
+  );
+  const last = data[data.length - 1];
+
+  return {
+    loading,
+    error,
+    data: last ? last.price : 0,
+  };
+}
+
+function useRentalYield(category, location) {
+  const { loading: rentLoading, data: rentPrice } = useLastPrice(
+    category,
+    "rent",
+    location
+  );
+
+  const { loading: sellLoading, data: sellPrice } = useLastPrice(
+    category,
+    "sell",
+    location
+  );
+
+  return {
+    loading: rentLoading || sellLoading,
+    data: (rentPrice / sellPrice) * 100,
+  };
+}
+
+function useCurrentMonthStatistics(category, type, location) {
+  const [{ loading, data }] = useBrokalysStaticApi(category, type, location);
+
+  if (loading) {
+    return { loading };
+  }
+
+  const lastMonth = data[data.length - 1];
+  const monthBefore = data[data.length - 2];
+  const yearAgo = data[data.length - 13];
+
+  return {
+    loading,
+    data: {
+      price: lastMonth.price,
+      priceChange: {
+        mom: (1 - lastMonth.price / monthBefore.price) * 100,
+        yoy: (1 - lastMonth.price / yearAgo.price) * 100,
+      },
+    },
+  };
 }
 
 function CurrentMonthOverview() {
   const context = useContext(FilterContext);
+
+  const { loading: loadingPrice, data: dataPrice } = useCurrentMonthStatistics(
+    context.category.selected,
+    context.type.selected,
+    context.location.selected
+  );
 
   const { loading, data } = useQuery(GET_MEDIAN_PRICE, {
     variables: {
@@ -231,7 +250,7 @@ function CurrentMonthOverview() {
       <Statistic.Group size="small">
         <Statistic>
           <Statistic.Value>
-            <MedianPrice loading={loading} data={data} />
+            <MedianPrice loading={loadingPrice} data={dataPrice} />
           </Statistic.Value>
           <Statistic.Label>
             Median Price (EUR/m<sup>2</sup>)
@@ -247,7 +266,7 @@ function CurrentMonthOverview() {
 
         <Statistic>
           <RentalYieldValue
-            region={context.location.selectedRegion}
+            location={context.location.selected}
             category={context.category.selected}
           />
           <Statistic.Label>Rental Yield</Statistic.Label>

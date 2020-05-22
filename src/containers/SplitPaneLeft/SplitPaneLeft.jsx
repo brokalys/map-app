@@ -16,13 +16,13 @@ const locationOptions = rigaGeojson.features.map((row) => ({
 }));
 
 const categoryOptions = [
-  { value: "Apartment", text: "Apartment" },
-  { value: "House", text: "House" },
-  { value: "Land", text: "Land" },
+  { value: "apartment", text: "Apartment" },
+  { value: "house", text: "House" },
+  { value: "land", text: "Land" },
 ];
 const typeOptions = [
-  { value: "Sell", text: "Sell" },
-  { value: "Rent", text: "Rent" },
+  { value: "sell", text: "Sell" },
+  { value: "rent", text: "Rent" },
 ];
 
 function coordinatesToRegion(coordinates) {
@@ -59,8 +59,8 @@ function SplitPaneLeft() {
     },
     category: {
       options: categoryOptions,
-      default: "Apartment",
-      selected: "Apartment",
+      default: "apartment",
+      selected: "apartment",
       setSelected(selected) {
         setFilterState((state) => ({
           ...state,
@@ -73,8 +73,8 @@ function SplitPaneLeft() {
     },
     type: {
       options: typeOptions,
-      default: "Sell",
-      selected: "Sell",
+      default: "sell",
+      selected: "sell",
       setSelected(selected) {
         setFilterState((state) => ({
           ...state,

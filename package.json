@@ -7,6 +7,9 @@
     "@apollo/client": "^3.0.0-beta.45",
     "@nivo/bar": "^0.61.1",
     "@nivo/line": "^0.61.1",
+    "axios": "^0.19.2",
+    "axios-hooks": "^1.10.0",
+    "csv-parse": "^4.10.1",
     "google-map-react": "^1.1.7",
     "graphql": "^15.0.0",
     "moment": "^2.25.3",
@@ -58,5 +61,5 @@
     "src/**/*.{js,jsx,json,css,scss,md}": [
       "prettier --write"
     ]
- }
+  }
 }
