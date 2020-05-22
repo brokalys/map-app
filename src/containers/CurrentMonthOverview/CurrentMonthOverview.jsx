@@ -76,7 +76,6 @@ function MedianPrice({ loading, data }) {
     return <Skeleton height={42} />;
   }
 
-  console.log(data);
   const median = data.price;
   const momChange = data.priceChange.mom;
   const yoyChange = data.priceChange.yoy;

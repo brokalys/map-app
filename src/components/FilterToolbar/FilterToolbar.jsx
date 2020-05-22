@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Dropdown, Menu } from "semantic-ui-react";
+import { transliterate } from "transliteration";
 
 import FilterContext from "context/FilterContext";
 import styles from "./FilterToolbar.module.css";
@@ -19,6 +20,14 @@ function FilterToolbar() {
     context.type.setSelected(data.value);
   }
 
+  /**
+   * Improved search operation to ignore all UTF-8 characters.
+   */
+  function onSearch(all, selected) {
+    const regexp = new RegExp(transliterate(selected), "i");
+    return all.filter((row) => regexp.test(transliterate(row.text)));
+  }
+
   return (
     <div className={styles.container}>
       <Menu secondary>
@@ -30,6 +39,7 @@ function FilterToolbar() {
             defaultValue={context.location.default}
             options={context.location.options}
             onChange={onLocationChange}
+            search={onSearch}
           />
         </Menu.Item>
         <Menu.Item fitted>
