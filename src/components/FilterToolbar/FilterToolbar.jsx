@@ -34,12 +34,11 @@ function FilterToolbar() {
         <Menu.Item fitted>
           <Dropdown
             placeholder="Select location"
-            search
+            search={onSearch}
             selection
             defaultValue={context.location.default}
             options={context.location.options}
             onChange={onLocationChange}
-            search={onSearch}
           />
         </Menu.Item>
         <Menu.Item fitted>

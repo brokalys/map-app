@@ -29,9 +29,6 @@ const GET_MEDIAN_PRICE = gql`
     ) {
       summary {
         count
-        price {
-          median
-        }
       }
     }
 
@@ -45,9 +42,6 @@ const GET_MEDIAN_PRICE = gql`
     ) {
       summary {
         count
-        price {
-          median
-        }
       }
     }
 
@@ -61,9 +55,6 @@ const GET_MEDIAN_PRICE = gql`
     ) {
       summary {
         count
-        price {
-          median
-        }
       }
     }
   }
@@ -244,7 +235,7 @@ function CurrentMonthOverview() {
 
   return (
     <div>
-      <Header as="h3">Current Month</Header>
+      <Header as="h3">Last Month</Header>
 
       <Statistic.Group size="small">
         <Statistic>
