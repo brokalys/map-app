@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { ErrorBoundary } from "react-error-boundary";
 import { Header, Message, Statistic } from "semantic-ui-react";
 
+import Bugsnag from "bugsnag";
 import FilterToolbar from "components/FilterToolbar";
 import Navigation from "components/Navigation";
 import PropertyPriceChart from "components/PropertyPriceChart";
@@ -37,6 +38,7 @@ function SplitPaneLeft() {
                 Failed loading the data. Please try again later.
               </Message>
             }
+            onError={Bugsnag.notify}
           >
             <Statistic.Group size="small">
               <MedianPrice />

@@ -5,6 +5,7 @@ import { Dimmer, Loader, Message, Segment } from "semantic-ui-react";
 import moment from "moment";
 import { ResponsiveLine } from "@nivo/line";
 
+import Bugsnag from "bugsnag";
 import { getPricesInFilteredLocation } from "recoil/selectors";
 import styles from "./PropertyPriceChart.module.css";
 
@@ -80,6 +81,7 @@ function PropertyPriceChartContainer() {
             Failed loading chart data. Please try again later.
           </Message>
         }
+        onError={Bugsnag.notify}
       >
         <React.Suspense
           fallback={
