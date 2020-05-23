@@ -15,6 +15,7 @@ jobs:
       - name: Install and Build 🔧
         env:
           REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.REACT_APP_GOOGLE_MAPS_KEY }}
+          REACT_APP_BUGSNAG_KEY: ${{ secrets.REACT_APP_BUGSNAG_KEY }}
         run: |
           yarn install
           yarn build
