@@ -26,3 +26,7 @@
 .rightPanel {
   padding: 0 !important;
 }
+
+.githubCorner svg {
+  z-index: 10;
+}

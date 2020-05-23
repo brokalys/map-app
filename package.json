@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-error-boundary": "^2.2.1",
+    "react-github-corner": "^2.3.0",
     "react-loading-skeleton": "^2.0.1",
     "recoil": "^0.0.7",
     "semantic-ui-react": "^0.88.2",

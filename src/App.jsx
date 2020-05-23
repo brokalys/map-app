@@ -1,4 +1,5 @@
 import React from "react";
+import GithubCorner from "react-github-corner";
 import { Container, Grid } from "semantic-ui-react";
 
 import SplitPaneLeft from "containers/SplitPaneLeft";
@@ -9,6 +10,11 @@ import styles from "./App.module.css";
 function App(props) {
   return (
     <Container fluid className={styles.container}>
+      <GithubCorner
+        className={styles.githubCorner}
+        href="https://github.com/brokalys/map-app"
+      />
+
       <Grid className={styles.grid}>
         <Grid.Column computer={9} className={styles.leftPanel}>
           <SplitPaneLeft />
