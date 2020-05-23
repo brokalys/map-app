@@ -1,23 +1,49 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useRecoilState } from "recoil";
 import { Dropdown, Menu } from "semantic-ui-react";
 import { transliterate } from "transliteration";
 
-import FilterContext from "context/FilterContext";
+import rigaGeojson from "data/riga-geojson.json";
+import filterState from "recoil/filters";
 import styles from "./FilterToolbar.module.css";
 
+const locationOptions = rigaGeojson.features.map((row) => ({
+  value: row.properties.apkaime,
+  text: row.properties.apkaime,
+}));
+
+const categoryOptions = [
+  { value: "apartment", text: "Apartment" },
+  { value: "house", text: "House" },
+  { value: "land", text: "Land" },
+];
+const typeOptions = [
+  { value: "sell", text: "Sell" },
+  { value: "rent", text: "Rent" },
+];
+
 function FilterToolbar() {
-  const context = useContext(FilterContext);
+  const [, setFilters] = useRecoilState(filterState);
 
   function onLocationChange(event, data) {
-    context.location.setSelected(data.value);
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      location: data.value,
+    }));
   }
 
   function onCategoryChange(event, data) {
-    context.category.setSelected(data.value);
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      category: data.value,
+    }));
   }
 
   function onTypeChange(event, data) {
-    context.type.setSelected(data.value);
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      type: data.value,
+    }));
   }
 
   /**
@@ -36,8 +62,8 @@ function FilterToolbar() {
             placeholder="Select location"
             search={onSearch}
             selection
-            defaultValue={context.location.default}
-            options={context.location.options}
+            defaultValue="Centrs"
+            options={locationOptions}
             onChange={onLocationChange}
           />
         </Menu.Item>
@@ -46,8 +72,8 @@ function FilterToolbar() {
             placeholder="Select category"
             fluid
             selection
-            defaultValue={context.category.default}
-            options={context.category.options}
+            defaultValue="apartment"
+            options={categoryOptions}
             onChange={onCategoryChange}
           />
         </Menu.Item>
@@ -56,8 +82,8 @@ function FilterToolbar() {
             placeholder="Select type"
             fluid
             selection
-            defaultValue={context.type.default}
-            options={context.type.options}
+            defaultValue="sell"
+            options={typeOptions}
             onChange={onTypeChange}
           />
         </Menu.Item>

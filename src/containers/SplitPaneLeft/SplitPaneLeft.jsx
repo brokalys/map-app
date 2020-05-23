@@ -1,108 +1,41 @@
-import React, { useState } from "react";
-import { Header } from "semantic-ui-react";
+import React from "react";
+import { useRecoilState } from "recoil";
+import { Header, Statistic } from "semantic-ui-react";
 
 import FilterToolbar from "components/FilterToolbar";
 import Navigation from "components/Navigation";
 import PropertyPriceChart from "components/PropertyPriceChart";
-import CurrentMonthOverview from "containers/CurrentMonthOverview";
-import FilterContext from "context/FilterContext";
-import rigaGeojson from "data/riga-geojson.json";
+import MedianPrice from "components/Statistics/MedianPriceInFilterLocation";
+import RentalYield from "components/Statistics/RentalYieldInFilterLocation";
+import filterState from "recoil/filters";
 
 import styles from "./SplitPaneLeft.module.css";
 
-const locationOptions = rigaGeojson.features.map((row) => ({
-  value: row.properties.apkaime,
-  text: row.properties.apkaime,
-}));
-
-const categoryOptions = [
-  { value: "apartment", text: "Apartment" },
-  { value: "house", text: "House" },
-  { value: "land", text: "Land" },
-];
-const typeOptions = [
-  { value: "sell", text: "Sell" },
-  { value: "rent", text: "Rent" },
-];
-
-function coordinatesToRegion(coordinates) {
-  const parts = coordinates.map((row) => `${row[1]} ${row[0]}`);
-  parts.push(parts[0]);
-  return parts.join(", ");
-}
-
 function SplitPaneLeft() {
-  const [filterState, setFilterState] = useState({
-    location: {
-      options: locationOptions,
-      default: "Centrs",
-      selected: "Centrs",
-      selectedRegion: coordinatesToRegion(
-        rigaGeojson.features.find(
-          ({ properties }) => properties.apkaime === "Centrs"
-        ).geometry.coordinates[0]
-      ),
-      setSelected(selected) {
-        setFilterState((state) => ({
-          ...state,
-          location: {
-            ...state.location,
-            selected,
-            selectedRegion: coordinatesToRegion(
-              rigaGeojson.features.find(
-                ({ properties }) => properties.apkaime === selected
-              ).geometry.coordinates[0]
-            ),
-          },
-        }));
-      },
-    },
-    category: {
-      options: categoryOptions,
-      default: "apartment",
-      selected: "apartment",
-      setSelected(selected) {
-        setFilterState((state) => ({
-          ...state,
-          category: {
-            ...state.category,
-            selected,
-          },
-        }));
-      },
-    },
-    type: {
-      options: typeOptions,
-      default: "sell",
-      selected: "sell",
-      setSelected(selected) {
-        setFilterState((state) => ({
-          ...state,
-          type: {
-            ...state.type,
-            selected,
-          },
-        }));
-      },
-    },
-  });
+  const [filters] = useRecoilState(filterState);
 
   return (
     <div className={styles.container}>
       <Navigation />
 
-      <FilterContext.Provider value={filterState} className={styles.content}>
+      <div className={styles.content}>
         <Header as="h2">
-          Average Prices in{" "}
-          <span className={styles.highlightedText}>
-            {filterState.location.selected}
-          </span>
+          Median Prices in{" "}
+          <span className={styles.highlightedText}>{filters.location}</span>
         </Header>
 
         <FilterToolbar />
         <PropertyPriceChart />
-        <CurrentMonthOverview />
-      </FilterContext.Provider>
+
+        <div>
+          <Header as="h3">Last Month</Header>
+
+          <Statistic.Group size="small">
+            <MedianPrice />
+            <RentalYield />
+          </Statistic.Group>
+        </div>
+      </div>
     </div>
   );
 }
