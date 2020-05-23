@@ -3,6 +3,19 @@ import GoogleMapReact from "google-map-react";
 
 import MapContext from "context/MapContext";
 
+function mapOptionsCreator(map) {
+  return {
+    zoomControlOptions: {
+      position: map.ControlPosition.RIGHT_TOP,
+    },
+    rotateControl: false,
+    scaleControl: false,
+    streetViewControl: false,
+    panControl: false,
+    fullscreenControl: false,
+  };
+}
+
 function Map(props) {
   const context = useContext(MapContext);
 
@@ -37,13 +50,11 @@ function Map(props) {
     <GoogleMapReact
       bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_KEY }}
       defaultCenter={{
-        lat: 56.879635,
-        lng: 24.603189,
+        lat: 56.9032640496857,
+        lng: 24.09330663700942,
       }}
-      defaultZoom={7}
-      options={{
-        disableDefaultUI: true,
-      }}
+      defaultZoom={11}
+      options={mapOptionsCreator}
       onChange={onChange}
     />
   );
