@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { Header, Statistic } from "semantic-ui-react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Header, Message, Statistic } from "semantic-ui-react";
 
 import FilterToolbar from "components/FilterToolbar";
 import Navigation from "components/Navigation";
@@ -30,10 +31,18 @@ function SplitPaneLeft() {
         <div>
           <Header as="h3">Last Month</Header>
 
-          <Statistic.Group size="small">
-            <MedianPrice />
-            <RentalYield />
-          </Statistic.Group>
+          <ErrorBoundary
+            fallback={
+              <Message negative>
+                Failed loading the data. Please try again later.
+              </Message>
+            }
+          >
+            <Statistic.Group size="small">
+              <MedianPrice />
+              <RentalYield />
+            </Statistic.Group>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

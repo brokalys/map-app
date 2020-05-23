@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Dimmer, Loader, Message, Segment } from "semantic-ui-react";
 import moment from "moment";
 import { ResponsiveLine } from "@nivo/line";
 
@@ -73,15 +74,23 @@ function PropertyPriceChart() {
 function PropertyPriceChartContainer() {
   return (
     <Segment basic className={styles.container}>
-      <React.Suspense
+      <ErrorBoundary
         fallback={
-          <Dimmer inverted active>
-            <Loader />
-          </Dimmer>
+          <Message negative>
+            Failed loading chart data. Please try again later.
+          </Message>
         }
       >
-        <PropertyPriceChart />
-      </React.Suspense>
+        <React.Suspense
+          fallback={
+            <Dimmer inverted active>
+              <Loader />
+            </Dimmer>
+          }
+        >
+          <PropertyPriceChart />
+        </React.Suspense>
+      </ErrorBoundary>
     </Segment>
   );
 }
