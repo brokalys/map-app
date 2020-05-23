@@ -66,5 +66,10 @@
     "src/**/*.{js,jsx,json,css,scss,md}": [
       "prettier --write"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji"
+    }
   }
 }
