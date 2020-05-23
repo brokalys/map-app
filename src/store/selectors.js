@@ -2,19 +2,19 @@ import axios from "axios";
 import { selector } from "recoil";
 import parse from "csv-parse/lib/sync";
 
-import filtersState from "./filters";
+import { filterState } from "./state";
 
 const getCategoryFilter = selector({
   key: "filters.category",
-  get: ({ get }) => get(filtersState).category,
+  get: ({ get }) => get(filterState).category,
 });
 const getTypeFilter = selector({
   key: "filters.type",
-  get: ({ get }) => get(filtersState).type,
+  get: ({ get }) => get(filterState).type,
 });
 const getLocationFilter = selector({
   key: "filters.location",
-  get: ({ get }) => get(filtersState).location,
+  get: ({ get }) => get(filterState).location,
 });
 
 export const getPrices = async (category, type) => {

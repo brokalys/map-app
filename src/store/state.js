@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export default atom({
+export const filterState = atom({
   key: "filters",
   default: {
     category: "apartment",

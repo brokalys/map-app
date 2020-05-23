@@ -9,7 +9,7 @@ import Navigation from "components/Navigation";
 import PropertyPriceChart from "components/PropertyPriceChart";
 import MedianPrice from "components/Statistics/MedianPriceInFilterLocation";
 import RentalYield from "components/Statistics/RentalYieldInFilterLocation";
-import filterState from "recoil/filters";
+import { filterState } from "store";
 
 import styles from "./SplitPaneLeft.module.css";
 

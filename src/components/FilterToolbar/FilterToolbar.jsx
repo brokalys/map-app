@@ -4,7 +4,7 @@ import { Dropdown, Menu } from "semantic-ui-react";
 import { transliterate } from "transliteration";
 
 import rigaGeojson from "data/riga-geojson.json";
-import filterState from "recoil/filters";
+import { filterState } from "store";
 import styles from "./FilterToolbar.module.css";
 
 const locationOptions = rigaGeojson.features.map((row) => ({

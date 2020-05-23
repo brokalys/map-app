@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import Skeleton from "react-loading-skeleton";
 import { Statistic } from "semantic-ui-react";
 
-import { getRentalYield } from "recoil/selectors";
+import { getRentalYield } from "store";
 
 function RentalYieldInFilterLocation() {
   const data = useRecoilValue(getRentalYield);

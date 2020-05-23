@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import Skeleton from "react-loading-skeleton";
 import { Statistic } from "semantic-ui-react";
 
-import { getMedianPriceLastMonth } from "recoil/selectors";
+import { getMedianPriceLastMonth } from "store";
 import styles from "./MedianPriceInFilterLocation.module.css";
 
 function MedianPriceInFilterLocation() {

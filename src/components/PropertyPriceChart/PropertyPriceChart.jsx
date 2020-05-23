@@ -6,7 +6,7 @@ import moment from "moment";
 import { ResponsiveLine } from "@nivo/line";
 
 import Bugsnag from "bugsnag";
-import { getPricesInFilteredLocation } from "recoil/selectors";
+import { getPricesInFilteredLocation } from "store";
 import styles from "./PropertyPriceChart.module.css";
 
 function PropertyPriceChart() {
