@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue } from "jared-recoil";
 import { ErrorBoundary } from "react-error-boundary";
 import { Dimmer, Loader, Message, Segment } from "semantic-ui-react";
 import moment from "moment";

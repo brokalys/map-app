@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from "jared-recoil";
 
 export const filterState = atom({
   key: "filters",

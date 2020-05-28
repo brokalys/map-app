@@ -13,6 +13,7 @@
     "csv-parse": "^4.10.1",
     "google-map-react": "^1.1.7",
     "graphql": "^15.0.0",
+    "jared-recoil": "^0.0.15",
     "moment": "^2.25.3",
     "moment-range": "^4.0.2",
     "prop-types": "^15.7.2",

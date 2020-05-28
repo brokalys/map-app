@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue } from "jared-recoil";
 import Skeleton from "react-loading-skeleton";
 import { Statistic } from "semantic-ui-react";
 

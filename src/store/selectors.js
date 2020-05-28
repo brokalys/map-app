@@ -1,5 +1,5 @@
 import axios from "axios";
-import { selector } from "recoil";
+import { selector } from "jared-recoil";
 import parse from "csv-parse/lib/sync";
 
 import { filterState } from "./state";

@@ -6573,6 +6573,11 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
+jared-recoil@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/jared-recoil/-/jared-recoil-0.0.15.tgz#54d7082aa1a1f0776cd2c6bc51dbceebfecdc729"
+  integrity sha512-I8QgnohNxPqm9pywpqjcUJUJ6WKkyHUePUXZH4p2YxRrU3uNty3CRyWKntI5fozqU60yEi57JPglG/vteUEZlg==
+
 jest-changed-files@^24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-24.9.0.tgz#08d8c15eb79a7fa3fc98269bc14b451ee82f8039"
