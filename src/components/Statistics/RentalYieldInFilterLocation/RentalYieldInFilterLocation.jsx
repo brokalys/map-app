@@ -1,9 +1,9 @@
-import React from "react";
-import { useRecoilValue } from "jared-recoil";
-import Skeleton from "react-loading-skeleton";
-import { Statistic } from "semantic-ui-react";
+import React from 'react';
+import { useRecoilValue } from 'jared-recoil';
+import Skeleton from 'react-loading-skeleton';
+import { Statistic } from 'semantic-ui-react';
 
-import { getRentalYield } from "store";
+import { getRentalYield } from 'store';
 
 function RentalYieldInFilterLocation() {
   const data = useRecoilValue(getRentalYield);

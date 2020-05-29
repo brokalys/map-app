@@ -1,3 +1,3 @@
-import SplitPaneRight from "./SplitPaneRight";
+import SplitPaneRight from './SplitPaneRight';
 
 export default SplitPaneRight;

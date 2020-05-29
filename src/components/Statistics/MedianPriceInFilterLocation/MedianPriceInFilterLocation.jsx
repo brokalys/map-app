@@ -1,10 +1,10 @@
-import React from "react";
-import { useRecoilValue } from "jared-recoil";
-import Skeleton from "react-loading-skeleton";
-import { Statistic } from "semantic-ui-react";
+import React from 'react';
+import { useRecoilValue } from 'jared-recoil';
+import Skeleton from 'react-loading-skeleton';
+import { Statistic } from 'semantic-ui-react';
 
-import { getMedianPriceLastMonth } from "store";
-import styles from "./MedianPriceInFilterLocation.module.css";
+import { getMedianPriceLastMonth } from 'store';
+import styles from './MedianPriceInFilterLocation.module.css';
 
 function MedianPriceInFilterLocation() {
   const data = useRecoilValue(getMedianPriceLastMonth);
@@ -19,24 +19,24 @@ function MedianPriceInFilterLocation() {
         {isFinite(momChange) && (
           <div>
             <span className={momChange < 0 ? styles.textGreen : styles.textRed}>
-              {momChange < 0 ? "+" : ""}
+              {momChange < 0 ? '+' : ''}
               {-momChange.toFixed(2)}%
-            </span>{" "}
+            </span>{' '}
             MoM
           </div>
         )}
         {isFinite(yoyChange) && (
           <div>
             <span className={yoyChange < 0 ? styles.textGreen : styles.textRed}>
-              {yoyChange < 0 ? "+" : ""}
+              {yoyChange < 0 ? '+' : ''}
               {-yoyChange.toFixed(2)}%
-            </span>{" "}
+            </span>{' '}
             YoY
           </div>
         )}
       </div>
 
-      {parseInt(median, 10).toLocaleString("en")}
+      {parseInt(median, 10).toLocaleString('en')}
     </div>
   );
 }

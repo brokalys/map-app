@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
-import MapContext from "context/MapContext";
+import MapContext from 'context/MapContext';
 
-const GoogleMapReact = React.lazy(() => import("google-map-react"));
+const GoogleMapReact = React.lazy(() => import('google-map-react'));
 
 function mapOptionsCreator(map) {
   return {
@@ -27,7 +27,7 @@ function Map(props) {
     const { bounds } = map;
 
     const mapHeight = map.size.height;
-    const overlayHeight = document.getElementById("map-overlay").offsetTop;
+    const overlayHeight = document.getElementById('map-overlay').offsetTop;
     const percentage = 1 - overlayHeight / mapHeight;
 
     const newBounds = {

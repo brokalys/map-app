@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
-import { gql } from "@apollo/client";
-import { Dimmer, Header, Loader, Segment } from "semantic-ui-react";
-import { ResponsiveBar } from "@nivo/bar";
+import React, { useContext, useState } from 'react';
+import { gql } from '@apollo/client';
+import { Dimmer, Header, Loader, Segment } from 'semantic-ui-react';
+import { ResponsiveBar } from '@nivo/bar';
 
-import MapContext from "context/MapContext";
-import useDebouncedQuery from "hooks/use-debounced-query";
-import styles from "./PropertyTypeChart.module.css";
+import MapContext from 'context/MapContext';
+import useDebouncedQuery from 'hooks/use-debounced-query';
+import styles from './PropertyTypeChart.module.css';
 
-const defaultColor = "#543193";
-const selectedColor = "#c0ace3";
+const defaultColor = '#543193';
+const selectedColor = '#c0ace3';
 const defaultColors = [defaultColor, defaultColor, defaultColor];
 
 const GET_MEDIAN_PRICE = gql`
@@ -71,15 +71,15 @@ const GET_MEDIAN_PRICE = gql`
 function normalizeChartData(data) {
   return [
     {
-      category: "Land",
+      category: 'Land',
       value: data ? data.land_count.summary.count : 0,
     },
     {
-      category: "House",
+      category: 'House',
       value: data ? data.house_count.summary.count : 0,
     },
     {
-      category: "Apartment",
+      category: 'Apartment',
       value: data ? data.apartment_count.summary.count : 0,
     },
   ];
@@ -129,7 +129,7 @@ function PropertyTypeChart({ type, startDate }) {
           enableLabel={false}
           axisLeft={{ tickSize: 0 }}
           axisBottom={false}
-          keys={["value"]}
+          keys={['value']}
           indexBy="category"
           margin={{ top: 0, right: 0, bottom: 0, left: 60 }}
           animate={true}

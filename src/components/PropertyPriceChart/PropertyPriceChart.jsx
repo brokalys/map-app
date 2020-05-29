@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
-import { useRecoilValue } from "jared-recoil";
-import { ErrorBoundary } from "react-error-boundary";
-import { Dimmer, Loader, Message, Segment } from "semantic-ui-react";
-import moment from "moment";
-import { ResponsiveLine } from "@nivo/line";
+import React, { useMemo } from 'react';
+import { useRecoilValue } from 'jared-recoil';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
+import moment from 'moment';
+import { ResponsiveLine } from '@nivo/line';
 
-import Bugsnag from "bugsnag";
-import { getPricesInFilteredLocation } from "store";
-import styles from "./PropertyPriceChart.module.css";
+import Bugsnag from 'bugsnag';
+import { getPricesInFilteredLocation } from 'store';
+import styles from './PropertyPriceChart.module.css';
 
 function PropertyPriceChart() {
   const responseData = useRecoilValue(getPricesInFilteredLocation);
@@ -15,7 +15,7 @@ function PropertyPriceChart() {
   const data = useMemo(
     () => [
       {
-        id: "Median Price",
+        id: 'Median Price',
         data: responseData.map((row) => ({
           x: row.start,
           y: row.value > 0 ? row.value : null,
@@ -30,13 +30,13 @@ function PropertyPriceChart() {
       data={data}
       margin={{ top: 10, right: 10, bottom: 100, left: 50 }}
       xScale={{
-        type: "time",
-        format: "%Y-%m-%d",
-        precision: "month",
+        type: 'time',
+        format: '%Y-%m-%d',
+        precision: 'month',
       }}
       xFormat="time:%Y-%m-%d"
       yScale={{
-        type: "linear",
+        type: 'linear',
         stacked: false,
       }}
       sliceTooltip={({ slice }) => {
@@ -45,13 +45,13 @@ function PropertyPriceChart() {
             {slice.points.map((point) => (
               <div key={point.id}>
                 <div>
-                  <strong>{moment(point.data.x).format("YYYY-MM-DD")}</strong>
+                  <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
                 </div>
                 <div>
-                  <strong>{point.serieId}:</strong>{" "}
-                  {Number(point.data.yFormatted).toLocaleString("en", {
+                  <strong>{point.serieId}:</strong>{' '}
+                  {Number(point.data.yFormatted).toLocaleString('en', {
                     minimumFractionDigits: 2,
-                  })}{" "}
+                  })}{' '}
                   EUR
                 </div>
               </div>
@@ -60,8 +60,8 @@ function PropertyPriceChart() {
         );
       }}
       axisBottom={{
-        format: "%Y-%m",
-        tickValues: "every 2 months",
+        format: '%Y-%m',
+        tickValues: 'every 2 months',
         tickRotation: -90,
       }}
       enablePoints={true}

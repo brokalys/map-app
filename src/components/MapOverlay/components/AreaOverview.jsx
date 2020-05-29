@@ -1,7 +1,7 @@
-import React from "react";
-import { Header } from "semantic-ui-react";
+import React from 'react';
+import { Header } from 'semantic-ui-react';
 
-import styles from "./AreaOverview.module.css";
+import styles from './AreaOverview.module.css';
 
 function AreaOverview({ children, year }) {
   return (

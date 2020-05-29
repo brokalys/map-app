@@ -1,10 +1,10 @@
-import { atom } from "jared-recoil";
+import { atom } from 'jared-recoil';
 
 export const filterState = atom({
-  key: "filters",
+  key: 'filters',
   default: {
-    category: "apartment",
-    type: "sell",
-    location: "Centrs",
+    category: 'apartment',
+    type: 'sell',
+    location: 'Centrs',
   },
 });

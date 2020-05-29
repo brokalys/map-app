@@ -1,17 +1,17 @@
-import React from "react";
-import { useRecoilState } from "jared-recoil";
-import { ErrorBoundary } from "react-error-boundary";
-import { Header, Message, Statistic } from "semantic-ui-react";
+import React from 'react';
+import { useRecoilState } from 'jared-recoil';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Header, Message, Statistic } from 'semantic-ui-react';
 
-import Bugsnag from "bugsnag";
-import FilterToolbar from "components/FilterToolbar";
-import Navigation from "components/Navigation";
-import PropertyPriceChart from "components/PropertyPriceChart";
-import MedianPrice from "components/Statistics/MedianPriceInFilterLocation";
-import RentalYield from "components/Statistics/RentalYieldInFilterLocation";
-import { filterState } from "store";
+import Bugsnag from 'bugsnag';
+import FilterToolbar from 'components/FilterToolbar';
+import Navigation from 'components/Navigation';
+import PropertyPriceChart from 'components/PropertyPriceChart';
+import MedianPrice from 'components/Statistics/MedianPriceInFilterLocation';
+import RentalYield from 'components/Statistics/RentalYieldInFilterLocation';
+import { filterState } from 'store';
 
-import styles from "./SplitPaneLeft.module.css";
+import styles from './SplitPaneLeft.module.css';
 
 function SplitPaneLeft() {
   const [filters] = useRecoilState(filterState);
@@ -22,7 +22,7 @@ function SplitPaneLeft() {
 
       <div className={styles.content}>
         <Header as="h2">
-          Median Prices in{" "}
+          Median Prices in{' '}
           <span className={styles.highlightedText}>{filters.location}</span>
         </Header>
 

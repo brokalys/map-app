@@ -1,3 +1,3 @@
-import MedianPriceInFilterLocation from "./MedianPriceInFilterLocation";
+import MedianPriceInFilterLocation from './MedianPriceInFilterLocation';
 
 export default MedianPriceInFilterLocation;

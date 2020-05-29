@@ -1,11 +1,11 @@
-import React from "react";
-import { Button, Icon, Menu, Popup } from "semantic-ui-react";
+import React from 'react';
+import { Button, Icon, Menu, Popup } from 'semantic-ui-react';
 
-import styles from "./Navigation.module.css";
+import styles from './Navigation.module.css';
 
 function Navigation() {
   function onFeedbackClick() {
-    window.location.href = "mailto:matiss@brokalys.com?subject=Feedback";
+    window.location.href = 'mailto:matiss@brokalys.com?subject=Feedback';
   }
 
   return (

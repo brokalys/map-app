@@ -1,3 +1,3 @@
-import RentalYieldInFilterLocation from "./RentalYieldInFilterLocation";
+import RentalYieldInFilterLocation from './RentalYieldInFilterLocation';
 
 export default RentalYieldInFilterLocation;

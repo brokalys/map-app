@@ -1,19 +1,19 @@
-import axios from "axios";
-import { selector } from "jared-recoil";
-import parse from "csv-parse/lib/sync";
+import axios from 'axios';
+import { selector } from 'jared-recoil';
+import parse from 'csv-parse/lib/sync';
 
-import { filterState } from "./state";
+import { filterState } from './state';
 
 const getCategoryFilter = selector({
-  key: "filters.category",
+  key: 'filters.category',
   get: ({ get }) => get(filterState).category,
 });
 const getTypeFilter = selector({
-  key: "filters.type",
+  key: 'filters.type',
   get: ({ get }) => get(filterState).type,
 });
 const getLocationFilter = selector({
-  key: "filters.location",
+  key: 'filters.location',
   get: ({ get }) => get(filterState).location,
 });
 
@@ -39,7 +39,7 @@ export const getPrices = async (category, type) => {
 };
 
 export const getPricesInFilteredLocation = selector({
-  key: "priceInFilteredLocation",
+  key: 'priceInFilteredLocation',
   get: async ({ get }) => {
     const location = get(getLocationFilter);
     const type = get(getTypeFilter);
@@ -50,7 +50,7 @@ export const getPricesInFilteredLocation = selector({
 });
 
 export const getMedianPriceLastMonth = selector({
-  key: "medianPriceLastMonth",
+  key: 'medianPriceLastMonth',
   get: async ({ get }) => {
     const data = await get(getPricesInFilteredLocation);
     const { value } = data[data.length - 1];
@@ -66,13 +66,13 @@ export const getMedianPriceLastMonth = selector({
 });
 
 export const getRentalYield = selector({
-  key: "rentalYield",
+  key: 'rentalYield',
   get: async ({ get }) => {
     const category = get(getCategoryFilter);
     const location = get(getLocationFilter);
 
-    const rentData = (await getPrices(category, "rent"))[location];
-    const sellData = (await getPrices(category, "sell"))[location];
+    const rentData = (await getPrices(category, 'rent'))[location];
+    const sellData = (await getPrices(category, 'sell'))[location];
     return (
       (rentData[rentData.length - 1].value /
         sellData[sellData.length - 1].value) *

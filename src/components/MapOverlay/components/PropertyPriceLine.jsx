@@ -1,20 +1,20 @@
-import React, { useContext, useMemo } from "react";
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
-import Moment from "moment";
-import { extendMoment } from "moment-range";
-import { gql } from "@apollo/client";
-import { ResponsiveLine } from "@nivo/line";
+import React, { useContext, useMemo } from 'react';
+import { Dimmer, Loader, Segment } from 'semantic-ui-react';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+import { gql } from '@apollo/client';
+import { ResponsiveLine } from '@nivo/line';
 
-import MapContext from "context/MapContext";
-import useDebouncedQuery from "hooks/use-debounced-query";
-import styles from "./PropertyPriceLine.module.css";
+import MapContext from 'context/MapContext';
+import useDebouncedQuery from 'hooks/use-debounced-query';
+import styles from './PropertyPriceLine.module.css';
 
 const moment = extendMoment(Moment);
 const range = moment().range(
-  moment().utc().startOf("day").subtract(30, "days"),
+  moment().utc().startOf('day').subtract(30, 'days'),
   new Date()
 );
-const dates = Array.from(range.by("day", { excludeEnd: true }));
+const dates = Array.from(range.by('day', { excludeEnd: true }));
 
 const GET_MEDIAN_PRICE = (dates) => gql`
   query(
@@ -28,7 +28,7 @@ const GET_MEDIAN_PRICE = (dates) => gql`
           type: { eq: $type }
           published_at: {
             gte: "${date.toISOString()}"
-            lte: "${date.clone().endOf("day").toISOString()}"
+            lte: "${date.clone().endOf('day').toISOString()}"
           }
           region: { in: $region }
         }
@@ -55,7 +55,7 @@ function transformResponse(data) {
     }
 
     return {
-      x: date.format("YYYY-MM-DD"),
+      x: date.format('YYYY-MM-DD'),
       y: data[`row_${index}`].summary.price.median,
     };
   });
@@ -77,7 +77,7 @@ function PropertyPriceLine({ type }) {
   const data = useMemo(
     () => [
       {
-        id: "Median price",
+        id: 'Median price',
         data: transformResponse(custom),
       },
     ],
@@ -94,13 +94,13 @@ function PropertyPriceLine({ type }) {
         data={data}
         margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         xScale={{
-          type: "time",
-          format: "%Y-%m-%d",
-          precision: "day",
+          type: 'time',
+          format: '%Y-%m-%d',
+          precision: 'day',
         }}
         xFormat="time:%Y-%m-%d"
         yScale={{
-          type: "linear",
+          type: 'linear',
           stacked: false,
         }}
         sliceTooltip={({ slice }) => {
@@ -109,13 +109,13 @@ function PropertyPriceLine({ type }) {
               {slice.points.map((point) => (
                 <div key={point.id}>
                   <div>
-                    <strong>{moment(point.data.x).format("YYYY-MM-DD")}</strong>
+                    <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
                   </div>
                   <div>
-                    <strong>{point.serieId}:</strong>{" "}
-                    {Number(point.data.yFormatted).toLocaleString("en", {
+                    <strong>{point.serieId}:</strong>{' '}
+                    {Number(point.data.yFormatted).toLocaleString('en', {
                       minimumFractionDigits: 2,
-                    })}{" "}
+                    })}{' '}
                     EUR
                   </div>
                 </div>
@@ -123,7 +123,7 @@ function PropertyPriceLine({ type }) {
             </div>
           );
         }}
-        colors={["#543193"]}
+        colors={['#543193']}
         axisLeft={{ enable: false, tickSize: 0 }}
         axisBottom={false}
         enableGridX={false}

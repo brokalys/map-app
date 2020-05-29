@@ -1,11 +1,11 @@
-import React from "react";
-import { useRecoilState } from "jared-recoil";
-import { Dropdown, Menu } from "semantic-ui-react";
-import { transliterate } from "transliteration";
+import React from 'react';
+import { useRecoilState } from 'jared-recoil';
+import { Dropdown, Menu } from 'semantic-ui-react';
+import { transliterate } from 'transliteration';
 
-import rigaGeojson from "data/riga-geojson.json";
-import { filterState } from "store";
-import styles from "./FilterToolbar.module.css";
+import rigaGeojson from 'data/riga-geojson.json';
+import { filterState } from 'store';
+import styles from './FilterToolbar.module.css';
 
 const locationOptions = rigaGeojson.features.map((row) => ({
   value: row.properties.apkaime,
@@ -13,13 +13,13 @@ const locationOptions = rigaGeojson.features.map((row) => ({
 }));
 
 const categoryOptions = [
-  { value: "apartment", text: "Apartment" },
-  { value: "house", text: "House" },
-  { value: "land", text: "Land" },
+  { value: 'apartment', text: 'Apartment' },
+  { value: 'house', text: 'House' },
+  { value: 'land', text: 'Land' },
 ];
 const typeOptions = [
-  { value: "sell", text: "Sell" },
-  { value: "rent", text: "Rent" },
+  { value: 'sell', text: 'Sell' },
+  { value: 'rent', text: 'Rent' },
 ];
 
 function FilterToolbar() {
@@ -50,7 +50,7 @@ function FilterToolbar() {
    * Improved search operation to ignore all UTF-8 characters.
    */
   function onSearch(all, selected) {
-    const regexp = new RegExp(transliterate(selected), "i");
+    const regexp = new RegExp(transliterate(selected), 'i');
     return all.filter((row) => regexp.test(transliterate(row.text)));
   }
 
