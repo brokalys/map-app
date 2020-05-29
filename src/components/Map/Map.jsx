@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import GoogleMapReact from "google-map-react";
 
 import MapContext from "context/MapContext";
+
+const GoogleMapReact = React.lazy(() => import("google-map-react"));
 
 function mapOptionsCreator(map) {
   return {
@@ -47,16 +48,18 @@ function Map(props) {
   }
 
   return (
-    <GoogleMapReact
-      bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_KEY }}
-      defaultCenter={{
-        lat: 56.9032640496857,
-        lng: 24.09330663700942,
-      }}
-      defaultZoom={11}
-      options={mapOptionsCreator}
-      onChange={onChange}
-    />
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_KEY }}
+        defaultCenter={{
+          lat: 56.9032640496857,
+          lng: 24.09330663700942,
+        }}
+        defaultZoom={11}
+        options={mapOptionsCreator}
+        onChange={onChange}
+      />
+    </React.Suspense>
   );
 }
 
