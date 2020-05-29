@@ -8,6 +8,7 @@ import App from "./App.jsx";
 import Bugsnag from "./bugsnag";
 import * as serviceWorker from "./serviceWorker";
 
+import "semantic-ui-css/semantic.min.css";
 import "./index.css";
 
 const ErrorBoundary = Bugsnag.getPlugin("react").createErrorBoundary(React);

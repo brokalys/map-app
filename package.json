@@ -23,6 +23,7 @@
     "react-github-corner": "^2.3.0",
     "react-loading-skeleton": "^2.0.1",
     "recoil": "^0.0.7",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "transliteration": "^2.1.11",
     "use-debounce": "^3.4.2"
