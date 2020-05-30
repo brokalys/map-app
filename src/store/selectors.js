@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { selector } from 'jared-recoil';
+import { selector, selectorFamily } from 'jared-recoil';
 import parse from 'csv-parse/lib/sync';
 
 import { filterState } from './state';
@@ -17,26 +17,29 @@ const getLocationFilter = selector({
   get: ({ get }) => get(filterState).location,
 });
 
-export const getPrices = async (category, type) => {
-  const { data: csvString } = await axios.get(
-    `https://raw.githubusercontent.com/brokalys/data/master/data/${category}/${type}-monthly-riga.csv`
-  );
+export const getPrices = selectorFamily({
+  key: 'getPrices',
+  get: ([category, type]) => async ({ get }) => {
+    const { data: csvString } = await axios.get(
+      `https://raw.githubusercontent.com/brokalys/data/master/data/${category}/${type}-monthly-riga.csv`
+    );
 
-  const csv = parse(csvString);
-  const header = csv.shift();
-  const [, , ...locations] = header;
+    const csv = parse(csvString);
+    const header = csv.shift();
+    const [, , ...locations] = header;
 
-  return locations
-    .map((row, index) => ({
-      location: row,
-      prices: csv.map((price) => ({
-        start: price[0],
-        end: price[1],
-        value: parseInt(price[index + 2]),
-      })),
-    }))
-    .reduce((carry, row) => ({ ...carry, [row.location]: row.prices }), {});
-};
+    return locations
+      .map((row, index) => ({
+        location: row,
+        prices: csv.map((price) => ({
+          start: price[0],
+          end: price[1],
+          value: parseInt(price[index + 2]),
+        })),
+      }))
+      .reduce((carry, row) => ({ ...carry, [row.location]: row.prices }), {});
+  },
+});
 
 export const getPricesInFilteredLocation = selector({
   key: 'priceInFilteredLocation',
@@ -44,7 +47,7 @@ export const getPricesInFilteredLocation = selector({
     const location = get(getLocationFilter);
     const type = get(getTypeFilter);
     const category = get(getCategoryFilter);
-    const data = await getPrices(category, type);
+    const data = await get(getPrices([category, type]));
     return data[location];
   },
 });
@@ -71,8 +74,8 @@ export const getRentalYield = selector({
     const category = get(getCategoryFilter);
     const location = get(getLocationFilter);
 
-    const rentData = (await getPrices(category, 'rent'))[location];
-    const sellData = (await getPrices(category, 'sell'))[location];
+    const rentData = (await get(getPrices([category, 'rent'])))[location];
+    const sellData = (await get(getPrices([category, 'sell'])))[location];
     return (
       (rentData[rentData.length - 1].value /
         sellData[sellData.length - 1].value) *
