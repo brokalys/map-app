@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { gql } from '@apollo/client';
 import { Dimmer, Header, Loader, Segment } from 'semantic-ui-react';
 import { ResponsiveBar } from '@nivo/bar';
 
-import MapContext from 'context/MapContext';
 import useDebouncedQuery from 'hooks/use-debounced-query';
+import useRegionParams from 'hooks/use-region-params';
 import styles from './PropertyTypeChart.module.css';
 
 const defaultColor = '#543193';
@@ -12,11 +12,17 @@ const selectedColor = '#c0ace3';
 const defaultColors = [defaultColor, defaultColor, defaultColor];
 
 const GET_MEDIAN_PRICE = gql`
-  query($type: String!, $date: String!, $region: [String!]!) {
+  query(
+    $type: String!
+    $date: String!
+    $region: [String!]!
+    $locations: [String!]
+  ) {
     median_price: properties(
       filter: {
         type: { eq: $type }
         published_at: { gte: $date }
+        location_classificator: { in: $locations }
         region: { in: $region }
       }
     ) {
@@ -32,6 +38,7 @@ const GET_MEDIAN_PRICE = gql`
         category: { eq: "APARTMENT" }
         type: { eq: $type }
         published_at: { gte: $date }
+        location_classificator: { in: $locations }
         region: { in: $region }
       }
     ) {
@@ -45,6 +52,7 @@ const GET_MEDIAN_PRICE = gql`
         category: { eq: "HOUSE" }
         type: { eq: $type }
         published_at: { gte: $date }
+        location_classificator: { in: $locations }
         region: { in: $region }
       }
     ) {
@@ -58,6 +66,7 @@ const GET_MEDIAN_PRICE = gql`
         category: { eq: "LAND" }
         type: { eq: $type }
         published_at: { gte: $date }
+        location_classificator: { in: $locations }
         region: { in: $region }
       }
     ) {
@@ -86,14 +95,16 @@ function normalizeChartData(data) {
 }
 
 function PropertyTypeChart({ type, startDate }) {
-  const map = useContext(MapContext);
+  const { region, locations } = useRegionParams();
+
   const { loading, data } = useDebouncedQuery(
     GET_MEDIAN_PRICE,
     {
       variables: {
         type,
         date: startDate,
-        region: [map.region],
+        region,
+        locations,
       },
     },
     1000

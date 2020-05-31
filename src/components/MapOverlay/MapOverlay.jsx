@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { gql } from '@apollo/client';
 import { Grid, Header } from 'semantic-ui-react';
 import moment from 'moment';
 
-import MapContext from 'context/MapContext';
 import useDebouncedQuery from 'hooks/use-debounced-query';
+import useRegionParams from 'hooks/use-region-params';
 import AreaOverview from './components/AreaOverview';
 import PropertyPriceLine from './components/PropertyPriceLine';
 import PropertyTypeChart from './components/PropertyTypeChart';
@@ -13,11 +13,17 @@ import PropertyTypeChart from './components/PropertyTypeChart';
 import styles from './MapOverlay.module.css';
 
 const GET_MEDIAN_PRICE = gql`
-  query($type: String!, $date: String!, $region: [String!]!) {
+  query(
+    $type: String!
+    $date: String!
+    $region: [String!]!
+    $locations: [String!]
+  ) {
     properties(
       filter: {
         type: { eq: $type }
         published_at: { gte: $date }
+        location_classificator: { in: $locations }
         region: { in: $region }
       }
     ) {
@@ -39,7 +45,7 @@ function PriceLabel({ price }) {
 }
 
 function MapOverlay() {
-  const map = useContext(MapContext);
+  const { region, locations } = useRegionParams();
   const [startDate] = useState(
     moment().subtract(30, 'days').format('YYYY-MM-DD')
   );
@@ -50,7 +56,8 @@ function MapOverlay() {
       variables: {
         type: type,
         date: startDate,
-        region: [map.region],
+        region,
+        locations,
       },
     },
     1000

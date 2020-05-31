@@ -1,12 +1,12 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { gql } from '@apollo/client';
 import { ResponsiveLine } from '@nivo/line';
 
-import MapContext from 'context/MapContext';
 import useDebouncedQuery from 'hooks/use-debounced-query';
+import useRegionParams from 'hooks/use-region-params';
 import styles from './PropertyPriceLine.module.css';
 
 const moment = extendMoment(Moment);
@@ -20,6 +20,7 @@ const GET_MEDIAN_PRICE = (dates) => gql`
   query(
     $type: String!
     $region: [String!]!
+    $locations: [String!]
   ) {
     ${dates.map(
       (date, id) => `
@@ -30,6 +31,7 @@ const GET_MEDIAN_PRICE = (dates) => gql`
             gte: "${date.toISOString()}"
             lte: "${date.clone().endOf('day').toISOString()}"
           }
+          location_classificator: { in: $locations }
           region: { in: $region }
         }
       ) {
@@ -62,13 +64,14 @@ function transformResponse(data) {
 }
 
 function PropertyPriceLine({ type }) {
-  const map = useContext(MapContext);
+  const { region, locations } = useRegionParams();
   const { loading, data: custom } = useDebouncedQuery(
     GET_MEDIAN_PRICE(dates),
     {
       variables: {
         type,
-        region: [map.region],
+        region,
+        locations,
       },
     },
     2000

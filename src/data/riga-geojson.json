@@ -8,7 +8,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": { "gid": 69, "apkaime": "Āgenskalns" },
+      "properties": { "gid": 69, "name": "Āgenskalns", "id": "agenskalns" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -70,7 +70,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 116, "apkaime": "Atgāzene" },
+      "properties": { "gid": 116, "name": "Atgāzene", "id": "atgazene" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -112,7 +112,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 115, "apkaime": "Avoti" },
+      "properties": { "gid": 115, "name": "Avoti", "id": "avoti" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -149,7 +149,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 114, "apkaime": "Beberbeķi" },
+      "properties": { "gid": 114, "name": "Beberbeķi", "id": "beberbeki" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -240,7 +240,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 113, "apkaime": "Berģi" },
+      "properties": { "gid": 113, "name": "Berģi", "id": "bergi" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -446,7 +446,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 112, "apkaime": "Bieriņi" },
+      "properties": { "gid": 112, "name": "Bieriņi", "id": "bierini" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -614,7 +614,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 111, "apkaime": "Bišumuiža" },
+      "properties": { "gid": 111, "name": "Bišumuiža", "id": "bisumuiza" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -687,7 +687,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 110, "apkaime": "Bolderāja" },
+      "properties": { "gid": 110, "name": "Bolderāja", "id": "bolderaja" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -749,7 +749,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 109, "apkaime": "Brasa" },
+      "properties": { "gid": 109, "name": "Brasa", "id": "brasa" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -794,7 +794,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 108, "apkaime": "Brekši" },
+      "properties": { "gid": 108, "name": "Brekši", "id": "breksi" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -909,7 +909,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 107, "apkaime": "Bukulti" },
+      "properties": { "gid": 107, "name": "Bukulti", "id": "bukulti" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1013,7 +1013,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 63, "apkaime": "Buļļi" },
+      "properties": { "gid": 63, "name": "Buļļi", "id": "bulli" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1192,7 +1192,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 106, "apkaime": "Centrs" },
+      "properties": { "gid": 106, "name": "Centrs", "id": "centrs" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1264,7 +1264,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 68, "apkaime": "Čiekurkalns" },
+      "properties": { "gid": 68, "name": "Čiekurkalns", "id": "ciekurkalns" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1330,7 +1330,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 61, "apkaime": "Daugavgrīva" },
+      "properties": { "gid": 61, "name": "Daugavgrīva", "id": "daugavgriva" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1511,7 +1511,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 105, "apkaime": "Dreiliņi" },
+      "properties": { "gid": 105, "name": "Dreiliņi", "id": "dreilini" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1631,7 +1631,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 104, "apkaime": "Dzirciems" },
+      "properties": { "gid": 104, "name": "Dzirciems", "id": "dzirciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1697,7 +1697,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 103, "apkaime": "Dārzciems" },
+      "properties": { "gid": 103, "name": "Dārzciems", "id": "darzciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1752,7 +1752,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 60, "apkaime": "Dārziņi" },
+      "properties": { "gid": 60, "name": "Dārziņi", "id": "darzini" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1937,7 +1937,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 102, "apkaime": "Grīziņkalns" },
+      "properties": { "gid": 102, "name": "Grīziņkalns", "id": "grizinkalns" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1973,7 +1973,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 101, "apkaime": "Imanta" },
+      "properties": { "gid": 101, "name": "Imanta", "id": "imanta" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2100,7 +2100,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 100, "apkaime": "Iļģuciems" },
+      "properties": { "gid": 100, "name": "Iļģuciems", "id": "ilguciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2155,7 +2155,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 99, "apkaime": "Jaunciems" },
+      "properties": { "gid": 99, "name": "Jaunciems", "id": "jaunciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2251,7 +2251,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 98, "apkaime": "Jugla" },
+      "properties": { "gid": 98, "name": "Jugla", "id": "jugla" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2369,7 +2369,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 97, "apkaime": "Katlakalns" },
+      "properties": { "gid": 97, "name": "Katlakalns", "id": "katlakalns" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2443,7 +2443,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 96, "apkaime": "Kleisti" },
+      "properties": { "gid": 96, "name": "Kleisti", "id": "kleisti" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2626,7 +2626,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 95, "apkaime": "Kundziņsala" },
+      "properties": { "gid": 95, "name": "Kundziņsala", "id": "kundzinsala" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2674,7 +2674,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 67, "apkaime": "Ķengarags" },
+      "properties": { "gid": 67, "name": "Ķengarags", "id": "kengarags" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2718,7 +2718,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 66, "apkaime": "Ķīpsala" },
+      "properties": { "gid": 66, "name": "Ķīpsala", "id": "kipsala" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2760,7 +2760,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 62, "apkaime": "Mangaļsala" },
+      "properties": { "gid": 62, "name": "Mangaļsala", "id": "mangalsala" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2995,7 +2995,11 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 94, "apkaime": "Maskavas forstate" },
+      "properties": {
+        "gid": 94,
+        "name": "Maskavas forstate",
+        "id": "maskavasForstate"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3043,7 +3047,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 93, "apkaime": "Mežaparks" },
+      "properties": { "gid": 93, "name": "Mežaparks", "id": "mezaparks" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3127,7 +3131,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 92, "apkaime": "Mežciems" },
+      "properties": { "gid": 92, "name": "Mežciems", "id": "mezciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3202,7 +3206,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 91, "apkaime": "Mīlgrāvis" },
+      "properties": { "gid": 91, "name": "Mīlgrāvis", "id": "milgravis" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3248,7 +3252,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 90, "apkaime": "Mūkupurvs" },
+      "properties": { "gid": 90, "name": "Mūkupurvs", "id": "mukupurvs" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3363,7 +3367,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 89, "apkaime": "Pleskodāle" },
+      "properties": { "gid": 89, "name": "Pleskodāle", "id": "pleskodale" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3458,7 +3462,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 88, "apkaime": "Purvciems" },
+      "properties": { "gid": 88, "name": "Purvciems", "id": "purvciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3508,7 +3512,11 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 87, "apkaime": "Pētersala-Andrejsala" },
+      "properties": {
+        "gid": 87,
+        "name": "Pētersala-Andrejsala",
+        "id": "petersalaAndrejsala"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3555,7 +3563,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 86, "apkaime": "Pļavnieki" },
+      "properties": { "gid": 86, "name": "Pļavnieki", "id": "plavnieki" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3605,7 +3613,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 59, "apkaime": "Rumbula" },
+      "properties": { "gid": 59, "name": "Rumbula", "id": "rumbula" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3738,7 +3746,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 85, "apkaime": "Salas" },
+      "properties": { "gid": 85, "name": "Salas", "id": "salas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3783,7 +3791,11 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 84, "apkaime": "Sarkandaugava" },
+      "properties": {
+        "gid": 84,
+        "name": "Sarkandaugava",
+        "id": "sarkandaugava"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3854,7 +3866,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 83, "apkaime": "Skanste" },
+      "properties": { "gid": 83, "name": "Skanste", "id": "skanste" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3900,7 +3912,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 64, "apkaime": "Šķirotava" },
+      "properties": { "gid": 64, "name": "Šķirotava", "id": "skirotava" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4044,7 +4056,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 82, "apkaime": "Spilve" },
+      "properties": { "gid": 82, "name": "Spilve", "id": "spilve" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4117,7 +4129,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 81, "apkaime": "Suži" },
+      "properties": { "gid": 81, "name": "Suži", "id": "suzi" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4176,7 +4188,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 65, "apkaime": "Šampēteris" },
+      "properties": { "gid": 65, "name": "Šampēteris", "id": "sampeteris" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4222,7 +4234,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 80, "apkaime": "Teika" },
+      "properties": { "gid": 80, "name": "Teika", "id": "teika" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4286,7 +4298,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 79, "apkaime": "Torņakalns" },
+      "properties": { "gid": 79, "name": "Torņakalns", "id": "tornakalns" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4334,7 +4346,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 78, "apkaime": "Trīsciems" },
+      "properties": { "gid": 78, "name": "Trīsciems", "id": "trisciems" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4464,7 +4476,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 77, "apkaime": "Vecdaugava" },
+      "properties": { "gid": 77, "name": "Vecdaugava", "id": "vecdaugava" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4497,7 +4509,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 76, "apkaime": "Vecmilgrāvis" },
+      "properties": { "gid": 76, "name": "Vecmilgrāvis", "id": "vecmilgravis" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4553,7 +4565,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 75, "apkaime": "Vecpilsēta" },
+      "properties": { "gid": 75, "name": "Vecpilsēta", "id": "vecpilseta" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4584,7 +4596,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 74, "apkaime": "Vecāķi" },
+      "properties": { "gid": 74, "name": "Vecāķi", "id": "vecaki" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4709,7 +4721,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 73, "apkaime": "Voleri" },
+      "properties": { "gid": 73, "name": "Voleri", "id": "voleri" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4778,7 +4790,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 72, "apkaime": "Zasulauks" },
+      "properties": { "gid": 72, "name": "Zasulauks", "id": "zasulauks" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4821,7 +4833,11 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 71, "apkaime": "Ziepniekkalns" },
+      "properties": {
+        "gid": 71,
+        "name": "Ziepniekkalns",
+        "id": "ziepniekkalns"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4997,7 +5013,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "gid": 70, "apkaime": "Zolitūde" },
+      "properties": { "gid": 70, "name": "Zolitūde", "id": "zolitude" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
