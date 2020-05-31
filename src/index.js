@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { RecoilRoot } from 'jared-recoil';
+import { RecoilRoot } from 'recoil';
 import { ApolloProvider } from '@apollo/client';
 
 import client from './apollo-client';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'jared-recoil';
+import { useRecoilState } from 'recoil';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
