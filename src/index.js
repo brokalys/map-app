@@ -14,15 +14,13 @@ import './index.css';
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <RecoilRoot>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
-      </RecoilRoot>
-    </ErrorBoundary>
-  </React.StrictMode>,
+  <ErrorBoundary>
+    <RecoilRoot>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </RecoilRoot>
+  </ErrorBoundary>,
   document.getElementById('root')
 );
 

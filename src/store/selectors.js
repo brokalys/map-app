@@ -55,7 +55,12 @@ export const getPricesInFilteredLocation = selector({
 export const getMedianPriceLastMonth = selector({
   key: 'medianPriceLastMonth',
   get: async ({ get }) => {
-    const data = await get(getPricesInFilteredLocation);
+    const location = get(getLocationFilter);
+    const type = get(getTypeFilter);
+    const category = get(getCategoryFilter);
+    const allData = await get(getPrices([category, type]));
+    const data = allData[location];
+
     const { value } = data[data.length - 1];
 
     return {
