@@ -8,8 +8,8 @@ import { filterState } from 'store';
 import styles from './FilterToolbar.module.css';
 
 const locationOptions = rigaGeojson.features.map((row) => ({
-  value: row.properties.apkaime,
-  text: row.properties.apkaime,
+  value: row.properties.name,
+  text: row.properties.name,
 }));
 
 const categoryOptions = [
