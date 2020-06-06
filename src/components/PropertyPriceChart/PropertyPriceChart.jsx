@@ -1,3 +1,5 @@
+import { area, curveMonotoneX } from 'd3-shape';
+import { Defs } from '@nivo/core';
 import React, { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -9,6 +11,12 @@ import Bugsnag from 'bugsnag';
 import { getPricesInFilteredLocation } from 'store';
 import styles from './PropertyPriceChart.module.css';
 
+function prettyPrice(price) {
+  return `${Number(price).toLocaleString('en', {
+    minimumFractionDigits: 2,
+  })} EUR`;
+}
+
 function PropertyPriceChart() {
   const { results } = useRecoilValue(getPricesInFilteredLocation);
 
@@ -17,12 +25,19 @@ function PropertyPriceChart() {
       {
         id: 'Average Price',
         data: results.map((row) => ({
+          ...row.price,
+
           x: row.start_datetime.substr(0, 10),
-          y: row.price.mean > 0 ? row.price.mean : null,
+          y: row.price.mean,
         })),
       },
     ],
     [results]
+  );
+
+  const maxPrice = results.reduce(
+    (carry, { price }) => (price.max > carry ? price.max : carry),
+    0
   );
 
   return (
@@ -38,6 +53,7 @@ function PropertyPriceChart() {
       yScale={{
         type: 'linear',
         stacked: false,
+        max: maxPrice,
       }}
       sliceTooltip={({ slice }) => {
         return (
@@ -48,11 +64,21 @@ function PropertyPriceChart() {
                   <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
                 </div>
                 <div>
+                  <strong>Min:</strong> {prettyPrice(point.data.min)}
+                </div>
+                <div>
                   <strong>{point.serieId}:</strong>{' '}
-                  {Number(point.data.yFormatted).toLocaleString('en', {
-                    minimumFractionDigits: 2,
-                  })}{' '}
-                  EUR
+                  {prettyPrice(point.data.yFormatted)}
+                </div>
+                <div>
+                  <strong>Max:</strong> {prettyPrice(point.data.max)}
+                </div>
+                <hr />
+                <div>
+                  <strong>Mode:</strong> {prettyPrice(point.data.mode)}
+                </div>
+                <div>
+                  <strong>Median:</strong> {prettyPrice(point.data.median)}
                 </div>
               </div>
             ))}
@@ -68,6 +94,19 @@ function PropertyPriceChart() {
       curve="monotoneX"
       useMesh={true}
       enableSlices="x"
+      layers={[
+        'grid',
+        'markers',
+        'axes',
+        'areas',
+        'crosshair',
+        AreaLayer,
+        'lines',
+        'points',
+        'slices',
+        'mesh',
+        'legends',
+      ]}
     />
   );
 }
@@ -94,6 +133,39 @@ function PropertyPriceChartContainer() {
         </React.Suspense>
       </ErrorBoundary>
     </Segment>
+  );
+}
+
+function AreaLayer({ series, xScale, yScale, innerHeight }) {
+  const areaGenerator = area()
+    .x((d) => xScale(d.data.x))
+    .y0((d) => yScale(d.data.min))
+    .y1((d) => yScale(d.data.max))
+    .curve(curveMonotoneX);
+
+  return (
+    <>
+      <Defs
+        defs={[
+          {
+            id: 'pattern',
+            type: 'patternLines',
+            background: 'transparent',
+            color: '#3daff7',
+            lineWidth: 1,
+            spacing: 6,
+            rotation: -45,
+          },
+        ]}
+      />
+      <path
+        d={areaGenerator(series[0].data)}
+        fill="url(#pattern)"
+        fillOpacity={0.2}
+        stroke="#3daff7"
+        strokeWidth={1}
+      />
+    </>
   );
 }
 
