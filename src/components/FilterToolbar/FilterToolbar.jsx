@@ -21,6 +21,10 @@ const typeOptions = [
   { value: 'sell', text: 'Sell' },
   { value: 'rent', text: 'Rent' },
 ];
+const priceTypeOptions = [
+  { value: 'total', text: 'Total price' },
+  { value: 'sqm', text: 'Price/sqm' },
+];
 
 function FilterToolbar() {
   const [, setFilters] = useRecoilState(filterState);
@@ -43,6 +47,13 @@ function FilterToolbar() {
     setFilters((currentFilters) => ({
       ...currentFilters,
       type: data.value,
+    }));
+  }
+
+  function onPriceTypeChange(event, data) {
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      priceType: data.value,
     }));
   }
 
@@ -85,6 +96,17 @@ function FilterToolbar() {
             defaultValue="sell"
             options={typeOptions}
             onChange={onTypeChange}
+          />
+        </Menu.Item>
+
+        <Menu.Item fitted>
+          <Dropdown
+            placeholder="Select price type"
+            fluid
+            selection
+            defaultValue="total"
+            options={priceTypeOptions}
+            onChange={onPriceTypeChange}
           />
         </Menu.Item>
       </Menu>

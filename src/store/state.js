@@ -6,5 +6,6 @@ export const filterState = atom({
     category: 'apartment',
     type: 'sell',
     location: 'latvia-riga-vecpilseta',
+    priceType: 'total',
   },
 });

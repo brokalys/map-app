@@ -8,37 +8,52 @@ import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
 
 import Bugsnag from 'bugsnag';
-import { getPricesInFilteredLocation } from 'store';
+import { getPricesInFilteredLocation, getPriceTypeFilter } from 'store';
 import styles from './PropertyPriceChart.module.css';
 
-function prettyPrice(price) {
-  return `${Number(price).toLocaleString('en', {
-    minimumFractionDigits: 2,
-  })} EUR`;
-}
-
 function PropertyPriceChart() {
+  const priceType = useRecoilValue(getPriceTypeFilter);
   const { results } = useRecoilValue(getPricesInFilteredLocation);
 
   const data = useMemo(
     () => [
       {
         id: 'Average Price',
-        data: results.map((row) => ({
-          ...row.price,
+        data: results.map((row) => {
+          const prices = priceType === 'sqm' ? row.pricePerSqm : row.price;
+          return {
+            ...prices,
 
-          x: row.start_datetime.substr(0, 10),
-          y: row.price.mean,
-        })),
+            x: row.start_datetime.substr(0, 10),
+            y: prices.mean,
+          };
+        }),
       },
     ],
-    [results]
+    [results, priceType]
   );
 
-  const maxPrice = results.reduce(
-    (carry, { price }) => (price.max > carry ? price.max : carry),
+  const maxPrice = data[0].data.reduce(
+    (carry, { max }) => (max > carry ? max : carry),
     0
   );
+
+  function Price({ value }) {
+    return (
+      <span>
+        {Number(value).toLocaleString('en', {
+          minimumFractionDigits: 2,
+        })}{' '}
+        {priceType === 'sqm' ? (
+          <span>
+            EUR/m<sup>2</sup>
+          </span>
+        ) : (
+          'EUR'
+        )}
+      </span>
+    );
+  }
 
   return (
     <ResponsiveLine
@@ -64,21 +79,21 @@ function PropertyPriceChart() {
                   <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
                 </div>
                 <div>
-                  <strong>Min:</strong> {prettyPrice(point.data.min)}
+                  <strong>Min:</strong> <Price value={point.data.min} />
                 </div>
                 <div>
                   <strong>{point.serieId}:</strong>{' '}
-                  {prettyPrice(point.data.yFormatted)}
+                  <Price value={point.data.yFormatted} />
                 </div>
                 <div>
-                  <strong>Max:</strong> {prettyPrice(point.data.max)}
+                  <strong>Max:</strong> <Price value={point.data.max} />
                 </div>
                 <hr />
                 <div>
-                  <strong>Mode:</strong> {prettyPrice(point.data.mode)}
+                  <strong>Mode:</strong> <Price value={point.data.mode} />
                 </div>
                 <div>
-                  <strong>Median:</strong> {prettyPrice(point.data.median)}
+                  <strong>Median:</strong> <Price value={point.data.median} />
                 </div>
               </div>
             ))}

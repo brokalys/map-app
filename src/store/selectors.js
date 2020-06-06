@@ -15,6 +15,10 @@ const getLocationFilter = selector({
   key: 'filters.location',
   get: ({ get }) => get(filterState).location,
 });
+export const getPriceTypeFilter = selector({
+  key: 'filters.priceType',
+  get: ({ get }) => get(filterState).priceType,
+});
 
 export const getPrices = selectorFamily({
   key: 'getPrices',
@@ -63,19 +67,22 @@ export const getMedianPriceLastMonth = selector({
     const location = get(getLocationFilter);
     const type = get(getTypeFilter);
     const category = get(getCategoryFilter);
+    const priceType = get(getPriceTypeFilter);
     const { results: data } = await get(
       getPrices({ category, type, location_classificator: location })
     );
 
+    const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
+
     const {
-      price: { median },
+      [group]: { median },
     } = data[data.length - 1];
 
     return {
       price: median,
       change: {
-        mom: (1 - median / data[data.length - 2].price.median) * 100,
-        yoy: (1 - median / data[data.length - 13].price.median) * 100,
+        mom: (1 - median / data[data.length - 2][group].median) * 100,
+        yoy: (1 - median / data[data.length - 13][group].median) * 100,
       },
     };
   },
@@ -86,6 +93,7 @@ export const getRentalYield = selector({
   get: async ({ get }) => {
     const category = get(getCategoryFilter);
     const location = get(getLocationFilter);
+    const priceType = get(getPriceTypeFilter);
 
     const [{ results: sellData }, { results: rentData }] = await Promise.all([
       get(
@@ -96,9 +104,11 @@ export const getRentalYield = selector({
       ),
     ]);
 
+    const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
+
     return (
-      (rentData[rentData.length - 1].price.median /
-        sellData[sellData.length - 1].price.median) *
+      (rentData[rentData.length - 1][group].median /
+        sellData[sellData.length - 1][group].median) *
       100
     );
   },
