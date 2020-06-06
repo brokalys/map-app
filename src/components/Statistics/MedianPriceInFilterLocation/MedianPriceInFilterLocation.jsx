@@ -62,7 +62,7 @@ function MedianPriceInFilterLocation() {
 function MedianPriceInFilterLocationContainer() {
   return (
     <Statistic>
-      <React.Suspense fallback={<Skeleton height={42} />}>
+      <React.Suspense fallback={<Skeleton height={60} width={240} />}>
         <MedianPriceInFilterLocation />
       </React.Suspense>
     </Statistic>
