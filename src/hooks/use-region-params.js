@@ -1,8 +1,8 @@
+import { riga } from '@brokalys/location-json-schemas';
 import { useContext, useMemo } from 'react';
 import polygonsOverlapping from 'polygon-overlap';
 
 import MapContext from 'context/MapContext';
-import rigaGeojson from 'data/riga-geojson.json';
 
 export default function useRegionParams() {
   const map = useContext(MapContext);
@@ -16,11 +16,11 @@ export default function useRegionParams() {
   }, [map.bounds]);
 
   const locations = useMemo(() => {
-    return rigaGeojson.features
+    return riga.features
       .filter((feature) =>
         polygonsOverlapping(feature.geometry.coordinates[0], regionPolygon)
       )
-      .map((feature) => `latvia-riga-${feature.properties.id}`);
+      .map((feature) => feature.properties.id);
   }, [regionPolygon]);
 
   return {

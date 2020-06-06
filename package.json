@@ -5,12 +5,12 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.45",
+    "@brokalys/location-json-schemas": "^1.1.1",
     "@bugsnag/js": "^7.1.0",
     "@bugsnag/plugin-react": "^7.1.0",
     "@nivo/bar": "^0.62.0",
     "@nivo/line": "^0.62.0",
     "axios": "^0.19.2",
-    "csv-parse": "^4.10.1",
     "google-map-react": "^1.1.7",
     "graphql": "^15.0.0",
     "moment": "^2.25.3",

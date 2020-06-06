@@ -49,9 +49,7 @@ function MedianPriceInFilterLocationContainer() {
           <MedianPriceInFilterLocation />
         </React.Suspense>
       </Statistic.Value>
-      <Statistic.Label>
-        Median Price (EUR/m<sup>2</sup>)
-      </Statistic.Label>
+      <Statistic.Label>Average Price (EUR)</Statistic.Label>
     </Statistic>
   );
 }

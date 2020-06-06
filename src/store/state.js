@@ -5,6 +5,6 @@ export const filterState = atom({
   default: {
     category: 'apartment',
     type: 'sell',
-    location: 'Centrs',
+    location: 'latvia-riga-vecpilseta',
   },
 });

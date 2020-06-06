@@ -1124,6 +1124,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@brokalys/location-json-schemas@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@brokalys/location-json-schemas/-/location-json-schemas-1.1.1.tgz#133da406b832acefab317272d786712351b7b503"
+  integrity sha512-BFQxApL8wGk5C8cignB8q+T3oM8/Jm67isc37gNqvf8BeTAFLyc4COOITg9t2t4OwqPOWNK4f93jZPJMuZWF+g==
+
 "@bugsnag/browser@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@bugsnag/browser/-/browser-7.1.1.tgz#a260d7b4ec11dfb0e056f169d3ff392b81eddaef"
@@ -4007,11 +4012,6 @@ csstype@^2.2.0, csstype@^2.5.7:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
   integrity sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w==
-
-csv-parse@^4.10.1:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.10.1.tgz#1e26ba63d29c75e94d0eba6e9de9a8aaf89d72a6"
-  integrity sha512-gdDJVchi0oSLIcYXz1H/VSgLE6htHDqJyFsRU/vTkQgmVOZ3S0IR2LXnNbWUYG7VD76dYVwdfBLyx8AX9+An8A==
 
 currently-unhandled@^0.4.1:
   version "0.4.1"

@@ -10,19 +10,19 @@ import { getPricesInFilteredLocation } from 'store';
 import styles from './PropertyPriceChart.module.css';
 
 function PropertyPriceChart() {
-  const responseData = useRecoilValue(getPricesInFilteredLocation);
+  const { results } = useRecoilValue(getPricesInFilteredLocation);
 
   const data = useMemo(
     () => [
       {
-        id: 'Median Price',
-        data: responseData.map((row) => ({
-          x: row.start,
-          y: row.value > 0 ? row.value : null,
+        id: 'Average Price',
+        data: results.map((row) => ({
+          x: row.start_datetime.substr(0, 10),
+          y: row.price.mean > 0 ? row.price.mean : null,
         })),
       },
     ],
-    [responseData]
+    [results]
   );
 
   return (

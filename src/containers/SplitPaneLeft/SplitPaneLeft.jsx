@@ -1,3 +1,4 @@
+import { riga } from '@brokalys/location-json-schemas';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -15,6 +16,9 @@ import styles from './SplitPaneLeft.module.css';
 
 function SplitPaneLeft() {
   const [filters] = useRecoilState(filterState);
+  const locationName = riga.features.find(
+    (row) => row.properties.id === filters.location
+  ).properties.name;
 
   return (
     <div className={styles.container}>
@@ -22,8 +26,8 @@ function SplitPaneLeft() {
 
       <div className={styles.content}>
         <Header as="h2">
-          Median Prices in{' '}
-          <span className={styles.highlightedText}>{filters.location}</span>
+          Average Prices in{' '}
+          <span className={styles.highlightedText}>{locationName}</span>
         </Header>
 
         <FilterToolbar />

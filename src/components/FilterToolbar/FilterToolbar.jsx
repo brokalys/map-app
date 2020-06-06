@@ -1,14 +1,14 @@
+import { riga } from '@brokalys/location-json-schemas';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
-import rigaGeojson from 'data/riga-geojson.json';
 import { filterState } from 'store';
 import styles from './FilterToolbar.module.css';
 
-const locationOptions = rigaGeojson.features.map((row) => ({
-  value: row.properties.name,
+const locationOptions = riga.features.map((row) => ({
+  value: row.properties.id,
   text: row.properties.name,
 }));
 
@@ -62,7 +62,7 @@ function FilterToolbar() {
             placeholder="Select location"
             search={onSearch}
             selection
-            defaultValue="Centrs"
+            defaultValue="latvia-riga-vecpilseta"
             options={locationOptions}
             onChange={onLocationChange}
           />
