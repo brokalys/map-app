@@ -30,12 +30,12 @@ function PropertyPriceChart() {
         }),
       },
     ],
-    [results, priceType]
+    [results, priceType],
   );
 
   const maxPrice = data[0].data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
-    0
+    0,
   );
 
   function Price({ value }) {

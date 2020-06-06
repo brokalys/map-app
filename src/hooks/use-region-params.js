@@ -18,7 +18,7 @@ export default function useRegionParams() {
   const locations = useMemo(() => {
     return riga.features
       .filter((feature) =>
-        polygonsOverlapping(feature.geometry.coordinates[0], regionPolygon)
+        polygonsOverlapping(feature.geometry.coordinates[0], regionPolygon),
       )
       .map((feature) => feature.properties.id);
   }, [regionPolygon]);

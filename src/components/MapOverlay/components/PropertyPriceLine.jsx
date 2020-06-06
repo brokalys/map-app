@@ -12,7 +12,7 @@ import styles from './PropertyPriceLine.module.css';
 const moment = extendMoment(Moment);
 const range = moment().range(
   moment().utc().startOf('day').subtract(30, 'days'),
-  new Date()
+  new Date(),
 );
 const dates = Array.from(range.by('day', { excludeEnd: true }));
 
@@ -41,7 +41,7 @@ const GET_MEDIAN_PRICE = (dates) => gql`
           }
         }
       }
-    `
+    `,
     )}
   }
 `;
@@ -74,7 +74,7 @@ function PropertyPriceLine({ type }) {
         locations,
       },
     },
-    2000
+    2000,
   );
 
   const data = useMemo(
@@ -84,7 +84,7 @@ function PropertyPriceLine({ type }) {
         data: transformResponse(custom),
       },
     ],
-    [custom]
+    [custom],
   );
 
   return (

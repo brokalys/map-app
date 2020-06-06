@@ -47,7 +47,7 @@ function PriceLabel({ price }) {
 function MapOverlay() {
   const { region, locations } = useRegionParams();
   const [startDate] = useState(
-    moment().subtract(30, 'days').format('YYYY-MM-DD')
+    moment().subtract(30, 'days').format('YYYY-MM-DD'),
   );
   const [type] = useState('sell'); // @todo: dynamic
   const { loading, error, data } = useDebouncedQuery(
@@ -60,7 +60,7 @@ function MapOverlay() {
         locations,
       },
     },
-    1000
+    1000,
   );
 
   const isLoading = loading || !data;

@@ -27,7 +27,7 @@ export const getPrices = selectorFamily({
 
     async function loadData() {
       const { data } = await axios.get(
-        `https://static-api.brokalys.com/stats/monthly?discard=0.1&filters=${filterStr}`
+        `https://static-api.brokalys.com/stats/monthly?discard=0.1&filters=${filterStr}`,
       );
       return data;
     }
@@ -43,7 +43,7 @@ export const getPrices = selectorFamily({
 
       setTimeout(
         () => reloadPromise(resolve),
-        data.loadingResults <= 2 ? 1000 : 3000
+        data.loadingResults <= 2 ? 1000 : 3000,
       );
     });
   },
@@ -56,7 +56,7 @@ export const getPricesInFilteredLocation = selector({
     const type = get(getTypeFilter);
     const category = get(getCategoryFilter);
     return await get(
-      getPrices({ category, type, location_classificator: location })
+      getPrices({ category, type, location_classificator: location }),
     );
   },
 });
@@ -69,7 +69,7 @@ export const getMeanPriceLastMonth = selector({
     const category = get(getCategoryFilter);
     const priceType = get(getPriceTypeFilter);
     const { results: data } = await get(
-      getPrices({ category, type, location_classificator: location })
+      getPrices({ category, type, location_classificator: location }),
     );
 
     const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
@@ -97,10 +97,10 @@ export const getRentalYield = selector({
 
     const [{ results: sellData }, { results: rentData }] = await Promise.all([
       get(
-        getPrices({ category, type: 'sell', location_classificator: location })
+        getPrices({ category, type: 'sell', location_classificator: location }),
       ),
       get(
-        getPrices({ category, type: 'rent', location_classificator: location })
+        getPrices({ category, type: 'rent', location_classificator: location }),
       ),
     ]);
 

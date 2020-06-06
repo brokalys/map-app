@@ -17,7 +17,7 @@ import styles from './SplitPaneLeft.module.css';
 function SplitPaneLeft() {
   const [filters] = useRecoilState(filterState);
   const locationName = riga.features.find(
-    (row) => row.properties.id === filters.location
+    (row) => row.properties.id === filters.location,
   ).properties.name;
 
   return (

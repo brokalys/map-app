@@ -107,7 +107,7 @@ function PropertyTypeChart({ type, startDate }) {
         locations,
       },
     },
-    1000
+    1000,
   );
   const [colors, setColors] = useState(defaultColors);
 
