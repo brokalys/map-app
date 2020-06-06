@@ -178,7 +178,7 @@ function AreaLayer({ series, xScale, yScale, innerHeight }) {
         fill="url(#pattern)"
         fillOpacity={0.2}
         stroke="#3daff7"
-        strokeWidth={1}
+        strokeWidth={0.4}
       />
     </>
   );
