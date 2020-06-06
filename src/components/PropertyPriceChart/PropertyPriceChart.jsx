@@ -68,7 +68,7 @@ function PropertyPriceChart() {
       yScale={{
         type: 'linear',
         stacked: false,
-        max: maxPrice,
+        max: maxPrice * 1.05,
       }}
       sliceTooltip={({ slice }) => {
         return (
