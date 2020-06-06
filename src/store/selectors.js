@@ -61,8 +61,8 @@ export const getPricesInFilteredLocation = selector({
   },
 });
 
-export const getMedianPriceLastMonth = selector({
-  key: 'medianPriceLastMonth',
+export const getMeanPriceLastMonth = selector({
+  key: 'meanPriceLastMonth',
   get: async ({ get }) => {
     const location = get(getLocationFilter);
     const type = get(getTypeFilter);
@@ -75,14 +75,14 @@ export const getMedianPriceLastMonth = selector({
     const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
 
     const {
-      [group]: { median },
+      [group]: { mean },
     } = data[data.length - 1];
 
     return {
-      price: median,
+      price: mean,
       change: {
-        mom: (1 - median / data[data.length - 2][group].median) * 100,
-        yoy: (1 - median / data[data.length - 13][group].median) * 100,
+        mom: (1 - mean / data[data.length - 2][group].mean) * 100,
+        yoy: (1 - mean / data[data.length - 13][group].mean) * 100,
       },
     };
   },
@@ -107,8 +107,8 @@ export const getRentalYield = selector({
     const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
 
     return (
-      (rentData[rentData.length - 1][group].median /
-        sellData[sellData.length - 1][group].median) *
+      (rentData[rentData.length - 1][group].mean /
+        sellData[sellData.length - 1][group].mean) *
       100
     );
   },

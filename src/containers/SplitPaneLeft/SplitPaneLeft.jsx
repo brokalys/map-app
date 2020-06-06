@@ -8,7 +8,7 @@ import Bugsnag from 'bugsnag';
 import FilterToolbar from 'components/FilterToolbar';
 import Navigation from 'components/Navigation';
 import PropertyPriceChart from 'components/PropertyPriceChart';
-import MedianPrice from 'components/Statistics/MedianPriceInFilterLocation';
+import MeanPrice from 'components/Statistics/MeanPriceInFilterLocation';
 import RentalYield from 'components/Statistics/RentalYieldInFilterLocation';
 import { filterState } from 'store';
 
@@ -45,7 +45,7 @@ function SplitPaneLeft() {
             onError={Bugsnag.notify}
           >
             <Statistic.Group size="small">
-              <MedianPrice />
+              <MeanPrice />
               <RentalYield />
             </Statistic.Group>
           </ErrorBoundary>

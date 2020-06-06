@@ -3,14 +3,14 @@ import { useRecoilValue } from 'recoil';
 import Skeleton from 'react-loading-skeleton';
 import { Statistic } from 'semantic-ui-react';
 
-import { getMedianPriceLastMonth, getPriceTypeFilter } from 'store';
-import styles from './MedianPriceInFilterLocation.module.css';
+import { getMeanPriceLastMonth, getPriceTypeFilter } from 'store';
+import styles from './MeanPriceInFilterLocation.module.css';
 
-function MedianPriceInFilterLocation() {
+function MeanPriceInFilterLocation() {
   const priceType = useRecoilValue(getPriceTypeFilter);
-  const data = useRecoilValue(getMedianPriceLastMonth);
+  const data = useRecoilValue(getMeanPriceLastMonth);
 
-  const median = data.price;
+  const mean = data.price;
   const momChange = data.change.mom;
   const yoyChange = data.change.yoy;
 
@@ -42,7 +42,7 @@ function MedianPriceInFilterLocation() {
           )}
         </div>
 
-        {parseInt(median, 10).toLocaleString('en')}
+        {parseInt(mean, 10).toLocaleString('en')}
       </Statistic.Value>
       <Statistic.Label>
         Average Price (EUR
@@ -59,14 +59,14 @@ function MedianPriceInFilterLocation() {
   );
 }
 
-function MedianPriceInFilterLocationContainer() {
+function MeanPriceInFilterLocationContainer() {
   return (
     <Statistic>
       <React.Suspense fallback={<Skeleton height={60} width={240} />}>
-        <MedianPriceInFilterLocation />
+        <MeanPriceInFilterLocation />
       </React.Suspense>
     </Statistic>
   );
 }
 
-export default MedianPriceInFilterLocationContainer;
+export default MeanPriceInFilterLocationContainer;
