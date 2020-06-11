@@ -1,66 +1,95 @@
 import React, { useContext } from 'react';
+import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 
 import MapContext from 'context/MapContext';
 
-const GoogleMapReact = React.lazy(() => import('google-map-react'));
+const center = {
+  lat: 56.9032640496857,
+  lng: 24.09330663700942,
+};
 
-function mapOptionsCreator(map) {
-  return {
-    zoomControlOptions: {
-      position: map.ControlPosition.RIGHT_TOP,
-    },
-    rotateControl: false,
-    scaleControl: false,
-    streetViewControl: false,
-    panControl: false,
-    fullscreenControl: false,
-  };
-}
+const containerStyle = {
+  width: '100%',
+  height: '100%',
+};
 
 function Map(props) {
+  const [map, setMap] = React.useState(null);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+  });
+
   const context = useContext(MapContext);
 
   /**
    * Ignore the overlay when doing data lookups by region.
    */
-  function onChange(map) {
-    const { bounds } = map;
-
-    const mapHeight = map.size.height;
+  function onBoundsChanged() {
+    const mapHeight = map.getDiv().clientHeight;
     const overlayHeight = document.getElementById('map-overlay').offsetTop;
     const percentage = 1 - overlayHeight / mapHeight;
 
     const newBounds = {
-      nw: bounds.nw,
-      ne: bounds.ne,
+      nw: {
+        lat:
+          map.getBounds().getSouthWest().lat() +
+          (map.getBounds().getNorthEast().lat() -
+            map.getBounds().getSouthWest().lat()) *
+            percentage,
+        lng: map.getBounds().getNorthEast().lng(),
+      },
+      ne: {
+        lat: map.getBounds().getNorthEast().lat(),
+        lng: map.getBounds().getNorthEast().lng(),
+      },
 
       sw: {
-        lat: bounds.sw.lat + (bounds.nw.lat - bounds.sw.lat) * percentage,
-        lng: bounds.sw.lng,
+        lat:
+          map.getBounds().getSouthWest().lat() +
+          (map.getBounds().getNorthEast().lat() -
+            map.getBounds().getSouthWest().lat()) *
+            percentage,
+        lng: map.getBounds().getSouthWest().lng(),
       },
       se: {
-        lat: bounds.se.lat + (bounds.nw.lat - bounds.se.lat) * percentage,
-        lng: bounds.se.lng,
+        lat: map.getBounds().getNorthEast().lat(),
+        lng: map.getBounds().getSouthWest().lng(),
       },
     };
 
     context.setBounds(newBounds);
   }
 
-  return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_KEY }}
-        defaultCenter={{
-          lat: 56.9032640496857,
-          lng: 24.09330663700942,
-        }}
-        defaultZoom={11}
-        options={mapOptionsCreator}
-        onChange={onChange}
+  const renderMap = () => {
+    const options = {
+      zoomControlOptions: {
+        position: window.google.maps.ControlPosition.RIGHT_TOP,
+      },
+      rotateControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      panControl: false,
+      fullscreenControl: false,
+    };
+
+    return (
+      <GoogleMap
+        options={options}
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={11}
+        onLoad={setMap}
+        onBoundsChanged={onBoundsChanged}
       />
-    </React.Suspense>
-  );
+    );
+  };
+
+  if (loadError) {
+    return <div>Failed loading the map. Please try again later.</div>;
+  }
+
+  return isLoaded ? renderMap() : <div>Loading...</div>;
 }
 
-export default Map;
+export default React.memo(Map);

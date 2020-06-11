@@ -10,8 +10,8 @@ function convertBoundsToRegionString(bounds) {
   const parts = [
     [bounds.ne.lat, bounds.ne.lng].join(' '),
     [bounds.nw.lat, bounds.nw.lng].join(' '),
-    [bounds.se.lat, bounds.se.lng].join(' '),
     [bounds.sw.lat, bounds.sw.lng].join(' '),
+    [bounds.se.lat, bounds.se.lng].join(' '),
     [bounds.ne.lat, bounds.ne.lng].join(' '),
   ];
   return parts.join(', ');
