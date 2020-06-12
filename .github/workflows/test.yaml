@@ -1,0 +1,13 @@
+name: Test
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install
+        run: yarn install --no-progress --non-interactive
+      - name: Test
+        run: yarn test
