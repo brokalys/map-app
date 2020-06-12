@@ -25,6 +25,7 @@ function Navigation() {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.notificationLink}
+              data-testid="pinger-button"
             >
               <Icon name="bell outline" className={styles.shake} />
             </a>
