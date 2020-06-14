@@ -4,7 +4,12 @@ import { useRecoilState } from 'recoil';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
-import { filterState } from 'store';
+import {
+  getCategoryFilter,
+  getLocationFilter,
+  getTypeFilter,
+  getPriceTypeFilter,
+} from 'store';
 import styles from './FilterToolbar.module.css';
 
 const locationOptions = riga.features.map((row) => ({
@@ -27,35 +32,10 @@ const priceTypeOptions = [
 ];
 
 function FilterToolbar() {
-  const [, setFilters] = useRecoilState(filterState);
-
-  function onLocationChange(event, data) {
-    setFilters((currentFilters) => ({
-      ...currentFilters,
-      location: data.value,
-    }));
-  }
-
-  function onCategoryChange(event, data) {
-    setFilters((currentFilters) => ({
-      ...currentFilters,
-      category: data.value,
-    }));
-  }
-
-  function onTypeChange(event, data) {
-    setFilters((currentFilters) => ({
-      ...currentFilters,
-      type: data.value,
-    }));
-  }
-
-  function onPriceTypeChange(event, data) {
-    setFilters((currentFilters) => ({
-      ...currentFilters,
-      priceType: data.value,
-    }));
-  }
+  const [, setLocation] = useRecoilState(getLocationFilter);
+  const [, setCategory] = useRecoilState(getCategoryFilter);
+  const [, setType] = useRecoilState(getTypeFilter);
+  const [, setPriceType] = useRecoilState(getPriceTypeFilter);
 
   /**
    * Improved search operation to ignore all UTF-8 characters.
@@ -75,7 +55,7 @@ function FilterToolbar() {
             selection
             defaultValue="latvia-riga-vecpilseta"
             options={locationOptions}
-            onChange={onLocationChange}
+            onChange={(event, data) => setLocation(data.value)}
           />
         </Menu.Item>
         <Menu.Item fitted>
@@ -85,7 +65,7 @@ function FilterToolbar() {
             selection
             defaultValue="apartment"
             options={categoryOptions}
-            onChange={onCategoryChange}
+            onChange={(event, data) => setCategory(data.value)}
           />
         </Menu.Item>
         <Menu.Item fitted>
@@ -95,7 +75,7 @@ function FilterToolbar() {
             selection
             defaultValue="sell"
             options={typeOptions}
-            onChange={onTypeChange}
+            onChange={(event, data) => setType(data.value)}
           />
         </Menu.Item>
 
@@ -106,7 +86,7 @@ function FilterToolbar() {
             selection
             defaultValue="total"
             options={priceTypeOptions}
-            onChange={onPriceTypeChange}
+            onChange={(event, data) => setPriceType(data.value)}
           />
         </Menu.Item>
       </Menu>

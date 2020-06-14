@@ -3,21 +3,41 @@ import { selector, selectorFamily } from 'recoil';
 
 import { filterState } from './state';
 
-const getCategoryFilter = selector({
+export const getCategoryFilter = selector({
   key: 'filters.category',
   get: ({ get }) => get(filterState).category,
+  set: ({ get, set }, newValue) =>
+    set(filterState, {
+      ...get(filterState),
+      category: newValue,
+    }),
 });
-const getTypeFilter = selector({
+export const getTypeFilter = selector({
   key: 'filters.type',
   get: ({ get }) => get(filterState).type,
+  set: ({ get, set }, newValue) =>
+    set(filterState, {
+      ...get(filterState),
+      type: newValue,
+    }),
 });
-const getLocationFilter = selector({
+export const getLocationFilter = selector({
   key: 'filters.location',
   get: ({ get }) => get(filterState).location,
+  set: ({ get, set }, newValue) =>
+    set(filterState, {
+      ...get(filterState),
+      location: newValue,
+    }),
 });
 export const getPriceTypeFilter = selector({
   key: 'filters.priceType',
   get: ({ get }) => get(filterState).priceType,
+  set: ({ get, set }, newValue) =>
+    set(filterState, {
+      ...get(filterState),
+      priceType: newValue,
+    }),
 });
 
 export const getPrices = selectorFamily({
