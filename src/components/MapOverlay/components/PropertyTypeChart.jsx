@@ -11,14 +11,14 @@ const defaultColor = '#543193';
 const selectedColor = '#c0ace3';
 const defaultColors = [defaultColor, defaultColor, defaultColor];
 
-const GET_MEDIAN_PRICE = gql`
+const GET_MEAN_PRICE = gql`
   query(
     $type: String!
     $date: String!
     $region: [String!]!
     $locations: [String!]
   ) {
-    median_price: properties(
+    mean_price: properties(
       filter: {
         type: { eq: $type }
         published_at: { gte: $date }
@@ -27,8 +27,8 @@ const GET_MEDIAN_PRICE = gql`
       }
     ) {
       summary {
-        price {
-          median
+        price(discard: 0.1) {
+          mean
         }
       }
     }
@@ -98,7 +98,7 @@ function PropertyTypeChart({ type, startDate }) {
   const { region, locations } = useRegionParams();
 
   const { loading, data } = useDebouncedQuery(
-    GET_MEDIAN_PRICE,
+    GET_MEAN_PRICE,
     {
       variables: {
         type,

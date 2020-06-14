@@ -12,7 +12,7 @@ import PropertyTypeChart from './components/PropertyTypeChart';
 
 import styles from './MapOverlay.module.css';
 
-const GET_MEDIAN_PRICE = gql`
+const GET_MEAN_PRICE = gql`
   query(
     $type: String!
     $date: String!
@@ -28,8 +28,8 @@ const GET_MEDIAN_PRICE = gql`
       }
     ) {
       summary {
-        price {
-          median
+        price(discard: 0.1) {
+          mean
         }
       }
     }
@@ -51,7 +51,7 @@ function MapOverlay() {
   );
   const [type] = useState('sell'); // @todo: dynamic
   const { loading, error, data } = useDebouncedQuery(
-    GET_MEDIAN_PRICE,
+    GET_MEAN_PRICE,
     {
       variables: {
         type: type,
@@ -84,7 +84,7 @@ function MapOverlay() {
             {isLoading ? (
               <Skeleton />
             ) : (
-              <PriceLabel price={data.properties.summary.price.median} />
+              <PriceLabel price={data.properties.summary.price.mean} />
             )}
           </AreaOverview>
 

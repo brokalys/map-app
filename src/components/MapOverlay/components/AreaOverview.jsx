@@ -10,7 +10,7 @@ function AreaOverview({ children, year }) {
       <div>
         <div className={styles.currency}>€</div>
         <div className={styles.amount}>{children}</div>
-        <div className={styles.label}>Median Price last 30 days</div>
+        <div className={styles.label}>Average Price last 30 days</div>
       </div>
     </div>
   );

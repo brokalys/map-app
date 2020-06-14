@@ -16,7 +16,7 @@ const range = moment().range(
 );
 const dates = Array.from(range.by('day', { excludeEnd: true }));
 
-const GET_MEDIAN_PRICE = (dates) => gql`
+const GET_MEAN_PRICE = (dates) => gql`
   query(
     $type: String!
     $region: [String!]!
@@ -36,8 +36,8 @@ const GET_MEDIAN_PRICE = (dates) => gql`
         }
       ) {
         summary {
-          price {
-            median
+          price(discard: 0.1) {
+            mean
           }
         }
       }
@@ -58,7 +58,7 @@ function transformResponse(data) {
 
     return {
       x: date.format('YYYY-MM-DD'),
-      y: data[`row_${index}`].summary.price.median,
+      y: data[`row_${index}`].summary.price.mean,
     };
   });
 }
@@ -66,7 +66,7 @@ function transformResponse(data) {
 function PropertyPriceLine({ type }) {
   const { region, locations } = useRegionParams();
   const { loading, data: custom } = useDebouncedQuery(
-    GET_MEDIAN_PRICE(dates),
+    GET_MEAN_PRICE(dates),
     {
       variables: {
         type,
@@ -80,7 +80,7 @@ function PropertyPriceLine({ type }) {
   const data = useMemo(
     () => [
       {
-        id: 'Median price',
+        id: 'Average price',
         data: transformResponse(custom),
       },
     ],
