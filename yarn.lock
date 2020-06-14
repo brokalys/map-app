@@ -1124,10 +1124,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@brokalys/location-json-schemas@^1.1.1":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@brokalys/location-json-schemas/-/location-json-schemas-1.1.2.tgz#6448f83f4eb727d762788eba507b3d5743a0a640"
-  integrity sha512-Ud1v62McrI3AZCKywqlJBolNtzI/Od3Wtoz5tZfeEA7NBLLFSjKOoY2dpGH672lz9Plf4sfAizo3vi+1I8CO2g==
+"@brokalys/location-json-schemas@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@brokalys/location-json-schemas/-/location-json-schemas-1.2.0.tgz#5d8eee3f1b8203f3bb45998bccb91143ec3a1518"
+  integrity sha512-yxemCHIAPBKebOtDP4GBkLT0LSJlPD+6qJSSXpZrg67lwmxLca+TkQShe6PH7ydxgdIPHqW73idGTXtOACe3tw==
 
 "@bugsnag/browser@^7.1.1":
   version "7.1.1"
