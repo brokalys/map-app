@@ -1,3 +1,4 @@
+import { Icon, Tooltip } from '@blueprintjs/core';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import Skeleton from 'react-loading-skeleton';
@@ -5,6 +6,15 @@ import { Statistic } from 'semantic-ui-react';
 
 import { getMeanPriceLastMonth, getPriceTypeFilter } from 'store';
 import styles from './MeanPriceInFilterLocation.module.css';
+
+function Description() {
+  return (
+    <>
+      <p>MoM: month-over-month</p>
+      <p>YoY: year-over-year</p>
+    </>
+  );
+}
 
 function MeanPriceInFilterLocation() {
   const priceType = useRecoilValue(getPriceTypeFilter);
@@ -53,7 +63,7 @@ function MeanPriceInFilterLocation() {
         ) : (
           ''
         )}
-        )
+        ) <Tooltip content={<Description />} children={<Icon icon="help" />} />
       </Statistic.Label>
     </>
   );

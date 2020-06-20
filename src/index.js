@@ -8,6 +8,8 @@ import App from './App.jsx';
 import Bugsnag from './bugsnag';
 import * as serviceWorker from './serviceWorker';
 
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 

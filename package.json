@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.45",
+    "@blueprintjs/core": "^3.28.2",
     "@brokalys/location-json-schemas": "^1.2.0",
     "@bugsnag/js": "^7.1.0",
     "@bugsnag/plugin-react": "^7.1.0",
