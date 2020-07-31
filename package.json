@@ -25,7 +25,7 @@
     "react-loading-skeleton": "^2.0.1",
     "recoil": "^0.0.10",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
+    "semantic-ui-react": "^1.1.0",
     "transliteration": "^2.1.11",
     "use-debounce": "^3.4.2"
   },
