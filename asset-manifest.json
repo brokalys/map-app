@@ -1,27 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.6b6ea793.chunk.css",
-    "main.js": "/static/js/main.c932f072.chunk.js",
-    "main.js.map": "/static/js/main.c932f072.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.969b6e9d.js",
-    "runtime-main.js.map": "/static/js/runtime-main.969b6e9d.js.map",
-    "static/css/2.c97a55f2.chunk.css": "/static/css/2.c97a55f2.chunk.css",
-    "static/js/2.ec58a257.chunk.js": "/static/js/2.ec58a257.chunk.js",
-    "static/js/2.ec58a257.chunk.js.map": "/static/js/2.ec58a257.chunk.js.map",
+    "main.css": "/static/css/main.d18b8962.chunk.css",
+    "main.js": "/static/js/main.a759a763.chunk.js",
+    "main.js.map": "/static/js/main.a759a763.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.345fce40.js",
+    "runtime-main.js.map": "/static/js/runtime-main.345fce40.js.map",
+    "static/css/2.47fceb1f.chunk.css": "/static/css/2.47fceb1f.chunk.css",
+    "static/js/2.ad124f97.chunk.js": "/static/js/2.ad124f97.chunk.js",
+    "static/js/2.ad124f97.chunk.js.map": "/static/js/2.ad124f97.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.eb33f3db52a4fcb49a08ed1bf58549a9.js": "/precache-manifest.eb33f3db52a4fcb49a08ed1bf58549a9.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.c97a55f2.chunk.css.map": "/static/css/2.c97a55f2.chunk.css.map",
-    "static/css/main.6b6ea793.chunk.css.map": "/static/css/main.6b6ea793.chunk.css.map",
-    "static/js/2.ec58a257.chunk.js.LICENSE.txt": "/static/js/2.ec58a257.chunk.js.LICENSE.txt",
-    "static/media/semantic.min.css": "/static/media/outline-icons.ef60a4f6.woff",
-    "static/media/blueprint-icons.css": "/static/media/icons-20.cef8cdbb.woff"
+    "static/css/2.47fceb1f.chunk.css.map": "/static/css/2.47fceb1f.chunk.css.map",
+    "static/css/main.d18b8962.chunk.css.map": "/static/css/main.d18b8962.chunk.css.map",
+    "static/js/2.ad124f97.chunk.js.LICENSE.txt": "/static/js/2.ad124f97.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/static/media/outline-icons.ddae9b1b.woff",
+    "static/media/blueprint-icons.css": "/static/media/icons-20.cde033c5.eot"
   },
   "entrypoints": [
-    "static/js/runtime-main.969b6e9d.js",
-    "static/css/2.c97a55f2.chunk.css",
-    "static/js/2.ec58a257.chunk.js",
-    "static/css/main.6b6ea793.chunk.css",
-    "static/js/main.c932f072.chunk.js"
+    "static/js/runtime-main.345fce40.js",
+    "static/css/2.47fceb1f.chunk.css",
+    "static/js/2.ad124f97.chunk.js",
+    "static/css/main.d18b8962.chunk.css",
+    "static/js/main.a759a763.chunk.js"
   ]
 }
