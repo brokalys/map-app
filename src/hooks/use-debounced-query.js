@@ -11,7 +11,7 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
   });
 
   const [performLazyQuery, { loading, data }] = useLazyQuery(query, config);
-  const [performDebouncedQuery] = useDebouncedCallback(() => {
+  const { callback: performDebouncedQuery } = useDebouncedCallback(() => {
     performLazyQuery();
   }, time);
 
