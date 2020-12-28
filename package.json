@@ -41,6 +41,7 @@
     "react-scripts": "4.0.1"
   },
   "scripts": {
+    "postinstall": "node ./scripts/patch-react-spring.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
