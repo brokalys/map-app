@@ -38,7 +38,7 @@
     "lint-staged": "^10.2.2",
     "node-sass": "^5.0.0",
     "prettier": "^2.0.5",
-    "react-scripts": "4.0.1"
+    "react-scripts": "4.0.3"
   },
   "scripts": {
     "postinstall": "node ./scripts/patch-react-spring.js",
