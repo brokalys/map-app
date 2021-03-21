@@ -10,7 +10,10 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
     equalityFn: (prev, next) => JSON.stringify(prev) === JSON.stringify(next),
   });
 
-  const [performLazyQuery, { loading, data }] = useLazyQuery(query, config);
+  const [performLazyQuery, { loading, error, data }] = useLazyQuery(
+    query,
+    config,
+  );
   const { callback: performDebouncedQuery } = useDebouncedCallback(() => {
     performLazyQuery();
   }, time);
@@ -28,7 +31,8 @@ export default function useDebouncedQuery(query, nextConfig, time = 1000) {
   }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
-    loading: loading || debouncedIsLoading,
+    error,
+    loading: loading || (debouncedIsLoading && !error),
     data: data || previousData,
   };
 }

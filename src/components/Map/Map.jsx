@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 
+import { MIN_ZOOM_FOR_BUILDINGS } from 'context/BuildingContext';
 import MapContext from 'context/MapContext';
+import useActiveBuilding from 'hooks/use-active-building';
+import BuildingPolygons from './components/BuildingPolygons';
 
 const center = {
-  lat: 56.9032640496857,
-  lng: 24.09330663700942,
+  lat: 56.94,
+  lng: 24.096752456107843,
 };
 
 const containerStyle = {
@@ -21,6 +24,7 @@ function Map(props) {
   });
 
   const context = useContext(MapContext);
+  const [, setActiveBuilding] = useActiveBuilding();
 
   /**
    * Ignore the overlay when doing data lookups by region.
@@ -59,6 +63,8 @@ function Map(props) {
     };
 
     context.setBounds(newBounds);
+    context.setZoom(map.getZoom());
+    setActiveBuilding(undefined);
   }
 
   const renderMap = () => {
@@ -78,10 +84,12 @@ function Map(props) {
         options={options}
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={11}
+        zoom={context.zoom}
         onLoad={setMap}
         onBoundsChanged={onBoundsChanged}
-      />
+      >
+        {context.zoom >= MIN_ZOOM_FOR_BUILDINGS && <BuildingPolygons />}
+      </GoogleMap>
     );
   };
 

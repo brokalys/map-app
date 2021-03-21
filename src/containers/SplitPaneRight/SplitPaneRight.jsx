@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Map from 'components/Map';
 import MapOverlay from 'components/MapOverlay';
+import { BuildingContextProvider } from 'context/BuildingContext';
 import MapContext from 'context/MapContext';
 
 import styles from './SplitPaneRight.module.css';
@@ -20,12 +21,14 @@ function convertBoundsToRegionString(bounds) {
 function SplitPaneRight() {
   const [mapState, setMapState] = useState({
     setBounds,
+    setZoom,
     bounds: {
       ne: {},
       nw: {},
       se: {},
       sw: {},
     },
+    zoom: 14,
     region: '',
   });
 
@@ -37,11 +40,20 @@ function SplitPaneRight() {
     }));
   }
 
+  function setZoom(zoom) {
+    setMapState((state) => ({
+      ...state,
+      zoom,
+    }));
+  }
+
   return (
     <div className={styles.container}>
       <MapContext.Provider value={mapState}>
-        <Map />
-        <MapOverlay />
+        <BuildingContextProvider>
+          <Map />
+          <MapOverlay />
+        </BuildingContextProvider>
       </MapContext.Provider>
     </div>
   );

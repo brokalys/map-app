@@ -13,6 +13,7 @@ function App(props) {
       <GithubCorner
         className={styles.githubCorner}
         href="https://github.com/brokalys/map-app"
+        direction="left"
       />
 
       <Grid className={styles.grid}>
