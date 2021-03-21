@@ -28,7 +28,7 @@ function SplitPaneRight() {
       se: {},
       sw: {},
     },
-    zoom: 14,
+    zoom: 15,
     region: '',
   });
 
