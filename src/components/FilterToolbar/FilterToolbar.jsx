@@ -41,7 +41,10 @@ function FilterToolbar() {
    * Improved search operation to ignore all UTF-8 characters.
    */
   function onSearch(all, selected) {
-    const regexp = new RegExp(transliterate(selected), 'i');
+    const regexp = new RegExp(
+      transliterate(selected).replace(/[^a-z\s-]/gi, ''),
+      'i',
+    );
     return all.filter((row) => regexp.test(transliterate(row.text)));
   }
 

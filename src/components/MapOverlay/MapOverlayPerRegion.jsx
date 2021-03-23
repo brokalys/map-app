@@ -1,38 +1,13 @@
 import React, { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { gql } from '@apollo/client';
 import { Grid, Header, Message } from 'semantic-ui-react';
 import moment from 'moment';
 
-import useDebouncedQuery from 'hooks/use-debounced-query';
+import useMeanPrice from 'hooks/api/use-mean-price';
 import useRegionParams from 'hooks/use-region-params';
 import AreaOverview from './components/AreaOverview';
 import PropertyPriceLine from './components/PropertyPriceLine';
 import PropertyTypeChart from './components/PropertyTypeChart';
-
-const GET_MEAN_PRICE = gql`
-  query(
-    $type: String!
-    $date: String!
-    $region: [String!]!
-    $locations: [String!]
-  ) {
-    properties(
-      filter: {
-        type: { eq: $type }
-        published_at: { gte: $date }
-        location_classificator: { in: $locations }
-        region: { in: $region }
-      }
-    ) {
-      summary {
-        price(discard: 0.1) {
-          mean
-        }
-      }
-    }
-  }
-`;
 
 function PriceLabel({ price }) {
   if (!price) {
@@ -43,25 +18,12 @@ function PriceLabel({ price }) {
 }
 
 export default function MapOverlayPerRegion() {
-  const { region, locations } = useRegionParams();
+  const { locations } = useRegionParams();
   const [startDate] = useState(
     moment().subtract(30, 'days').format('YYYY-MM-DD'),
   );
   const [type] = useState('sell'); // @todo: dynamic
-  const { loading, error, data } = useDebouncedQuery(
-    GET_MEAN_PRICE,
-    {
-      variables: {
-        type: type,
-        date: startDate,
-        region,
-        locations,
-      },
-    },
-    1000,
-  );
-
-  const isLoading = loading || !data;
+  const { loading, error, data } = useMeanPrice(type, startDate);
 
   if (!locations || !locations.length) {
     return (
@@ -94,7 +56,7 @@ export default function MapOverlayPerRegion() {
     <Grid>
       <Grid.Column computer={8}>
         <AreaOverview>
-          {isLoading ? (
+          {loading ? (
             <Skeleton />
           ) : (
             <PriceLabel price={data.properties.summary.price.mean} />
