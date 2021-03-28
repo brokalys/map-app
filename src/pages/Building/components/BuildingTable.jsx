@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFilters, usePagination, useTable, useSortBy } from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Table } from 'semantic-ui-react';
@@ -92,12 +92,6 @@ function getCellTextAlign(cell) {
   return 'right';
 }
 
-function mapFilters(filters) {
-  return Object.entries(filters)
-    .filter(([, value]) => !!value)
-    .map(([id, value]) => ({ id, value }));
-}
-
 function usePageSize() {
   const dispatch = useDispatch();
 
@@ -114,7 +108,6 @@ function usePageSize() {
 
 export default function BuildingTable(props) {
   const [initialPageIndex, updatePageIndex] = usePageSize();
-  const [initialFilters] = useState(() => mapFilters(props.filters));
   const {
     setFilter,
     headerGroups,
@@ -137,7 +130,6 @@ export default function BuildingTable(props) {
             desc: true,
           },
         ],
-        filters: initialFilters,
         pageSize: 15,
         pageIndex: initialPageIndex,
         hiddenColumns: ['rent_type'],
@@ -160,7 +152,7 @@ export default function BuildingTable(props) {
     Object.entries(props.filters).forEach(([id, value]) =>
       setFilter(id, value),
     );
-  }, [props.filters, setFilter]);
+  }, [props.filters, setFilter, props.building]);
 
   const prices = useMemo(
     () => ({
