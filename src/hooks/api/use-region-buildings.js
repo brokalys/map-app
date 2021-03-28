@@ -1,9 +1,4 @@
-import { gql } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-
-import BuildingContext from 'context/BuildingContext';
-import MapContext from 'context/MapContext';
-import useDebouncedQuery from 'hooks/use-debounced-query';
+import { gql, useQuery } from '@apollo/client';
 
 const GET_BUILDINGS_AND_PROPERTIES = gql`
   query($region: String!) {
@@ -27,37 +22,12 @@ const GET_BUILDINGS_AND_PROPERTIES = gql`
   }
 `;
 
-export default function useRegionBuildings() {
-  const { region } = useContext(MapContext);
-  const { setBuildingCount, setError, setLoading } = useContext(
-    BuildingContext,
-  );
-
-  const { loading, error, data } = useDebouncedQuery(
-    GET_BUILDINGS_AND_PROPERTIES,
-    {
-      variables: { region },
-    },
-    1000,
-  );
-
-  const buildings = data ? data.buildings : [];
-
-  useEffect(() => {
-    setLoading(loading);
-  }, [setLoading, loading]);
-
-  useEffect(() => {
-    setError(error);
-  }, [setError, error]);
-
-  useEffect(() => {
-    setBuildingCount(buildings.length);
-  }, [setBuildingCount, buildings.length]);
-
+export default function useRegionBuildings(region) {
+  const { loading, data } = useQuery(GET_BUILDINGS_AND_PROPERTIES, {
+    variables: { region },
+  });
   return {
     loading,
-    error,
-    data: buildings,
+    data: data?.buildings || [],
   };
 }

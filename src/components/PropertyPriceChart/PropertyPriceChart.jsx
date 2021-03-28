@@ -1,19 +1,19 @@
 import { area, curveMonotoneX } from 'd3-shape';
 import { Defs } from '@nivo/core';
 import React, { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useSelector } from 'react-redux';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
-
 import Bugsnag from 'bugsnag';
-import { getPricesInFilteredLocation, getPriceTypeFilter } from 'store';
+import { neighborhoodFilterSelector } from 'store/selectors';
 import styles from './PropertyPriceChart.module.css';
+import usePriceData from 'hooks/api/use-property-price-chart-data';
 
 function PropertyPriceChart() {
-  const priceType = useRecoilValue(getPriceTypeFilter);
-  const { results } = useRecoilValue(getPricesInFilteredLocation);
+  const { price: priceType } = useSelector(neighborhoodFilterSelector);
+  const { results } = usePriceData();
 
   const data = useMemo(
     () => [

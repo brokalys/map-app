@@ -1,15 +1,13 @@
 import { riga } from '@brokalys/location-json-schemas';
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
-
+import { setNeighborhoodFilters, setSelectedNeighborhood } from 'store/actions';
 import {
-  getCategoryFilter,
-  getLocationFilter,
-  getTypeFilter,
-  getPriceTypeFilter,
-} from 'store';
+  neighborhoodFilterSelector,
+  selectedNeighborhoodSelector,
+} from 'store/selectors';
 import styles from './FilterToolbar.module.css';
 
 const locationOptions = riga.features.map((row) => ({
@@ -32,10 +30,9 @@ const priceTypeOptions = [
 ];
 
 function FilterToolbar() {
-  const [, setLocation] = useRecoilState(getLocationFilter);
-  const [, setCategory] = useRecoilState(getCategoryFilter);
-  const [, setType] = useRecoilState(getTypeFilter);
-  const [, setPriceType] = useRecoilState(getPriceTypeFilter);
+  const dispatch = useDispatch();
+  const { category, type, price } = useSelector(neighborhoodFilterSelector);
+  const { id: neighborhood } = useSelector(selectedNeighborhoodSelector);
 
   /**
    * Improved search operation to ignore all UTF-8 characters.
@@ -56,9 +53,11 @@ function FilterToolbar() {
             placeholder="Select location"
             search={onSearch}
             selection
-            defaultValue="latvia-riga-vecpilseta"
             options={locationOptions}
-            onChange={(event, data) => setLocation(data.value)}
+            value={neighborhood}
+            onChange={(event, data) =>
+              dispatch(setSelectedNeighborhood(data.value))
+            }
           />
         </Menu.Item>
         <Menu.Item fitted>
@@ -66,9 +65,11 @@ function FilterToolbar() {
             placeholder="Select category"
             fluid
             selection
-            defaultValue="apartment"
+            value={category}
             options={categoryOptions}
-            onChange={(event, data) => setCategory(data.value)}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ category: data.value }))
+            }
           />
         </Menu.Item>
         <Menu.Item fitted>
@@ -76,9 +77,11 @@ function FilterToolbar() {
             placeholder="Select type"
             fluid
             selection
-            defaultValue="sell"
+            value={type}
             options={typeOptions}
-            onChange={(event, data) => setType(data.value)}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ type: data.value }))
+            }
           />
         </Menu.Item>
 
@@ -87,9 +90,11 @@ function FilterToolbar() {
             placeholder="Select price type"
             fluid
             selection
-            defaultValue="total"
+            value={price}
             options={priceTypeOptions}
-            onChange={(event, data) => setPriceType(data.value)}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ price: data.value }))
+            }
           />
         </Menu.Item>
       </Menu>

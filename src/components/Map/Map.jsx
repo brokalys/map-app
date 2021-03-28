@@ -1,71 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-
-import { MIN_ZOOM_FOR_BUILDINGS } from 'context/BuildingContext';
-import MapContext from 'context/MapContext';
-import useActiveBuilding from 'hooks/use-active-building';
+import useMapCenter from 'hooks/use-map-center';
+import * as actions from 'store/actions';
 import BuildingPolygons from './components/BuildingPolygons';
-
-const center = {
-  lat: 56.94,
-  lng: 24.096752456107843,
-};
+import HighlightedPolygon from './components/HighlightedPolygon';
 
 const containerStyle = {
   width: '100%',
   height: '100%',
 };
 
+export const MIN_ZOOM_FOR_BUILDINGS = 17;
+export const MIN_ZOOM_FOR_HIGHLIGHTED_REGION = 12;
+export const MAX_ZOOM_FOR_HIGHLIGHTED_REGION = 14;
+
 function Map(props) {
-  const [map, setMap] = React.useState(null);
+  const center = useMapCenter();
+  const [initialCenter] = useState(center);
+  const [map, setMap] = useState(null);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
   });
 
-  const context = useContext(MapContext);
-  const [, setActiveBuilding] = useActiveBuilding();
-
-  /**
-   * Ignore the overlay when doing data lookups by region.
-   */
-  function onBoundsChanged() {
-    const mapHeight = map.getDiv().clientHeight;
-    const overlayHeight = document.getElementById('map-overlay').offsetTop;
-    const percentage = 1 - overlayHeight / mapHeight;
-
-    const newBounds = {
-      nw: {
-        lat:
-          map.getBounds().getSouthWest().lat() +
-          (map.getBounds().getNorthEast().lat() -
-            map.getBounds().getSouthWest().lat()) *
-            percentage,
-        lng: map.getBounds().getNorthEast().lng(),
-      },
-      ne: {
-        lat: map.getBounds().getNorthEast().lat(),
-        lng: map.getBounds().getNorthEast().lng(),
-      },
-
-      sw: {
-        lat:
-          map.getBounds().getSouthWest().lat() +
-          (map.getBounds().getNorthEast().lat() -
-            map.getBounds().getSouthWest().lat()) *
-            percentage,
-        lng: map.getBounds().getSouthWest().lng(),
-      },
-      se: {
-        lat: map.getBounds().getNorthEast().lat(),
-        lng: map.getBounds().getSouthWest().lng(),
-      },
-    };
-
-    context.setBounds(newBounds);
-    context.setZoom(map.getZoom());
-    setActiveBuilding(undefined);
-  }
+  const dispatch = useDispatch();
+  const onBoundsChanged = useCallback(() => {
+    if (!map) return;
+    dispatch(actions.mapBoundsChanged(map));
+  }, [dispatch, map]);
+  const onProjectionChanged = useCallback(
+    () => dispatch(actions.mapProjectionChanged(map)),
+    [dispatch, map],
+  );
 
   const renderMap = () => {
     const options = {
@@ -83,12 +50,18 @@ function Map(props) {
       <GoogleMap
         options={options}
         mapContainerStyle={containerStyle}
-        center={center}
-        zoom={context.zoom}
+        center={initialCenter}
+        zoom={initialCenter.zoom}
         onLoad={setMap}
-        onBoundsChanged={onBoundsChanged}
+        onProjectionChanged={onProjectionChanged}
+        onDragEnd={onBoundsChanged}
+        onZoomChanged={onBoundsChanged}
       >
-        {context.zoom >= MIN_ZOOM_FOR_BUILDINGS && <BuildingPolygons />}
+        {center.zoom <= MAX_ZOOM_FOR_HIGHLIGHTED_REGION &&
+          center.zoom >= MIN_ZOOM_FOR_HIGHLIGHTED_REGION && (
+            <HighlightedPolygon />
+          )}
+        {center.zoom >= MIN_ZOOM_FOR_BUILDINGS && <BuildingPolygons />}
       </GoogleMap>
     );
   };

@@ -1,15 +1,13 @@
+import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
-
 import client from './apollo-client';
 import App from './App.jsx';
 import Bugsnag from './bugsnag';
+import store, { history } from './store';
 import * as serviceWorker from './serviceWorker';
-
-import '@blueprintjs/icons/lib/css/blueprint-icons.css';
-import '@blueprintjs/core/lib/css/blueprint.css';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
@@ -17,11 +15,13 @@ const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
 
 ReactDOM.render(
   <ErrorBoundary>
-    <RecoilRoot>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </RecoilRoot>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </ConnectedRouter>
+    </Provider>
   </ErrorBoundary>,
   document.getElementById('root'),
 );

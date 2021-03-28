@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Icon, Menu, Popup } from 'semantic-ui-react';
-
 import styles from './Navigation.module.css';
 
 function Navigation() {

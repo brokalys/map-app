@@ -1,0 +1,6 @@
+.loadingIndicator {
+  position: absolute !important;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  right: auto;
+}

@@ -1,15 +1,13 @@
-import { Icon, Tooltip } from '@blueprintjs/core';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import Skeleton from 'react-loading-skeleton';
-import { Statistic } from 'semantic-ui-react';
-
-import { getRentalYield } from 'store';
+import { Icon, Popup, Statistic } from 'semantic-ui-react';
+import useRentalYield from 'hooks/api/use-rental-yield';
 
 function RentalYieldInFilterLocation() {
-  const data = useRecoilValue(getRentalYield);
+  const data = useRentalYield();
+  const value = data ? `${data.toFixed(2)}%` : '?';
 
-  return <Statistic.Value>{data.toFixed(2)}%</Statistic.Value>;
+  return <Statistic.Value>{value}</Statistic.Value>;
 }
 
 function Description() {
@@ -32,7 +30,10 @@ function RentalYieldInFilterLocationContainer() {
       </React.Suspense>
       <Statistic.Label>
         Rental Yield{' '}
-        <Tooltip content={<Description />} children={<Icon icon="help" />} />
+        <Popup
+          content={<Description />}
+          trigger={<Icon name="help circle" />}
+        />
       </Statistic.Label>
     </Statistic>
   );

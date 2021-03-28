@@ -1,10 +1,9 @@
-import { Icon, Tooltip } from '@blueprintjs/core';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useSelector } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
-import { Statistic } from 'semantic-ui-react';
-
-import { getMeanPriceLastMonth, getPriceTypeFilter } from 'store';
+import { Icon, Popup, Statistic } from 'semantic-ui-react';
+import usePriceData from 'hooks/api/use-property-price-mean-data';
+import { neighborhoodFilterSelector } from 'store/selectors';
 import styles from './MeanPriceInFilterLocation.module.css';
 
 function Description() {
@@ -17,8 +16,8 @@ function Description() {
 }
 
 function MeanPriceInFilterLocation() {
-  const priceType = useRecoilValue(getPriceTypeFilter);
-  const data = useRecoilValue(getMeanPriceLastMonth);
+  const { price: priceType } = useSelector(neighborhoodFilterSelector);
+  const data = usePriceData();
 
   const mean = data.price;
   const momChange = data.change.mom;
@@ -52,7 +51,7 @@ function MeanPriceInFilterLocation() {
           )}
         </div>
 
-        {parseInt(mean, 10).toLocaleString('en')}
+        {mean ? parseInt(mean, 10).toLocaleString('en') : '?'}
       </Statistic.Value>
       <Statistic.Label>
         Average Price (EUR
@@ -63,7 +62,11 @@ function MeanPriceInFilterLocation() {
         ) : (
           ''
         )}
-        ) <Tooltip content={<Description />} children={<Icon icon="help" />} />
+        ){' '}
+        <Popup
+          content={<Description />}
+          trigger={<Icon name="help circle" />}
+        />
       </Statistic.Label>
     </>
   );
