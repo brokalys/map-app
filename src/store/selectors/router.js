@@ -12,6 +12,11 @@ export const locationPathnameSelector = createSelector(
   (location) => location.pathname,
 );
 
+export const locationSearchSelector = createSelector(
+  locationSelector,
+  (location) => location.search,
+);
+
 export const locationQuerySelector = createSelector(
   locationSelector,
   (location) => location.query,

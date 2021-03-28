@@ -1,11 +1,15 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { MAP_BOUNDS_CHANGED } from 'store/actionTypes';
-import { locationPathnameSelector } from 'store/selectors';
+import {
+  locationPathnameSelector,
+  locationSearchSelector,
+} from 'store/selectors';
 
 function* setMapCenter({ payload: map }) {
   const zoom = map.getZoom();
   const currentPath = yield select(locationPathnameSelector);
+  const search = yield select(locationSearchSelector);
   const parts = currentPath.split('/');
 
   let newPath = `/${map.center.lat()},${map.center.lng()},${zoom}`;
@@ -15,7 +19,7 @@ function* setMapCenter({ payload: map }) {
 
   if (newPath === currentPath) return;
 
-  yield put(push(newPath));
+  yield put(push(newPath + search));
 }
 
 function* saga() {
