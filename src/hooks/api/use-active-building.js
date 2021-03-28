@@ -9,7 +9,6 @@ const GET_SINGLE_BUILDING = gql`
       bounds
       properties {
         results {
-          id
           category
           type
           rent_type

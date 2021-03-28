@@ -10,7 +10,7 @@ const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_ENDPOINT,
 });
 const restLink = new RestLink({
-  uri: 'https://static-api.brokalys.com/stats/monthly',
+  uri: process.env.REACT_APP_STATIC_API_ENDPOINT,
 });
 
 const client = new ApolloClient({

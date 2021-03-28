@@ -13,7 +13,7 @@ const query = gql`
       @rest(
         type: "PriceResults"
         method: "GET"
-        path: "/?discard=0.1&filters={args.filters}"
+        path: "/stats/monthly?discard=0.1&filters={args.filters}"
       ) {
       loadingResults
       results {

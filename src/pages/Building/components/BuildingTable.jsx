@@ -27,7 +27,6 @@ const columns = [
     filter: 'equals',
   },
   {
-    // Header: 'Type',
     accessor: 'rent_type',
     filter: 'equals',
   },
@@ -98,10 +97,6 @@ function mapFilters(filters) {
     .map(([id, value]) => ({ id, value }));
 }
 
-function getRowId(row) {
-  return row.id;
-}
-
 function usePageSize() {
   const dispatch = useDispatch();
 
@@ -146,7 +141,6 @@ export default function BuildingTable(props) {
         pageIndex: initialPageIndex,
         hiddenColumns: ['rent_type'],
       },
-      getRowId,
     },
     useFilters,
     useSortBy,
