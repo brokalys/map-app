@@ -13,6 +13,7 @@ const RENT_TYPE_SUFFIX = {
   monthly: '/m',
   weekly: '/w',
   daily: '/d',
+  hourly: '/h',
 };
 
 const columns = [
