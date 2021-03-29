@@ -4,7 +4,15 @@ import { neighborhoodFilterSelector } from 'store/selectors';
 
 export default function usePriceMeanData() {
   const { price: priceType } = useSelector(neighborhoodFilterSelector);
-  const { results } = usePriceData();
+  const { loadingResults, results } = usePriceData();
+
+  // Still loading..
+  if (loadingResults > 0) {
+    return {
+      change: {},
+    };
+  }
+
   const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
 
   const {
