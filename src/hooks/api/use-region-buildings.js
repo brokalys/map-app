@@ -25,6 +25,9 @@ const GET_BUILDINGS_AND_PROPERTIES = gql`
 export default function useRegionBuildings(region) {
   const { loading, data } = useQuery(GET_BUILDINGS_AND_PROPERTIES, {
     variables: { region },
+    context: {
+      debounceKey: 'GET_BUILDINGS_AND_PROPERTIES',
+    },
   });
   return {
     loading,

@@ -13,6 +13,7 @@
     "@nivo/line": "^0.67.0",
     "@react-google-maps/api": "^2.1.1",
     "apollo-link": "^1.2.14",
+    "apollo-link-debounce": "^2.1.0",
     "apollo-link-rest": "^0.7.3",
     "connected-react-router": "^6.9.1",
     "graphql": "^15.0.0",
