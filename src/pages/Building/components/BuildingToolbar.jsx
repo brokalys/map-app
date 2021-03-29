@@ -4,11 +4,12 @@ import { Dropdown, Menu } from 'semantic-ui-react';
 const categoryOptions = [
   { value: 'apartment', text: 'Apartment' },
   { value: 'house', text: 'House' },
-  { value: 'land', text: 'Land' },
+  { value: 'office', text: 'Office' },
 ];
 const typeOptions = [
   { value: 'sell', text: 'Sell' },
   { value: 'rent', text: 'Rent' },
+  { value: 'auction', text: 'Auction' },
 ];
 const rentTypeOptions = [
   { value: 'yearly', text: 'Yearly' },
