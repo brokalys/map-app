@@ -1,5 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import { SET_SELECTED_NEIGHBORHOOD } from 'store/actionTypes';
 import { selectedNeighborhoodSelector } from 'store/selectors';
 
@@ -15,7 +15,7 @@ function getCenterCoords(arr) {
 function* setHighlightedRegion(action) {
   const { region } = yield select(selectedNeighborhoodSelector);
   const { lat, lng } = getCenterCoords(region[0]);
-  yield put(push(`/${lat},${lng},13`));
+  yield put(replace(`/${lat},${lng},13`));
 }
 
 function* saga() {

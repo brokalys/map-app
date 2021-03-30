@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useFilters, usePagination, useTable, useSortBy } from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,7 +98,7 @@ function usePageSize() {
   const initialPageIndex = useSelector(querystringParamSelector('page')) || 1;
   const updatePageIndex = useCallback(
     (event, { activePage }) => {
-      dispatch(push('?page=' + activePage));
+      dispatch(replace('?page=' + activePage));
     },
     [dispatch],
   );

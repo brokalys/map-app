@@ -1,5 +1,5 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import { MAP_BOUNDS_CHANGED } from 'store/actionTypes';
 import {
   locationPathnameSelector,
@@ -19,7 +19,7 @@ function* setMapCenter({ payload: map }) {
 
   if (newPath === currentPath) return;
 
-  yield put(push(newPath + search));
+  yield put(replace(newPath + search));
 }
 
 function* saga() {
