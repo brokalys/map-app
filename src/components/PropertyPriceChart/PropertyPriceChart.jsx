@@ -46,10 +46,10 @@ function PropertyPriceChart() {
         })}{' '}
         {priceType === 'sqm' ? (
           <span>
-            EUR/m<sup>2</sup>
+            €/m<sup>2</sup>
           </span>
         ) : (
-          'EUR'
+          '€'
         )}
       </span>
     );
@@ -104,6 +104,9 @@ function PropertyPriceChart() {
         format: '%Y-%m',
         tickValues: 'every 2 months',
         tickRotation: -90,
+      }}
+      axisLeft={{
+        format: (value) => `${value} €`,
       }}
       enablePoints={true}
       curve="monotoneX"

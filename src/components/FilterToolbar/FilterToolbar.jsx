@@ -60,7 +60,7 @@ function FilterToolbar() {
             }
           />
         </Menu.Item>
-        <Menu.Item fitted>
+        <Menu.Item fitted className={styles.categoryDropdown}>
           <Dropdown
             placeholder="Select category"
             fluid

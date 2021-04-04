@@ -152,7 +152,10 @@ export default function BuildingTable(props) {
     Object.entries(props.filters).forEach(([id, value]) =>
       setFilter(id, value),
     );
-  }, [props.filters, setFilter, props.building]);
+
+    // Reset to 1st page
+    onPageChange({}, { activePage: 1 });
+  }, [props.filters, setFilter, props.building, onPageChange]);
 
   const prices = useMemo(
     () => ({

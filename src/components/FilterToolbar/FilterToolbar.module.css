@@ -1,3 +1,8 @@
 .container {
   margin: 30px -5px;
 }
+
+.categoryDropdown {
+  width: 120px;
+  max-width: 120px;
+}

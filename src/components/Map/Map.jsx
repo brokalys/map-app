@@ -17,7 +17,6 @@ export const MAX_ZOOM_FOR_HIGHLIGHTED_REGION = 14;
 
 function Map(props) {
   const center = useMapCenter();
-  const [initialCenter] = useState(center);
   const [map, setMap] = useState(null);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -50,8 +49,8 @@ function Map(props) {
       <GoogleMap
         options={options}
         mapContainerStyle={containerStyle}
-        center={initialCenter}
-        zoom={initialCenter.zoom}
+        center={center}
+        zoom={center.zoom}
         onLoad={setMap}
         onProjectionChanged={onProjectionChanged}
         onDragEnd={onBoundsChanged}

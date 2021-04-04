@@ -13,9 +13,12 @@ export default function useRentalYield() {
 
   const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
 
-  return (
-    (rentData[rentData.length - 1][group].mean /
-      sellData[sellData.length - 1][group].mean) *
-    100
-  );
+  const { mean: rentMean } = rentData[rentData.length - 1][group];
+  const { mean: sellMean } = sellData[sellData.length - 1][group];
+
+  if (!rentMean || !sellMean) {
+    return 0;
+  }
+
+  return (rentMean / sellMean) * 100;
 }

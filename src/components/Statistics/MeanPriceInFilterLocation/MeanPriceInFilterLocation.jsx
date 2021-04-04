@@ -54,7 +54,7 @@ function MeanPriceInFilterLocation() {
         {mean ? parseInt(mean, 10).toLocaleString('en') : '?'}
       </Statistic.Value>
       <Statistic.Label>
-        Average Price (EUR
+        Average Price (€
         {priceType === 'sqm' ? (
           <span>
             /m<sup>2</sup>
