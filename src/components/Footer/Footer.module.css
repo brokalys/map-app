@@ -1,0 +1,8 @@
+.container {
+  text-align: center;
+}
+
+.container a,
+.container a::before {
+  color: #fff !important;
+}
