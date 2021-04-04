@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Icon, Menu, Popup } from 'semantic-ui-react';
+import SupportButton from 'components/SupportButton';
 import styles from './Navigation.module.css';
 
 function Navigation() {
@@ -48,6 +49,9 @@ function Navigation() {
             <Icon name="mail" />
           </Button.Content>
         </Button>
+      </Menu.Item>
+      <Menu.Item fitted>
+        <SupportButton />
       </Menu.Item>
     </Menu>
   );
