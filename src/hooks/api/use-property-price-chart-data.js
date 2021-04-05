@@ -38,15 +38,16 @@ const query = gql`
     }
   }
 `;
-export default function usePriceData({ type: typeOverride } = {}) {
+export default function usePriceData(filterOverrides = {}) {
   const [pollInterval, setPollInterval] = useState(0);
   const { category, type } = useSelector(neighborhoodFilterSelector);
   const { id } = useSelector(selectedNeighborhoodSelector);
 
   const filters = {
     category,
-    type: typeOverride || type,
+    type,
     location_classificator: id,
+    ...filterOverrides,
   };
   const filterStr = encodeURIComponent(JSON.stringify(filters));
 

@@ -1,5 +1,6 @@
 import PropType from 'prop-types';
 import { Grid, Statistic } from 'semantic-ui-react';
+import BuildingPriceBarChart from './BuildingPriceBarChart';
 
 function calcAvg(nums) {
   return nums.reduce((carry, num) => carry + num, 0) / nums.length;
@@ -11,8 +12,12 @@ export default function BuildingStats(props) {
     sqm: Math.min(...props.prices.sqm),
   };
   const avg = {
-    total: parseInt(calcAvg(props.prices.total), 10),
-    sqm: parseInt(calcAvg(props.prices.sqm), 10),
+    total: Math.round(calcAvg(props.prices.total)),
+    sqm: Math.round(calcAvg(props.prices.sqm)),
+  };
+  const regionAvg = {
+    total: Math.round(calcAvg(props.regionPrices.data.total)),
+    sqm: Math.round(calcAvg(props.regionPrices.data.sqm)),
   };
   const max = {
     total: Math.max(...props.prices.total),
@@ -20,8 +25,8 @@ export default function BuildingStats(props) {
   };
 
   return (
-    <Grid columns={3} textAlign="center" divided>
-      <Grid.Row>
+    <Grid textAlign="center">
+      <Grid.Row columns={3} divided>
         <Grid.Column>
           <Statistic size="small">
             <Statistic.Label>Min</Statistic.Label>
@@ -73,13 +78,47 @@ export default function BuildingStats(props) {
           </Statistic>
         </Grid.Column>
       </Grid.Row>
+
+      {!props.regionPrices.error && (
+        <div>
+          <h3>Average price comparison with active region</h3>
+        </div>
+      )}
+
+      <Grid.Row columns={2} divided>
+        <Grid.Column style={{ height: 200 }}>
+          <BuildingPriceBarChart
+            loading={props.regionPrices.loading}
+            error={props.regionPrices.error}
+            priceCurrentBuilding={avg.total}
+            priceActiveRegion={regionAvg.total}
+            labelFormat={(value) => `${value.toLocaleString()} €`}
+          />
+        </Grid.Column>
+        <Grid.Column style={{ height: 200 }}>
+          <BuildingPriceBarChart
+            loading={props.regionPrices.loading}
+            error={props.regionPrices.error}
+            priceCurrentBuilding={avg.sqm}
+            priceActiveRegion={regionAvg.sqm}
+            labelFormat={(value) => `${value.toLocaleString()} €/m2`}
+          />
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
   );
 }
 
+const priceObject = PropType.shape({
+  total: PropType.arrayOf(PropType.number).isRequired,
+  sqm: PropType.arrayOf(PropType.number).isRequired,
+}).isRequired;
+
 BuildingStats.propTypes = {
-  prices: PropType.shape({
-    total: PropType.arrayOf(PropType.number).isRequired,
-    sqm: PropType.arrayOf(PropType.number).isRequired,
+  prices: priceObject,
+  regionPrices: PropType.shape({
+    loading: PropType.bool.isRequired,
+    error: PropType.object,
+    data: priceObject,
   }).isRequired,
 };

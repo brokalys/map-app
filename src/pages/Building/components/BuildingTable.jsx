@@ -4,6 +4,8 @@ import { useFilters, usePagination, useTable, useSortBy } from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Table } from 'semantic-ui-react';
 import moment from 'moment';
+import usePriceData from 'hooks/api/use-property-price-chart-data';
+import useActiveRegionBuildings from 'hooks/use-active-region-buildings';
 import { querystringParamSelector } from 'store/selectors';
 import BuildingStats from './BuildingStats';
 import styles from './BuildingTable.module.css';
@@ -106,6 +108,39 @@ function usePageSize() {
   return [parseInt(initialPageIndex, 10) - 1, updatePageIndex];
 }
 
+function useActiveRegionBuildingPrices(filters) {
+  const { loading, error, data } = useActiveRegionBuildings();
+  const classifieds = data.reduce(
+    (carry, { properties }) => [...carry, ...properties.results],
+    [],
+  );
+  const filteredClassifieds = classifieds.filter((classified) =>
+    Object.entries(filters)
+      .filter(([, value]) => !!value)
+      .reduce(
+        (carry, [key, value]) => carry && classified[key] === value,
+        true,
+      ),
+  );
+
+  const regionPrices = {
+    total: filteredClassifieds.reduce(
+      (carry, { price }) => [...carry, price],
+      [],
+    ),
+    sqm: filteredClassifieds.reduce(
+      (carry, { price_per_sqm: price }) => [...carry, price],
+      [],
+    ),
+  };
+
+  return {
+    loading,
+    error,
+    data: regionPrices,
+  };
+}
+
 export default function BuildingTable(props) {
   const [initialPageIndex, updatePageIndex] = usePageSize();
   const {
@@ -139,6 +174,7 @@ export default function BuildingTable(props) {
     useSortBy,
     usePagination,
   );
+  const regionPrices = useActiveRegionBuildingPrices(props.filters);
 
   const onPageChange = useCallback(
     (event, data) => {
@@ -175,7 +211,7 @@ export default function BuildingTable(props) {
     <>
       {hasResults && (
         <div className={styles.stats}>
-          <BuildingStats prices={prices} />
+          <BuildingStats prices={prices} regionPrices={regionPrices} />
         </div>
       )}
       <Table singleLine={hasResults} sortable>
