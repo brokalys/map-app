@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Menu, Message } from 'semantic-ui-react';
@@ -23,7 +22,7 @@ export default function Header(props) {
           />
         </Menu.Item>
 
-        <BuildingToolbar onChange={props.onFiltersChange} />
+        <BuildingToolbar />
       </Menu>
 
       <Message info>
@@ -36,6 +35,4 @@ export default function Header(props) {
   );
 }
 
-Header.propTypes = {
-  onFiltersChange: PropTypes.func.isRequired,
-};
+Header.propTypes = {};

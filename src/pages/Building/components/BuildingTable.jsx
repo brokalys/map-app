@@ -1,12 +1,9 @@
-import { replace } from 'connected-react-router';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useFilters, usePagination, useTable, useSortBy } from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Table } from 'semantic-ui-react';
 import moment from 'moment';
-import usePriceData from 'hooks/api/use-property-price-chart-data';
 import useActiveRegionBuildings from 'hooks/use-active-region-buildings';
-import { querystringParamSelector } from 'store/selectors';
+import useQuerystringParam from 'hooks/use-querystring-param';
 import BuildingStats from './BuildingStats';
 import styles from './BuildingTable.module.css';
 
@@ -95,17 +92,8 @@ function getCellTextAlign(cell) {
 }
 
 function usePageSize() {
-  const dispatch = useDispatch();
-
-  const initialPageIndex = useSelector(querystringParamSelector('page')) || 1;
-  const updatePageIndex = useCallback(
-    (event, { activePage }) => {
-      dispatch(replace('?page=' + activePage));
-    },
-    [dispatch],
-  );
-
-  return [parseInt(initialPageIndex, 10) - 1, updatePageIndex];
+  const [page, setPage] = useQuerystringParam('page');
+  return [parseInt(page || 1, 10) - 1, setPage];
 }
 
 function useActiveRegionBuildingPrices(filters) {
@@ -115,12 +103,10 @@ function useActiveRegionBuildingPrices(filters) {
     [],
   );
   const filteredClassifieds = classifieds.filter((classified) =>
-    Object.entries(filters)
-      .filter(([, value]) => !!value)
-      .reduce(
-        (carry, [key, value]) => carry && classified[key] === value,
-        true,
-      ),
+    filters.reduce(
+      (carry, { id, value }) => carry && classified[id] === value,
+      true,
+    ),
   );
 
   const regionPrices = {
@@ -141,8 +127,27 @@ function useActiveRegionBuildingPrices(filters) {
   };
 }
 
+function useQuerystringFilters() {
+  const [category] = useQuerystringParam('category');
+  const [type] = useQuerystringParam('type');
+  const [rentType] = useQuerystringParam('rent_type');
+
+  return useMemo(() => {
+    const filters = [];
+
+    if (!!category) filters.push({ id: 'category', value: category });
+    if (!!type) filters.push({ id: 'type', value: type });
+
+    if (type === 'rent' && !!rentType)
+      filters.push({ id: 'rent_type', value: rentType });
+
+    return filters;
+  }, [category, type, rentType]);
+}
+
 export default function BuildingTable(props) {
-  const [initialPageIndex, updatePageIndex] = usePageSize();
+  const filters = useQuerystringFilters();
+  const [pageIndex, updatePageIndex] = usePageSize();
   const {
     setFilter,
     headerGroups,
@@ -153,7 +158,6 @@ export default function BuildingTable(props) {
     // Pagination
     pageCount,
     gotoPage,
-    state: { pageIndex },
   } = useTable(
     {
       columns,
@@ -166,32 +170,25 @@ export default function BuildingTable(props) {
           },
         ],
         pageSize: 15,
-        pageIndex: initialPageIndex,
+        pageIndex,
         hiddenColumns: ['rent_type'],
+        filters,
       },
+      autoResetFilters: false,
     },
     useFilters,
     useSortBy,
     usePagination,
   );
-  const regionPrices = useActiveRegionBuildingPrices(props.filters);
-
-  const onPageChange = useCallback(
-    (event, data) => {
-      gotoPage(data.activePage - 1);
-      updatePageIndex(event, data);
-    },
-    [gotoPage, updatePageIndex],
-  );
+  const regionPrices = useActiveRegionBuildingPrices(filters);
 
   useEffect(() => {
-    Object.entries(props.filters).forEach(([id, value]) =>
-      setFilter(id, value),
-    );
+    gotoPage(pageIndex);
+  }, [gotoPage, pageIndex]);
 
-    // Reset to 1st page
-    onPageChange({}, { activePage: 1 });
-  }, [props.filters, setFilter, props.building, onPageChange]);
+  useEffect(() => {
+    filters.forEach(({ id, value }) => setFilter(id, value));
+  }, [filters, setFilter]);
 
   const prices = useMemo(
     () => ({
@@ -276,7 +273,9 @@ export default function BuildingTable(props) {
                 <Pagination
                   activePage={pageIndex + 1}
                   boundaryRange={1}
-                  onPageChange={onPageChange}
+                  onPageChange={(event, data) =>
+                    updatePageIndex(data.activePage)
+                  }
                   size="mini"
                   siblingRange={2}
                   totalPages={pageCount}

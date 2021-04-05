@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
+import useQuerystringParam from 'hooks/use-querystring-param';
 
 const categoryOptions = [
   { value: 'apartment', text: 'Apartment' },
@@ -18,22 +18,14 @@ const rentTypeOptions = [
   { value: 'daily', text: 'Daily' },
 ];
 
-export default function BuildingToolbar({ onChange }) {
-  const [category, setCategory] = useState();
-  const [type, setType] = useState();
-  const [rentType, setRentType] = useState();
-  const filters = useMemo(
-    () => ({
-      category: category || undefined,
-      type: type || undefined,
-      rent_type: type === 'rent' ? rentType || undefined : undefined,
-    }),
-    [category, type, rentType],
-  );
+const resetPage = {
+  page: undefined,
+};
 
-  useEffect(() => {
-    onChange(filters);
-  }, [onChange, filters]);
+export default function BuildingToolbar() {
+  const [category, setCategory] = useQuerystringParam('category', resetPage);
+  const [type, setType] = useQuerystringParam('type', resetPage);
+  const [rentType, setRentType] = useQuerystringParam('rent_type', resetPage);
 
   return (
     <>

@@ -1,7 +1,11 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
+import queryString from 'query-string';
+import { put, select, takeLatest } from 'redux-saga/effects';
 import { CLICK_ON_BUILDING } from 'store/actionTypes';
-import { locationPathnameSelector } from 'store/selectors';
+import {
+  locationPathnameSelector,
+  locationQuerySelector,
+} from 'store/selectors';
 
 function* setActiveBuilding({ payload: buildingId }) {
   const path = yield select(locationPathnameSelector);
@@ -12,7 +16,13 @@ function* setActiveBuilding({ payload: buildingId }) {
     url = `/${parts[1]}`;
   }
 
-  yield put(push(url));
+  const query = yield select(locationQuerySelector);
+  const qs = queryString.stringify(
+    { ...query, page: undefined },
+    { skipEmptyString: true },
+  );
+
+  yield put(push(`${url}?${qs}`));
 }
 
 function* saga() {

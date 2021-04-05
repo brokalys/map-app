@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import Skeleton from 'react-loading-skeleton';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
@@ -6,7 +6,7 @@ import useActiveBuilding from 'hooks/api/use-active-building';
 import BuildingTable from './components/BuildingTable';
 import Header from './components/Header';
 
-function Body(props) {
+function Body() {
   const activeBuilding = useActiveBuilding();
 
   if (!activeBuilding) {
@@ -18,15 +18,13 @@ function Body(props) {
     );
   }
 
-  return <BuildingTable building={activeBuilding} {...props} />;
+  return <BuildingTable building={activeBuilding} />;
 }
 
 export default function BuildingContainer() {
-  const [filters, setFilters] = useState({});
-
   return (
     <>
-      <Header onFiltersChange={setFilters} />
+      <Header />
       <ErrorBoundary
         fallback={
           <Message negative>
@@ -45,7 +43,7 @@ export default function BuildingContainer() {
             </Segment>
           }
         >
-          <Body filters={filters} />
+          <Body />
         </React.Suspense>
       </ErrorBoundary>
     </>
