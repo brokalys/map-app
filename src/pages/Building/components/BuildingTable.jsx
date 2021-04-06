@@ -132,17 +132,14 @@ function useQuerystringFilters() {
   const [type] = useQuerystringParam('type');
   const [rentType] = useQuerystringParam('rent_type');
 
-  return useMemo(() => {
-    const filters = [];
-
-    if (!!category) filters.push({ id: 'category', value: category });
-    if (!!type) filters.push({ id: 'type', value: type });
-
-    if (type === 'rent' && !!rentType)
-      filters.push({ id: 'rent_type', value: rentType });
-
-    return filters;
-  }, [category, type, rentType]);
+  return useMemo(
+    () => [
+      { id: 'category', value: category },
+      { id: 'type', value: type },
+      { id: 'rent_type', value: type === 'rent' ? rentType : undefined },
+    ],
+    [category, type, rentType],
+  );
 }
 
 export default function BuildingTable(props) {
