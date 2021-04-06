@@ -18,6 +18,7 @@ jobs:
           REACT_APP_BUGSNAG_KEY: ${{ secrets.REACT_APP_BUGSNAG_KEY }}
           REACT_APP_API_ENDPOINT: ${{ secrets.REACT_APP_API_ENDPOINT }}
           REACT_APP_STATIC_API_ENDPOINT: ${{ secrets.REACT_APP_STATIC_API_ENDPOINT }}
+          REACT_APP_BROKALYS_API_KEY: ${{ secrets.REACT_APP_BROKALYS_API_KEY }}
         run: |
           yarn install
           yarn build
