@@ -103,10 +103,12 @@ function useActiveRegionBuildingPrices(filters) {
     [],
   );
   const filteredClassifieds = classifieds.filter((classified) =>
-    filters.reduce(
-      (carry, { id, value }) => carry && classified[id] === value,
-      true,
-    ),
+    filters
+      .filter(({ value }) => !!value)
+      .reduce(
+        (carry, { id, value }) => carry && classified[id] === value,
+        true,
+      ),
   );
 
   const regionPrices = {
