@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import useSuspendableQuery from 'hooks/use-suspended-query';
 
 const GET_SINGLE_BUILDING = gql`
-  query($id: Int!) {
-    buildings(id: $id) {
+  query($id: Int!, $filter: PropertyFilter) {
+    building(id: $id) {
       id
       bounds
-      properties {
+      properties(filter: $filter) {
         results {
           category
           type
@@ -27,7 +27,20 @@ const GET_SINGLE_BUILDING = gql`
 export default function useActiveBuilding() {
   const { buildingId } = useParams();
   const { data } = useSuspendableQuery(GET_SINGLE_BUILDING, {
-    variables: { id: Number(buildingId) },
+    variables: {
+      id: Number(buildingId),
+      filter: {
+        category: {
+          in: ['apartment', 'house'],
+        },
+        type: {
+          in: ['sell', 'rent'],
+        },
+        price: {
+          gt: 1,
+        },
+      },
+    },
   });
-  return (data?.buildings || [])[0];
+  return data?.building || {};
 }
