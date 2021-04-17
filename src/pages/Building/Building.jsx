@@ -1,5 +1,4 @@
 import React from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import Skeleton from 'react-loading-skeleton';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 import useActiveBuilding from 'hooks/api/use-active-building';
@@ -7,7 +6,27 @@ import BuildingTable from './components/BuildingTable';
 import Header from './components/Header';
 
 function Body() {
-  const activeBuilding = useActiveBuilding();
+  const { data: activeBuilding, error, loading } = useActiveBuilding();
+
+  if (loading) {
+    return (
+      <Segment basic>
+        <Dimmer inverted active>
+          <Loader content="Loading the building data.." />
+        </Dimmer>
+        <Skeleton count={20} />
+      </Segment>
+    );
+  }
+
+  if (error) {
+    return (
+      <Message negative>
+        An unexpected error occured when attempting to fetch the data. Try again
+        later.
+      </Message>
+    );
+  }
 
   if (!activeBuilding) {
     return (
@@ -25,27 +44,7 @@ export default function BuildingContainer() {
   return (
     <>
       <Header />
-      <ErrorBoundary
-        fallback={
-          <Message negative>
-            An unexpected error occured when attempting to fetch the data. Try
-            again later.
-          </Message>
-        }
-      >
-        <React.Suspense
-          fallback={
-            <Segment basic>
-              <Dimmer inverted active>
-                <Loader content="Loading the building data.." />
-              </Dimmer>
-              <Skeleton count={20} />
-            </Segment>
-          }
-        >
-          <Body />
-        </React.Suspense>
-      </ErrorBoundary>
+      <Body />
     </>
   );
 }

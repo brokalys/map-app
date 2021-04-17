@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import useSuspendableQuery from 'hooks/use-suspended-query';
 
 const GET_SINGLE_BUILDING = gql`
   query($id: Int!, $filter: PropertyFilter) {
@@ -26,7 +25,7 @@ const GET_SINGLE_BUILDING = gql`
 
 export default function useActiveBuilding() {
   const { buildingId } = useParams();
-  const { data } = useSuspendableQuery(GET_SINGLE_BUILDING, {
+  const { data, error, loading } = useQuery(GET_SINGLE_BUILDING, {
     variables: {
       id: Number(buildingId),
       filter: {
@@ -42,5 +41,5 @@ export default function useActiveBuilding() {
       },
     },
   });
-  return data?.building || {};
+  return { data: data?.building || {}, error, loading };
 }
