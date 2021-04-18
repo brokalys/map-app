@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
 
 const GET_BUILDINGS_AND_PROPERTIES = gql`
-  query($region: String!) {
+  query($region: String!, $filter: PropertyFilter) {
     bounds(bounds: $region) {
       buildings {
         id
         bounds
-        properties {
+        properties(filter: $filter) {
           results {
             category
             type
@@ -26,7 +26,20 @@ const GET_BUILDINGS_AND_PROPERTIES = gql`
 
 export default function useRegionBuildings(region) {
   const { loading, data } = useQuery(GET_BUILDINGS_AND_PROPERTIES, {
-    variables: { region },
+    variables: {
+      region,
+      filter: {
+        category: {
+          in: ['apartment', 'house', 'office'],
+        },
+        type: {
+          in: ['sell', 'rent', 'auction'],
+        },
+        price: {
+          gt: 1,
+        },
+      },
+    },
     context: {
       debounceKey: 'GET_BUILDINGS_AND_PROPERTIES',
     },

@@ -30,10 +30,10 @@ export default function useActiveBuilding() {
       id: Number(buildingId),
       filter: {
         category: {
-          in: ['apartment', 'house'],
+          in: ['apartment', 'house', 'office'],
         },
         type: {
-          in: ['sell', 'rent'],
+          in: ['sell', 'rent', 'auction'],
         },
         price: {
           gt: 1,
