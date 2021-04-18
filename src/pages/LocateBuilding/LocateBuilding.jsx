@@ -5,7 +5,7 @@ import useActiveRegionBuildings from 'hooks/use-active-region-buildings';
 import useMapCenter from 'hooks/use-map-center';
 import * as actions from 'store/actions';
 import loadingAnimationData from './animations/loading.json';
-import notFoundAnimationData from './animations/not-found2.json';
+import notFoundAnimationData from './animations/not-found.json';
 import successAnimationData from './animations/success.json';
 import Container from './components/Container';
 import styles from './LocateBuilding.module.css';
