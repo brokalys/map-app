@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
 const GET_SINGLE_BUILDING = gql`
-  query($id: Int!, $filter: PropertyFilter) {
+  query UseActiveBuilding($id: Int!, $filter: PropertyFilter) {
     building(id: $id) {
       id
       bounds

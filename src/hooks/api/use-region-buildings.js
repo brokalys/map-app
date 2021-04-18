@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 
 const GET_BUILDINGS_AND_PROPERTIES = gql`
-  query($region: String!, $filter: PropertyFilter) {
+  query UseRegionBuildings($region: String!, $filter: PropertyFilter) {
     bounds(bounds: $region) {
       buildings {
         id
