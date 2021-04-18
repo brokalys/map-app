@@ -54,7 +54,7 @@ const columns = [
         </>
       );
     },
-    accessor: 'price_per_sqm',
+    accessor: 'calc_price_per_sqm',
   },
   {
     Header: 'Area',
@@ -117,7 +117,7 @@ function useActiveRegionBuildingPrices(filters) {
       [],
     ),
     sqm: filteredClassifieds.reduce(
-      (carry, { price_per_sqm: price }) => [...carry, price],
+      (carry, { calc_price_per_sqm: price }) => [...carry, price],
       [],
     ),
   };
@@ -195,7 +195,7 @@ export default function BuildingTable(props) {
         .map(({ original }) => original.price)
         .filter((price) => price > 0),
       sqm: rows
-        .map(({ original }) => original.price_per_sqm)
+        .map(({ original }) => original.calc_price_per_sqm)
         .filter((price) => price > 0),
     }),
     [rows],
