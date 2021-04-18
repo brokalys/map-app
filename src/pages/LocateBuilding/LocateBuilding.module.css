@@ -1,0 +1,14 @@
+.loadingAnimation {
+  padding: -100px 0;
+}
+
+.notFoundAnimation {
+  padding: 15vh 0;
+}
+
+.notFoundAnimation,
+.successAnimation,
+.loadingAnimation {
+  height: 80vh;
+  margin: -40px 0 -15vh 0;
+}

@@ -7,6 +7,7 @@ import Navigation from 'components/Navigation';
 import SplitPaneRight from 'containers/SplitPaneRight';
 import Building from 'pages/Building';
 import Home from 'pages/Home';
+import LocateBuilding from 'pages/LocateBuilding';
 import styles from './App.module.css';
 
 function App(props) {
@@ -22,6 +23,7 @@ function App(props) {
           <Route
             path={[
               '/:lat,:lng,:zoom/building/:buildingId(\\d+)',
+              '/:lat,:lng,:zoom/locate-building',
               '/:lat,:lng,:zoom',
               '/',
             ]}
@@ -33,6 +35,10 @@ function App(props) {
                 <Switch>
                   <Route path="/:lat,:lng,:zoom/building/:buildingId(\d+)">
                     <Building />
+                  </Route>
+
+                  <Route path="/:lat,:lng,:zoom/locate-building">
+                    <LocateBuilding />
                   </Route>
 
                   <Route path="*">

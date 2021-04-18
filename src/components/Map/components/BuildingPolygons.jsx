@@ -1,7 +1,7 @@
 import { Polygon } from '@react-google-maps/api';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 import useRegionBuildings from 'hooks/api/use-region-buildings';
 import * as actions from 'store/actions';
@@ -10,12 +10,18 @@ import styles from './BuildingPolygons.module.css';
 
 function Polygons(props) {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const disableInteraction = location.pathname.endsWith('/locate-building');
   const { buildingId } = useParams();
   const { loading, data: buildings } = useRegionBuildings(props.region);
 
   const onBuildingClick = (building) => {
     dispatch(actions.clickOnBuilding(building.id));
   };
+
+  if (disableInteraction) {
+    return <Dimmer active />;
+  }
 
   if (loading) {
     return (
