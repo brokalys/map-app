@@ -4,10 +4,10 @@ import { neighborhoodFilterSelector } from 'store/selectors';
 
 export default function usePriceMeanData() {
   const { price: priceType } = useSelector(neighborhoodFilterSelector);
-  const { loadingResults, results } = usePriceData();
+  const { data: results, loading } = usePriceData();
 
   // Still loading..
-  if (loadingResults > 0) {
+  if (loading > 0) {
     return {
       change: {},
     };

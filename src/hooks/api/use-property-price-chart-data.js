@@ -1,7 +1,6 @@
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import useSuspendableQuery from 'hooks/use-suspended-query';
 import {
   neighborhoodFilterSelector,
   selectedNeighborhoodSelector,
@@ -51,7 +50,7 @@ export default function usePriceData(filterOverrides = {}) {
   };
   const filterStr = encodeURIComponent(JSON.stringify(filters));
 
-  const { data } = useSuspendableQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     variables: {
       filters: filterStr,
     },
@@ -73,5 +72,9 @@ export default function usePriceData(filterOverrides = {}) {
     });
   }, [loadingResults]);
 
-  return data.response;
+  return {
+    data: data?.response?.results || [],
+    loading: loading || loadingResults > 0,
+    error,
+  };
 }

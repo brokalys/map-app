@@ -1,19 +1,16 @@
 import { area, curveMonotoneX } from 'd3-shape';
 import { Defs } from '@nivo/core';
 import React, { useMemo } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { useSelector } from 'react-redux';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
-import Bugsnag from 'bugsnag';
 import { neighborhoodFilterSelector } from 'store/selectors';
 import styles from './PropertyPriceChart.module.css';
 import usePriceData from 'hooks/api/use-property-price-chart-data';
 
-function PropertyPriceChart() {
+function PropertyPriceChart({ results }) {
   const { price: priceType } = useSelector(neighborhoodFilterSelector);
-  const { results } = usePriceData();
 
   const data = useMemo(
     () => [
@@ -130,28 +127,25 @@ function PropertyPriceChart() {
 }
 
 function PropertyPriceChartContainer() {
-  return (
-    <Segment basic className={styles.container}>
-      <ErrorBoundary
-        fallback={
-          <Message negative>
-            Failed loading chart data. Please try again later.
-          </Message>
-        }
-        onError={Bugsnag.notify}
-      >
-        <React.Suspense
-          fallback={
-            <Dimmer inverted active>
-              <Loader />
-            </Dimmer>
-          }
-        >
-          <PropertyPriceChart />
-        </React.Suspense>
-      </ErrorBoundary>
-    </Segment>
-  );
+  const { data, loading, error } = usePriceData();
+
+  if (loading) {
+    return (
+      <Dimmer inverted active>
+        <Loader />
+      </Dimmer>
+    );
+  }
+
+  if (error) {
+    return (
+      <Message negative>
+        Failed loading chart data. Please try again later.
+      </Message>
+    );
+  }
+
+  return <PropertyPriceChart results={data} />;
 }
 
 function AreaLayer({ series, xScale, yScale, innerHeight }) {
@@ -187,4 +181,10 @@ function AreaLayer({ series, xScale, yScale, innerHeight }) {
   );
 }
 
-export default PropertyPriceChartContainer;
+export default function PropertyPriceChartWrapper() {
+  return (
+    <Segment basic className={styles.container}>
+      <PropertyPriceChartContainer />
+    </Segment>
+  );
+}

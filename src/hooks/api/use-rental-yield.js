@@ -4,8 +4,8 @@ import { neighborhoodFilterSelector } from 'store/selectors';
 
 export default function useRentalYield() {
   const { price: priceType } = useSelector(neighborhoodFilterSelector);
-  const { results: rentData } = usePriceData({ type: 'rent' });
-  const { results: sellData } = usePriceData({ type: 'sell' });
+  const { data: rentData } = usePriceData({ type: 'rent' });
+  const { data: sellData } = usePriceData({ type: 'sell' });
 
   if (!rentData.length || !sellData.length) {
     return 0;
