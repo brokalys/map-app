@@ -76,14 +76,14 @@ function PropertyPriceChart({ results }) {
                   <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
                 </div>
                 <div>
-                  <strong>Min:</strong> <Price value={point.data.min} />
+                  <strong>Max:</strong> <Price value={point.data.max} />
                 </div>
                 <div>
                   <strong>{point.serieId}:</strong>{' '}
                   <Price value={point.data.yFormatted} />
                 </div>
                 <div>
-                  <strong>Max:</strong> <Price value={point.data.max} />
+                  <strong>Min:</strong> <Price value={point.data.min} />
                 </div>
                 <hr />
                 <div>
