@@ -17,10 +17,27 @@ function buildPolygon(bounds) {
   });
 }
 
+/**
+ * Locate the closest building.
+ */
 function locateActiveBuilding(buildings, currentPosition) {
-  return buildings.find(({ bounds }) =>
-    geolib.isPointInPolygon(currentPosition, buildPolygon(bounds)),
-  );
+  let locatedBuilding;
+  let minDistance = Infinity;
+
+  // Find the building closest to current position
+  buildings.forEach((building) => {
+    const distance = geolib.getDistance(
+      currentPosition,
+      geolib.getCenter(buildPolygon(building.bounds)),
+    );
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      locatedBuilding = building;
+    }
+  });
+
+  return locatedBuilding;
 }
 
 export default function LocateBuilding() {
