@@ -16,6 +16,13 @@ const locationOptions = latvia.features
   .filter(
     (row) => row.properties.Level > 1 || row.properties.id === RIGA_LOCATION_ID,
   )
+  // @todo: enable once API supports these
+  .filter(
+    (row) =>
+      !row.properties.name.includes('pagasts') &&
+      !row.properties.name.includes('novads'),
+  )
+  .sort((a, b) => a.properties.name.localeCompare(b.properties.name))
   .map((row) => ({
     value: row.properties.id,
     text: row.properties.name,
