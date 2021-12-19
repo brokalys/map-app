@@ -1,4 +1,3 @@
-import { riga } from '@brokalys/location-json-schemas';
 import Bugsnag from 'bugsnag';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useSelector } from 'react-redux';
@@ -11,9 +10,9 @@ import { selectedNeighborhoodSelector } from 'store/selectors';
 import styles from './Home.module.css';
 
 export default function Home() {
-  const { id } = useSelector(selectedNeighborhoodSelector);
-  const locationName = riga.features.find((row) => row.properties.id === id)
-    .properties.name;
+  const {
+    properties: { name: locationName },
+  } = useSelector(selectedNeighborhoodSelector);
 
   return (
     <>

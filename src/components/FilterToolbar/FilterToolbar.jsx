@@ -1,4 +1,4 @@
-import { riga } from '@brokalys/location-json-schemas';
+import { latvia, riga } from '@brokalys/location-json-schemas';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, Menu } from 'semantic-ui-react';
@@ -10,7 +10,17 @@ import {
 } from 'store/selectors';
 import styles from './FilterToolbar.module.css';
 
-const locationOptions = riga.features.map((row) => ({
+const RIGA_LOCATION_ID = 'latvia-riga';
+
+const locationOptions = latvia.features
+  .filter(
+    (row) => row.properties.Level > 1 || row.properties.id === RIGA_LOCATION_ID,
+  )
+  .map((row) => ({
+    value: row.properties.id,
+    text: row.properties.name,
+  }));
+const rigaOptions = riga.features.map((row) => ({
   value: row.properties.id,
   text: row.properties.name,
 }));
@@ -54,12 +64,32 @@ function FilterToolbar() {
             search={onSearch}
             selection
             options={locationOptions}
-            value={neighborhood}
+            value={
+              neighborhood.startsWith(RIGA_LOCATION_ID)
+                ? RIGA_LOCATION_ID
+                : neighborhood
+            }
             onChange={(event, data) =>
               dispatch(setSelectedNeighborhood(data.value))
             }
           />
         </Menu.Item>
+
+        {neighborhood.startsWith(RIGA_LOCATION_ID) && (
+          <Menu.Item fitted>
+            <Dropdown
+              placeholder="Select neighborhood"
+              search={onSearch}
+              selection
+              options={rigaOptions}
+              value={neighborhood}
+              onChange={(event, data) =>
+                dispatch(setSelectedNeighborhood(data.value))
+              }
+            />
+          </Menu.Item>
+        )}
+
         <Menu.Item fitted className={styles.categoryDropdown}>
           <Dropdown
             placeholder="Select category"
