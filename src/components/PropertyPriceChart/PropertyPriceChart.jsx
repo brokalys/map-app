@@ -150,9 +150,9 @@ function PropertyPriceChartContainer() {
 
 function AreaLayer({ series, xScale, yScale, innerHeight }) {
   const areaGenerator = area()
-    .x((d) => xScale(d.data.x))
-    .y0((d) => yScale(d.data.min))
-    .y1((d) => yScale(d.data.max))
+    .x((d) => xScale(d.data.x || 0))
+    .y0((d) => yScale(d.data.min || 0))
+    .y1((d) => yScale(d.data.max || 0))
     .curve(curveMonotoneX);
 
   return (
