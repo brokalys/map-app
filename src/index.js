@@ -8,7 +8,10 @@ import App from './App.jsx';
 import Bugsnag from './bugsnag';
 import store, { history } from './store';
 import * as serviceWorker from './serviceWorker';
-import 'semantic-ui-css/semantic.min.css';
+// @todo: re-enable when the issue is fixed and a new version of formatic-ui is released
+// @see: https://github.com/Semantic-Org/Semantic-UI-React/issues/4227
+// import 'semantic-ui-css/semantic.min.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';
 
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
