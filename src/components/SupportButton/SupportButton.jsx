@@ -6,7 +6,7 @@ export default function SupportButton() {
       color="red"
       content="Support the project"
       icon="heart"
-      href="https://www.buymeacoffee.com/matissjanis"
+      href="https://www.paypal.com/paypalme/matissjanisaboltins"
       target="_blank"
     />
   );
