@@ -7,7 +7,7 @@ import {
 } from 'store/selectors';
 
 const query = gql`
-  query($filters: String!) {
+  query ($filters: String!) {
     response(filters: $filters)
       @rest(
         type: "PriceResults"
@@ -64,11 +64,7 @@ export default function usePriceData(filterOverrides = {}) {
         return 0;
       }
 
-      if (loadingResults <= 2) {
-        return 1000;
-      }
-
-      return 3000;
+      return loadingResults * 200;
     });
   }, [loadingResults]);
 
