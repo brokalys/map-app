@@ -59,13 +59,7 @@ export default function usePriceData(filterOverrides = {}) {
   const { loadingResults } = data?.response || {};
 
   useEffect(() => {
-    setPollInterval(() => {
-      if (loadingResults === 0) {
-        return 0;
-      }
-
-      return loadingResults * 200;
-    });
+    setPollInterval(loadingResults * 200);
   }, [loadingResults]);
 
   return {
