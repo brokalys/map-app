@@ -17,7 +17,7 @@ function Description() {
         How much of the invested capital can I expect to make back each year?
       </p>
       <p>A bigger number is better for landlords; a smaller - for renters.</p>
-      <p>Calculation: average rent price / sell price in the last month</p>
+      <p>Calculation: average rent price per sqm * 12 / sell price per sqm</p>
     </>
   );
 }

@@ -33,7 +33,7 @@ export default function Home() {
               largeScreen={10}
               widescreen={7}
             >
-              <Header as="h3">Last Month</Header>
+              <Header as="h3">Last datapoint</Header>
 
               <ErrorBoundary
                 fallback={
