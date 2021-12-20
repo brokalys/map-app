@@ -15,8 +15,8 @@ export default function useRentalYield() {
     return 0;
   }
 
-  const { mean: rentMean } = findLastWithValue(rentData).pricePerSqm;
-  const { mean: sellMean } = findLastWithValue(sellData).pricePerSqm;
+  const { mean: rentMean } = findLastWithValue(rentData)?.pricePerSqm || {};
+  const { mean: sellMean } = findLastWithValue(sellData)?.pricePerSqm || {};
 
   if (!rentMean || !sellMean) {
     return 0;
