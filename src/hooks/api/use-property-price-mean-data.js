@@ -21,10 +21,17 @@ export default function usePriceMeanData() {
   }
 
   const group = priceType === 'sqm' ? 'pricePerSqm' : 'price';
+  const lastValue = findLastWithValue(results);
+
+  if (!lastValue) {
+    return {
+      change: {},
+    };
+  }
 
   const {
     [group]: { mean },
-  } = findLastWithValue(results);
+  } = lastValue;
 
   return {
     price: mean,
