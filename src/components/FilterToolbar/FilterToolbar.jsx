@@ -1,7 +1,7 @@
 import { latvia, riga } from '@brokalys/location-json-schemas';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Checkbox, Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 import { setNeighborhoodFilters, setSelectedNeighborhood } from 'store/actions';
 import {
@@ -48,7 +48,12 @@ const priceTypeOptions = [
 
 function FilterToolbar() {
   const dispatch = useDispatch();
-  const { category, type, price } = useSelector(neighborhoodFilterSelector);
+  const {
+    category,
+    type,
+    price,
+    outliers: showOutliers,
+  } = useSelector(neighborhoodFilterSelector);
   const { id: neighborhood } = useSelector(selectedNeighborhoodSelector);
 
   /**
@@ -131,6 +136,16 @@ function FilterToolbar() {
             options={priceTypeOptions}
             onChange={(event, data) =>
               dispatch(setNeighborhoodFilters({ price: data.value }))
+            }
+          />
+        </Menu.Item>
+
+        <Menu.Item fitted position="right">
+          <Checkbox
+            label="show outliers"
+            checked={showOutliers}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ outliers: data.checked }))
             }
           />
         </Menu.Item>

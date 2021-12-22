@@ -9,28 +9,51 @@ import { neighborhoodFilterSelector } from 'store/selectors';
 import styles from './PropertyPriceChart.module.css';
 import usePriceData from 'hooks/api/use-property-price-chart-data';
 
-function PropertyPriceChart({ results }) {
-  const { price: priceType } = useSelector(neighborhoodFilterSelector);
+function removeOutliers(data) {
+  const maxPoints = data.map(({ max }) => max);
+  const sum = maxPoints.reduce((carry, num) => carry + num, 0);
+  const average = sum / maxPoints.length - 1;
 
+  const fixedData = data.filter(({ max }) => average * 2 > max);
+
+  if (data.length > fixedData.length) {
+    return removeOutliers(fixedData);
+  }
+
+  return fixedData;
+}
+
+function useChartData(results, { priceType, showOutliers }) {
   const data = useMemo(
-    () => [
-      {
-        id: 'Average Price',
-        data: results.map((row) => {
-          const prices = priceType === 'sqm' ? row.pricePerSqm : row.price;
-          return {
-            ...prices,
+    () =>
+      results.map((row) => {
+        const prices = priceType === 'sqm' ? row.pricePerSqm : row.price;
+        return {
+          ...prices,
 
-            x: row.start_datetime.substr(0, 10),
-            y: prices.mean,
-          };
-        }),
-      },
-    ],
+          x: row.start_datetime.substr(0, 10),
+          y: prices.mean,
+        };
+      }),
     [results, priceType],
   );
 
-  const maxPrice = data[0].data.reduce(
+  const cleanedData = useMemo(
+    () => (showOutliers ? data : removeOutliers(data)),
+    [data, showOutliers],
+  );
+
+  return cleanedData.length > 9 ? cleanedData : data;
+}
+
+function PropertyPriceChart({ results }) {
+  const { price: priceType, outliers: showOutliers } = useSelector(
+    neighborhoodFilterSelector,
+  );
+
+  const data = useChartData(results, { priceType, showOutliers });
+
+  const maxPrice = data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
     0,
   );
@@ -54,8 +77,13 @@ function PropertyPriceChart({ results }) {
 
   return (
     <ResponsiveLine
-      data={data}
-      margin={{ top: 10, right: 10, bottom: 100, left: 50 }}
+      data={[
+        {
+          id: 'Average Price',
+          data,
+        },
+      ]}
+      margin={{ top: 10, right: 5, bottom: 100, left: 60 }}
       xScale={{
         type: 'time',
         format: '%Y-%m-%d',

@@ -9,6 +9,7 @@ const initialState = {
     category: 'apartment',
     type: 'sell',
     price: 'sqm',
+    outliers: false,
   },
 };
 
