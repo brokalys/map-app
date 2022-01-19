@@ -48,22 +48,22 @@ function useChartData(results, { priceType, showOutliers }) {
   return cleanedData.length > 9 ? cleanedData : data;
 }
 
-function PropertyPriceChart({ results }) {
+function PropertyPriceChart(props) {
   const { price: priceType, outliers: showOutliers } = useSelector(
     neighborhoodFilterSelector,
   );
 
-  const data = useChartData(results, { priceType, showOutliers });
+  const data = useChartData(props.results, { priceType, showOutliers });
 
   const maxPrice = data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
     0,
   );
 
-  function Price({ value }) {
+  function Price(props) {
     return (
       <span>
-        {Number(value).toLocaleString('en', {
+        {Number(props.value).toLocaleString('en', {
           minimumFractionDigits: 2,
         })}{' '}
         {priceType === 'sqm' ? (
@@ -178,11 +178,11 @@ function PropertyPriceChartContainer() {
   return <PropertyPriceChart results={data} />;
 }
 
-function AreaLayer({ series, xScale, yScale, innerHeight }) {
+function AreaLayer(props) {
   const areaGenerator = area()
-    .x((d) => xScale(d.data.x || 0))
-    .y0((d) => yScale(d.data.min || 0))
-    .y1((d) => yScale(d.data.max || 0))
+    .x((d) => props.xScale(d.data.x || 0))
+    .y0((d) => props.yScale(d.data.min || 0))
+    .y1((d) => props.yScale(d.data.max || 0))
     .curve(curveMonotoneX);
 
   return (
@@ -201,7 +201,7 @@ function AreaLayer({ series, xScale, yScale, innerHeight }) {
         ]}
       />
       <path
-        d={areaGenerator(series[0].data)}
+        d={areaGenerator(props.series[0].data)}
         fill="url(#pattern)"
         fillOpacity={0.2}
         stroke="#3daff7"

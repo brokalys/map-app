@@ -34,24 +34,25 @@ const columns = [
   },
   {
     Header: 'Total price',
-    Cell: ({ row: { original } }) => (
+    Cell: (props) => (
       <>
-        {original.price.toLocaleString()} €
-        {original.type === 'rent' && RENT_TYPE_SUFFIX[original.rent_type]}
+        {props.row.original.price.toLocaleString()} €
+        {props.row.original.type === 'rent' &&
+          RENT_TYPE_SUFFIX[props.row.original.rent_type]}
       </>
     ),
     accessor: 'price',
   },
   {
     Header: 'SQM Price',
-    Cell: ({ value }) => {
-      if (!value) {
+    Cell: (props) => {
+      if (!props.value) {
         return null;
       }
 
       return (
         <>
-          {Math.round(value).toLocaleString()} €/m
+          {Math.round(props.value).toLocaleString()} €/m
           <sup>2</sup>
         </>
       );
@@ -60,14 +61,14 @@ const columns = [
   },
   {
     Header: 'Area',
-    Cell: ({ value }) => {
-      if (!value) {
+    Cell: (props) => {
+      if (!props.value) {
         return null;
       }
 
       return (
         <>
-          {value.toLocaleString()} m<sup>2</sup>
+          {props.value.toLocaleString()} m<sup>2</sup>
         </>
       );
     },

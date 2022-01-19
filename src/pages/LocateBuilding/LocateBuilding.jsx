@@ -73,10 +73,10 @@ export default function LocateBuilding() {
   return <BuildingsLoaded buildings={buildings} />;
 }
 
-function BuildingsLoaded({ buildings }) {
+function BuildingsLoaded(props) {
   const dispatch = useDispatch();
   const { lat, lng } = useMapCenter();
-  const locatedBuilding = locateActiveBuilding(buildings || [], {
+  const locatedBuilding = locateActiveBuilding(props.buildings || [], {
     latitude: lat,
     longitude: lng,
   });
