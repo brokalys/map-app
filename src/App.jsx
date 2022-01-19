@@ -1,13 +1,15 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import GithubCorner from 'react-github-corner';
+import { Route, Switch } from 'react-router-dom';
 import { Container, Grid } from 'semantic-ui-react';
-import Footer from 'components/Footer';
-import Navigation from 'components/Navigation';
-import SplitPaneRight from 'containers/SplitPaneRight';
-import Building from 'pages/Building';
-import Home from 'pages/Home';
-import LocateBuilding from 'pages/LocateBuilding';
+
+import Footer from 'src/components/Footer';
+import Navigation from 'src/components/Navigation';
+import SplitPaneRight from 'src/containers/SplitPaneRight';
+import Building from 'src/pages/Building';
+import Home from 'src/pages/Home';
+import LocateBuilding from 'src/pages/LocateBuilding';
+
 import styles from './App.module.css';
 
 function App(props) {

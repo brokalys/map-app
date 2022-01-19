@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
+import { useSelector } from 'react-redux';
 import { Icon, Popup, Statistic } from 'semantic-ui-react';
-import usePriceData from 'hooks/api/use-property-price-mean-data';
-import { neighborhoodFilterSelector } from 'store/selectors';
+
+import usePriceData from 'src/hooks/api/use-property-price-mean-data';
+import { neighborhoodFilterSelector } from 'src/store/selectors';
+
 import styles from './MeanPriceInFilterLocation.module.css';
 
 function Description() {

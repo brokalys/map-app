@@ -1,6 +1,8 @@
 import PropType from 'prop-types';
 import { Grid, Statistic } from 'semantic-ui-react';
-import useMapCenter from 'hooks/use-map-center';
+
+import useMapCenter from 'src/hooks/use-map-center';
+
 import BuildingPriceBarChart from './BuildingPriceBarChart';
 
 function calcAvg(nums) {

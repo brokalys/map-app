@@ -1,4 +1,5 @@
-import Map from 'components/Map';
+import Map from 'src/components/Map';
+
 import styles from './SplitPaneRight.module.css';
 
 function SplitPaneRight() {

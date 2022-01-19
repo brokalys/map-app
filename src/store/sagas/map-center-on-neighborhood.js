@@ -1,7 +1,8 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
-import { SET_SELECTED_NEIGHBORHOOD } from 'store/actionTypes';
-import { selectedNeighborhoodSelector } from 'store/selectors';
+import { put, select, takeEvery } from 'redux-saga/effects';
+
+import { SET_SELECTED_NEIGHBORHOOD } from 'src/store/actionTypes';
+import { selectedNeighborhoodSelector } from 'src/store/selectors';
 
 function getCenterCoords(arr) {
   const coords = arr.reduce(

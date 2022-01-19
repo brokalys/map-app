@@ -1,10 +1,11 @@
 import { gql, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import {
   neighborhoodFilterSelector,
   selectedNeighborhoodSelector,
-} from 'store/selectors';
+} from 'src/store/selectors';
 
 const query = gql`
   query ($filters: String!) {

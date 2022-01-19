@@ -3,11 +3,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Checkbox, Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
-import { setNeighborhoodFilters, setSelectedNeighborhood } from 'store/actions';
+
+import {
+  setNeighborhoodFilters,
+  setSelectedNeighborhood,
+} from 'src/store/actions';
 import {
   neighborhoodFilterSelector,
   selectedNeighborhoodSelector,
-} from 'store/selectors';
+} from 'src/store/selectors';
+
 import styles from './FilterToolbar.module.css';
 
 const RIGA_LOCATION_ID = 'latvia-riga';

@@ -1,11 +1,12 @@
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 import { put, select, takeLatest } from 'redux-saga/effects';
-import { CLICK_ON_BUILDING } from 'store/actionTypes';
+
+import { CLICK_ON_BUILDING } from 'src/store/actionTypes';
 import {
   locationPathnameSelector,
   locationQuerySelector,
-} from 'store/selectors';
+} from 'src/store/selectors';
 
 function* setActiveBuilding({ payload: buildingId }) {
   const path = yield select(locationPathnameSelector);

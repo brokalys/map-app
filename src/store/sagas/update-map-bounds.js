@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { MAP_BOUNDS_CHANGED } from 'store/actionTypes';
-import { mapProjectionChanged } from 'store/actions';
+
+import { MAP_BOUNDS_CHANGED } from 'src/store/actionTypes';
+import { mapProjectionChanged } from 'src/store/actions';
 
 function* updateMapBounds({ payload }) {
   yield put(mapProjectionChanged(payload));

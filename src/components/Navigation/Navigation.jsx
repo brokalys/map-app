@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Icon, Menu, Popup } from 'semantic-ui-react';
-import SupportButton from 'components/SupportButton';
+
+import SupportButton from 'src/components/SupportButton';
+
 import styles from './Navigation.module.css';
 
 function Navigation() {

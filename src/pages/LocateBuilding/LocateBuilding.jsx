@@ -1,14 +1,16 @@
 import * as geolib from 'geolib';
 import { useDispatch } from 'react-redux';
 import { Button, Message } from 'semantic-ui-react';
-import useActiveRegionBuildings from 'hooks/use-active-region-buildings';
-import useMapCenter from 'hooks/use-map-center';
-import * as actions from 'store/actions';
+
+import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
+import useMapCenter from 'src/hooks/use-map-center';
+import * as actions from 'src/store/actions';
+
+import styles from './LocateBuilding.module.css';
 import loadingAnimationData from './animations/loading.json';
 import notFoundAnimationData from './animations/not-found.json';
 import successAnimationData from './animations/success.json';
 import Container from './components/Container';
-import styles from './LocateBuilding.module.css';
 
 function buildPolygon(bounds) {
   return bounds.split(/,\s?/).map((row) => {

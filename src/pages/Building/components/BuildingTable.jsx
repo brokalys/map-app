@@ -1,9 +1,11 @@
-import { useEffect, useMemo } from 'react';
-import { useFilters, usePagination, useTable, useSortBy } from 'react-table';
-import { Pagination, Table } from 'semantic-ui-react';
 import moment from 'moment';
-import useActiveRegionBuildings from 'hooks/use-active-region-buildings';
-import useQuerystringParam from 'hooks/use-querystring-param';
+import { useEffect, useMemo } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { Pagination, Table } from 'semantic-ui-react';
+
+import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
+import useQuerystringParam from 'src/hooks/use-querystring-param';
+
 import BuildingStats from './BuildingStats';
 import styles from './BuildingTable.module.css';
 

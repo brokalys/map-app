@@ -1,14 +1,17 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Menu, Message } from 'semantic-ui-react';
-import { returnToHomeClicked } from 'store/actions';
+
+import { returnToHomeClicked } from 'src/store/actions';
+
 import BuildingToolbar from './BuildingToolbar';
 
 export default function Header(props) {
   const dispatch = useDispatch();
-  const onReturnClick = useCallback(() => dispatch(returnToHomeClicked()), [
-    dispatch,
-  ]);
+  const onReturnClick = useCallback(
+    () => dispatch(returnToHomeClicked()),
+    [dispatch],
+  );
 
   return (
     <>

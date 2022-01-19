@@ -1,7 +1,8 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Icon, Popup, Statistic } from 'semantic-ui-react';
-import useRentalYield from 'hooks/api/use-rental-yield';
+
+import useRentalYield from 'src/hooks/api/use-rental-yield';
 
 function RentalYieldInFilterLocation() {
   const data = useRentalYield();

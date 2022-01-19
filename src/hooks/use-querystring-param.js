@@ -1,10 +1,11 @@
 import { replace } from 'connected-react-router';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
-  querystringParamSelector,
   locationQuerySelector,
-} from 'store/selectors';
+  querystringParamSelector,
+} from 'src/store/selectors';
 
 export default function useQuerystringParam(
   key,

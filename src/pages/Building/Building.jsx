@@ -1,7 +1,9 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
-import useActiveBuilding from 'hooks/api/use-active-building';
+
+import useActiveBuilding from 'src/hooks/api/use-active-building';
+
 import BuildingTable from './components/BuildingTable';
 import Header from './components/Header';
 

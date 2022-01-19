@@ -1,5 +1,6 @@
 import { Dropdown, Menu } from 'semantic-ui-react';
-import useQuerystringParam from 'hooks/use-querystring-param';
+
+import useQuerystringParam from 'src/hooks/use-querystring-param';
 
 const categoryOptions = [
   { value: 'apartment', text: 'Apartment' },

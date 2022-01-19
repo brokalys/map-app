@@ -1,13 +1,15 @@
-import { area, curveMonotoneX } from 'd3-shape';
 import { Defs } from '@nivo/core';
+import { ResponsiveLine } from '@nivo/line';
+import { area, curveMonotoneX } from 'd3-shape';
+import moment from 'moment';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
-import moment from 'moment';
-import { ResponsiveLine } from '@nivo/line';
-import { neighborhoodFilterSelector } from 'store/selectors';
+
+import usePriceData from 'src/hooks/api/use-property-price-chart-data';
+import { neighborhoodFilterSelector } from 'src/store/selectors';
+
 import styles from './PropertyPriceChart.module.css';
-import usePriceData from 'hooks/api/use-property-price-chart-data';
 
 function removeOutliers(data) {
   const maxPoints = data.map(({ max }) => max);

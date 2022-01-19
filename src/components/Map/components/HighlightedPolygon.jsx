@@ -1,6 +1,7 @@
 import { Polygon } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
-import { selectedNeighborhoodSelector } from 'store/selectors';
+
+import { selectedNeighborhoodSelector } from 'src/store/selectors';
 
 export default function BuildingPolygons() {
   const { region } = useSelector(selectedNeighborhoodSelector);

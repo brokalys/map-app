@@ -1,8 +1,10 @@
+import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import useMapCenter from 'hooks/use-map-center';
-import * as actions from 'store/actions';
+
+import useMapCenter from 'src/hooks/use-map-center';
+import * as actions from 'src/store/actions';
+
 import BuildingPolygons from './components/BuildingPolygons';
 import HighlightedPolygon from './components/HighlightedPolygon';
 

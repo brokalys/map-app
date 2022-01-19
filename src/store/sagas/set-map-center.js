@@ -1,10 +1,11 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
-import { MAP_BOUNDS_CHANGED } from 'store/actionTypes';
+import { put, select, takeLatest } from 'redux-saga/effects';
+
+import { MAP_BOUNDS_CHANGED } from 'src/store/actionTypes';
 import {
   locationPathnameSelector,
   locationSearchSelector,
-} from 'store/selectors';
+} from 'src/store/selectors';
 
 function* setMapCenter({ payload: map }) {
   const zoom = map.getZoom();

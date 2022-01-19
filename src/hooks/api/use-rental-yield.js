@@ -1,4 +1,4 @@
-import usePriceData from 'hooks/api/use-property-price-chart-data';
+import usePriceData from 'src/hooks/api/use-property-price-chart-data';
 
 function findLastWithValue(data) {
   return data

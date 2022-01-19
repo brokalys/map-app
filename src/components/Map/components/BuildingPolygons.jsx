@@ -3,9 +3,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { Dimmer, Loader, Segment } from 'semantic-ui-react';
-import useRegionBuildings from 'hooks/api/use-region-buildings';
-import * as actions from 'store/actions';
-import { mapRegionSelector } from 'store/selectors';
+
+import useRegionBuildings from 'src/hooks/api/use-region-buildings';
+import * as actions from 'src/store/actions';
+import { mapRegionSelector } from 'src/store/selectors';
+
 import styles from './BuildingPolygons.module.css';
 
 function Polygons(props) {

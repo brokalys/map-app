@@ -1,12 +1,14 @@
-import Bugsnag from 'bugsnag';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useSelector } from 'react-redux';
 import { Grid, Header, Message, Statistic } from 'semantic-ui-react';
-import FilterToolbar from 'components/FilterToolbar';
-import PropertyPriceChart from 'components/PropertyPriceChart';
-import MeanPrice from 'components/Statistics/MeanPriceInFilterLocation';
-import RentalYield from 'components/Statistics/RentalYieldInFilterLocation';
-import { selectedNeighborhoodSelector } from 'store/selectors';
+
+import Bugsnag from 'src/bugsnag';
+import FilterToolbar from 'src/components/FilterToolbar';
+import PropertyPriceChart from 'src/components/PropertyPriceChart';
+import MeanPrice from 'src/components/Statistics/MeanPriceInFilterLocation';
+import RentalYield from 'src/components/Statistics/RentalYieldInFilterLocation';
+import { selectedNeighborhoodSelector } from 'src/store/selectors';
+
 import styles from './Home.module.css';
 
 export default function Home() {

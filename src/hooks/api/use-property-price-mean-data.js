@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
-import usePriceData from 'hooks/api/use-property-price-chart-data';
-import { neighborhoodFilterSelector } from 'store/selectors';
+
+import usePriceData from 'src/hooks/api/use-property-price-chart-data';
+import { neighborhoodFilterSelector } from 'src/store/selectors';
 
 function findLastWithValue(data) {
   return data

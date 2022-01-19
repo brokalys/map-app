@@ -45,6 +45,8 @@
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
@@ -57,7 +59,23 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:react-hooks/recommended"
+    ],
+    "rules": {
+      "react/destructuring-assignment": [
+        1,
+        "always"
+      ],
+      "react/function-component-definition": [
+        1,
+        {
+          "namedComponents": "arrow-function"
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
