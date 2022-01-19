@@ -2,11 +2,9 @@ import { ApolloProvider } from '@apollo/client';
 import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
-// @todo: re-enable when the issue is fixed and a new version of formatic-ui is released
-// @see: https://github.com/Semantic-Org/Semantic-UI-React/issues/4227
-// import 'semantic-ui-css/semantic.min.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Provider } from 'react-redux';
+import 'semantic-ui-css/semantic.min.css';
 
 import App from './App.jsx';
 import client from './apollo-client';

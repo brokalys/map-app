@@ -106,7 +106,9 @@ function FilterToolbar() {
             />
           </Menu.Item>
         )}
+      </Menu>
 
+      <Menu secondary>
         <Menu.Item fitted className={styles.categoryDropdown}>
           <Dropdown
             placeholder="Select category"

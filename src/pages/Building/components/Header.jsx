@@ -24,7 +24,9 @@ export default function Header(props) {
             onClick={onReturnClick}
           />
         </Menu.Item>
+      </Menu>
 
+      <Menu secondary>
         <BuildingToolbar />
       </Menu>
 

@@ -4,10 +4,6 @@ body,
   height: 100%;
 }
 
-body {
-  background-color: #30404d !important;
-}
-
 g rect {
   transition: all 0.2s;
 }
