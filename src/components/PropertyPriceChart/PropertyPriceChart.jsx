@@ -3,10 +3,11 @@ import { ResponsiveLine } from '@nivo/line';
 import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Checkbox, Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 
 import usePriceData from 'src/hooks/api/use-property-price-chart-data';
+import { setNeighborhoodFilters } from 'src/store/actions';
 import { neighborhoodFilterSelector } from 'src/store/selectors';
 
 import styles from './PropertyPriceChart.module.css';
@@ -40,20 +41,24 @@ function useChartData(results, { priceType, showOutliers }) {
     [results, priceType],
   );
 
-  const cleanedData = useMemo(
-    () => (showOutliers ? data : removeOutliers(data)),
-    [data, showOutliers],
-  );
+  const cleanedData = useMemo(() => removeOutliers(data), [data]);
 
-  return cleanedData.length > 9 ? cleanedData : data;
+  return {
+    data: showOutliers && cleanedData.length > 9 ? cleanedData : data,
+    hasOutliers: cleanedData.length !== data.length,
+  };
 }
 
 function PropertyPriceChart(props) {
+  const dispatch = useDispatch();
   const { price: priceType, outliers: showOutliers } = useSelector(
     neighborhoodFilterSelector,
   );
 
-  const data = useChartData(props.results, { priceType, showOutliers });
+  const { data, hasOutliers } = useChartData(props.results, {
+    priceType,
+    showOutliers,
+  });
 
   const maxPrice = data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
@@ -78,81 +83,94 @@ function PropertyPriceChart(props) {
   }
 
   return (
-    <ResponsiveLine
-      data={[
-        {
-          id: 'Average Price',
-          data,
-        },
-      ]}
-      margin={{ top: 10, right: 5, bottom: 100, left: 60 }}
-      xScale={{
-        type: 'time',
-        format: '%Y-%m-%d',
-        precision: 'month',
-      }}
-      xFormat="time:%Y-%m-%d"
-      yScale={{
-        type: 'linear',
-        stacked: false,
-        max: maxPrice * 1.05,
-      }}
-      sliceTooltip={({ slice }) => {
-        return (
-          <div className={styles.tooltip}>
-            {slice.points.map((point) => (
-              <div key={point.id}>
-                <div>
-                  <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
+    <div className={styles.chartWrapper}>
+      <ResponsiveLine
+        data={[
+          {
+            id: 'Average Price',
+            data,
+          },
+        ]}
+        margin={{ top: 10, right: 5, bottom: 70, left: 60 }}
+        xScale={{
+          type: 'time',
+          format: '%Y-%m-%d',
+          precision: 'month',
+        }}
+        xFormat="time:%Y-%m-%d"
+        yScale={{
+          type: 'linear',
+          stacked: false,
+          max: maxPrice * 1.05,
+        }}
+        sliceTooltip={({ slice }) => {
+          return (
+            <div className={styles.tooltip}>
+              {slice.points.map((point) => (
+                <div key={point.id}>
+                  <div>
+                    <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
+                  </div>
+                  <div>
+                    <strong>Max:</strong> <Price value={point.data.max} />
+                  </div>
+                  <div>
+                    <strong>{point.serieId}:</strong>{' '}
+                    <Price value={point.data.yFormatted} />
+                  </div>
+                  <div>
+                    <strong>Min:</strong> <Price value={point.data.min} />
+                  </div>
+                  <hr />
+                  <div>
+                    <strong>Mode:</strong> <Price value={point.data.mode} />
+                  </div>
+                  <div>
+                    <strong>Median:</strong> <Price value={point.data.median} />
+                  </div>
                 </div>
-                <div>
-                  <strong>Max:</strong> <Price value={point.data.max} />
-                </div>
-                <div>
-                  <strong>{point.serieId}:</strong>{' '}
-                  <Price value={point.data.yFormatted} />
-                </div>
-                <div>
-                  <strong>Min:</strong> <Price value={point.data.min} />
-                </div>
-                <hr />
-                <div>
-                  <strong>Mode:</strong> <Price value={point.data.mode} />
-                </div>
-                <div>
-                  <strong>Median:</strong> <Price value={point.data.median} />
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      }}
-      axisBottom={{
-        format: '%Y-%m',
-        tickValues: 'every 2 months',
-        tickRotation: -90,
-      }}
-      axisLeft={{
-        format: (value) => `${value} €`,
-      }}
-      enablePoints={true}
-      curve="monotoneX"
-      useMesh={true}
-      enableSlices="x"
-      layers={[
-        'grid',
-        'markers',
-        'axes',
-        'areas',
-        'crosshair',
-        AreaLayer,
-        'lines',
-        'points',
-        'slices',
-        'mesh',
-        'legends',
-      ]}
-    />
+              ))}
+            </div>
+          );
+        }}
+        axisBottom={{
+          format: '%Y-%m',
+          tickValues: 'every 2 months',
+          tickRotation: -90,
+        }}
+        axisLeft={{
+          format: (value) => `${value} €`,
+        }}
+        enablePoints={true}
+        curve="monotoneX"
+        useMesh={true}
+        enableSlices="x"
+        layers={[
+          'grid',
+          'markers',
+          'axes',
+          'areas',
+          'crosshair',
+          AreaLayer,
+          'lines',
+          'points',
+          'slices',
+          'mesh',
+          'legends',
+        ]}
+      />
+
+      {hasOutliers && (
+        <Checkbox
+          className={styles.outlierCheckbox}
+          label="show outliers"
+          checked={showOutliers}
+          onChange={(event, data) =>
+            dispatch(setNeighborhoodFilters({ outliers: data.checked }))
+          }
+        />
+      )}
+    </div>
   );
 }
 

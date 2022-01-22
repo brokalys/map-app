@@ -1,11 +1,20 @@
 .container {
   height: 350px;
   margin-top: 50px;
+  margin-bottom: 50px;
   padding: 0 !important;
+}
+
+.chartWrapper {
+  height: 100%;
 }
 
 .tooltip {
   background: #fff;
   padding: 9px 12px;
   border: 1px solid #ccc;
+}
+
+.outlierCheckbox {
+  float: right;
 }
