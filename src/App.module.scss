@@ -3,15 +3,15 @@
 }
 
 .grid {
-  margin: 0 0 0 250px !important;
+  margin: 0 0 0 260px !important;
   height: 100%;
 }
 
 .leftPanel {
   height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 27px 40px 25px 50px !important;
   overflow-y: scroll;
+  margin-top: 15px;
 }
 
 .leftPanel::-webkit-scrollbar-track {
