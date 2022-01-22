@@ -109,7 +109,7 @@ const columns = [
     Cell: (props) =>
       props.value
         ? moment(props.value).format('YYYY-MM-DD HH:mm')
-        : props.row.original.source === 'classified'
+        : props.row.original.source === 'classifieds'
         ? 'Before 2018'
         : null,
     accessor: 'date',
