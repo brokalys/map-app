@@ -10,7 +10,7 @@ import { RestLink } from 'apollo-link-rest';
 
 import packageJson from '../package.json';
 
-const debounceLink = new DebounceLink(3000);
+const debounceLink = new DebounceLink(1500);
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_ENDPOINT,
 });

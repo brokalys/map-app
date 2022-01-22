@@ -34,23 +34,21 @@ function BuildingPolygons() {
     );
   }
 
-  return buildings
-    .filter(({ data }) => data.length > 0)
-    .map((building) => (
-      <Polygon
-        key={building.id}
-        onClick={() => onBuildingClick(building)}
-        paths={building.bounds.split(', ').map((row) => {
-          const [lat, lng] = row.split(' ');
-          return { lat: parseFloat(lat), lng: parseFloat(lng) };
-        })}
-        options={
-          buildingId && buildingId === building.id.toString()
-            ? { strokeColor: 'green', fillColor: 'green' }
-            : { strokeColor: 'black', fillColor: 'black' }
-        }
-      />
-    ));
+  return buildings.map((building) => (
+    <Polygon
+      key={building.id}
+      onClick={() => onBuildingClick(building)}
+      paths={building.bounds.split(', ').map((row) => {
+        const [lat, lng] = row.split(' ');
+        return { lat: parseFloat(lat), lng: parseFloat(lng) };
+      })}
+      options={
+        buildingId && buildingId === building.id.toString()
+          ? { strokeColor: 'green', fillColor: 'green' }
+          : { strokeColor: 'black', fillColor: 'black' }
+      }
+    />
+  ));
 }
 
 export default React.memo(BuildingPolygons);

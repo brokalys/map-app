@@ -3,7 +3,6 @@ import { useEffect, useMemo } from 'react';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import { Pagination, Table } from 'semantic-ui-react';
 
-import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
 import useQuerystringParam from 'src/hooks/use-querystring-param';
 
 import BuildingStats from './BuildingStats';
@@ -130,36 +129,6 @@ function usePageSize() {
   return [parseInt(page || 1, 10) - 1, setPage];
 }
 
-function useActiveRegionBuildingPrices(filters) {
-  const { loading, error, data } = useActiveRegionBuildings();
-  const classifieds = data.reduce((carry, { data }) => [...carry, ...data], []);
-  const filteredClassifieds = classifieds.filter((classified) =>
-    filters
-      .filter(({ value }) => !!value)
-      .reduce(
-        (carry, { id, value }) => carry && classified[id] === value,
-        true,
-      ),
-  );
-
-  const regionPrices = {
-    total: filteredClassifieds.reduce(
-      (carry, { price }) => [...carry, price],
-      [],
-    ),
-    sqm: filteredClassifieds.reduce(
-      (carry, { calc_price_per_sqm: price }) => [...carry, price],
-      [],
-    ),
-  };
-
-  return {
-    loading,
-    error,
-    data: regionPrices,
-  };
-}
-
 function useQuerystringFilters() {
   const [source] = useQuerystringParam('source');
   const [category] = useQuerystringParam('category');
@@ -216,7 +185,6 @@ export default function BuildingTable(props) {
     useSortBy,
     usePagination,
   );
-  const regionPrices = useActiveRegionBuildingPrices(filters);
 
   useEffect(() => {
     gotoPage(pageIndex);
@@ -244,7 +212,7 @@ export default function BuildingTable(props) {
     <>
       {hasResults && (
         <div className={styles.stats}>
-          <BuildingStats prices={prices} regionPrices={regionPrices} />
+          <BuildingStats prices={prices} />
         </div>
       )}
       <Table singleLine={hasResults} sortable>
