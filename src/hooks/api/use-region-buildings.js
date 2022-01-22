@@ -12,7 +12,7 @@ const GET_BUILDINGS = gql`
 `;
 
 export default function useRegionBuildings(region) {
-  const { loading, data } = useQuery(GET_BUILDINGS, {
+  const { loading, error, data } = useQuery(GET_BUILDINGS, {
     variables: {
       region,
     },
@@ -22,6 +22,6 @@ export default function useRegionBuildings(region) {
   });
   return {
     loading,
-    data: data?.bounds?.buildings,
+    data: error ? [] : data?.bounds?.buildings,
   };
 }
