@@ -1,0 +1,34 @@
+$pirmaryTextColor: #ccc;
+$secondaryTextColor: #b6b3d0;
+
+.container {
+  padding: 15px 0 0;
+  margin: 0 15px;
+  color: $pirmaryTextColor;
+
+  .copyright {
+    text-align: center;
+    font-size: 10px;
+    color: $secondaryTextColor;
+
+    a {
+      color: $secondaryTextColor;
+    }
+  }
+
+  .legal {
+    border-top: 1px solid #404f66;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+
+    a {
+      color: $pirmaryTextColor;
+    }
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
