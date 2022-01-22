@@ -7,3 +7,14 @@ body,
 g rect {
   transition: all 0.2s;
 }
+
+@media (max-width: 1000px) {
+  #root {
+    display: none !important;
+  }
+  #mobile-warning {
+    display: block !important;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
