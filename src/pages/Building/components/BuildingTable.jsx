@@ -19,6 +19,11 @@ const RENT_TYPE_SUFFIX = {
 
 const columns = [
   {
+    Header: 'Source',
+    accessor: 'source',
+    filter: 'equals',
+  },
+  {
     Header: 'Category',
     accessor: 'category',
     filter: 'equals',
@@ -79,10 +84,36 @@ const columns = [
     accessor: 'rooms',
   },
   {
-    Header: 'Published at',
-    Cell: ({ value }) =>
-      value ? moment(value).format('YYYY-MM-DD HH:mm') : 'Before 2018',
-    accessor: 'published_at',
+    Header: 'Floor',
+    accessor: 'floor_min',
+    Cell: (props) => {
+      const { floor_min, floor_max } = props.row.original;
+      const isFloorMinNumber = typeof floor_min === 'number';
+      const isFloorMaxNumber = typeof floor_max === 'number';
+
+      if (!isFloorMinNumber) {
+        if (isFloorMaxNumber) {
+          return floor_max;
+        }
+        return null;
+      }
+
+      if (isFloorMaxNumber && floor_min !== floor_max) {
+        return [floor_min, floor_max].join(' - ');
+      }
+
+      return floor_min;
+    },
+  },
+  {
+    Header: 'Date',
+    Cell: (props) =>
+      props.value
+        ? moment(props.value).format('YYYY-MM-DD HH:mm')
+        : props.row.original.source === 'classified'
+        ? 'Before 2018'
+        : null,
+    accessor: 'date',
   },
 ];
 
@@ -101,10 +132,7 @@ function usePageSize() {
 
 function useActiveRegionBuildingPrices(filters) {
   const { loading, error, data } = useActiveRegionBuildings();
-  const classifieds = data.reduce(
-    (carry, { properties }) => [...carry, ...properties.results],
-    [],
-  );
+  const classifieds = data.reduce((carry, { data }) => [...carry, ...data], []);
   const filteredClassifieds = classifieds.filter((classified) =>
     filters
       .filter(({ value }) => !!value)
@@ -133,17 +161,23 @@ function useActiveRegionBuildingPrices(filters) {
 }
 
 function useQuerystringFilters() {
+  const [source] = useQuerystringParam('source');
   const [category] = useQuerystringParam('category');
   const [type] = useQuerystringParam('type');
   const [rentType] = useQuerystringParam('rent_type');
 
   return useMemo(
     () => [
+      { id: 'source', value: source },
       { id: 'category', value: category },
-      { id: 'type', value: type },
-      { id: 'rent_type', value: type === 'rent' ? rentType : undefined },
+      { id: 'type', value: source === 'classifieds' ? type : undefined },
+      {
+        id: 'rent_type',
+        value:
+          source === 'classifieds' && type === 'rent' ? rentType : undefined,
+      },
     ],
-    [category, type, rentType],
+    [source, category, type, rentType],
   );
 }
 
@@ -163,11 +197,11 @@ export default function BuildingTable(props) {
   } = useTable(
     {
       columns,
-      data: props.building.properties.results,
+      data: props.building.data,
       initialState: {
         sortBy: [
           {
-            id: 'published_at',
+            id: 'date',
             desc: true,
           },
         ],
@@ -259,9 +293,9 @@ export default function BuildingTable(props) {
               <Table.Cell colSpan={columns.length} textAlign="center">
                 <p>
                   <strong>
-                    No classifieds could be found with the given filters.
+                    No data could be found with the given filters.
                   </strong>{' '}
-                  Clear the filters or open a different property to see data.
+                  Clear the filters or open a different building to see data.
                 </p>
               </Table.Cell>
             </Table.Row>

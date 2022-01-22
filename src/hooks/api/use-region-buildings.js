@@ -1,5 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 
+import { mapPropertyApiData } from 'src/common/map-api-property-data';
+
 const GET_BUILDINGS_AND_PROPERTIES = gql`
   query UseRegionBuildings($region: String!, $filter: PropertyFilter) {
     bounds(bounds: $region) {
@@ -15,8 +17,32 @@ const GET_BUILDINGS_AND_PROPERTIES = gql`
             calc_price_per_sqm
             rooms
             area
-            floor
-            published_at
+            floor_min: floor
+            date: published_at
+          }
+        }
+        vzd {
+          apartments {
+            date: sale_date
+            price
+            floor_min: space_group_lowest_floor
+            floor_max: space_group_highest_floor
+            area: apartment_total_area_m2
+            rooms: room_count
+          }
+          premises {
+            date: sale_date
+            price
+            floor_min: space_group_lowest_floor
+            floor_max: space_group_highest_floor
+            area: space_group_total_area_m2
+            rooms: space_count_in_space_group
+          }
+          houses {
+            date: sale_date
+            price
+            floor_min: building_overground_floors
+            area: building_total_area_m2
           }
         }
       }
@@ -46,6 +72,10 @@ export default function useRegionBuildings(region) {
   });
   return {
     loading,
-    data: data?.bounds?.buildings || [],
+    data: mapVzdData(data?.bounds?.buildings),
   };
+}
+
+function mapVzdData(buildings = []) {
+  return buildings.map(mapPropertyApiData);
 }

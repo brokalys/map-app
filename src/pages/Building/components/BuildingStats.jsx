@@ -13,8 +13,8 @@ function calcAvg(nums) {
 export default function BuildingStats(props) {
   const { zoom } = useMapCenter();
   const min = {
-    total: Math.min(...props.prices.total),
-    sqm: Math.min(...props.prices.sqm),
+    total: Math.round(Math.min(...props.prices.total)),
+    sqm: Math.round(Math.min(...props.prices.sqm)),
   };
   const avg = {
     total: Math.round(calcAvg(props.prices.total)),
@@ -25,8 +25,8 @@ export default function BuildingStats(props) {
     sqm: Math.round(calcAvg(props.regionPrices.data.sqm)),
   };
   const max = {
-    total: Math.max(...props.prices.total),
-    sqm: Math.max(...props.prices.sqm),
+    total: Math.round(Math.max(...props.prices.total)),
+    sqm: Math.round(Math.max(...props.prices.sqm)),
   };
 
   return (

@@ -1,6 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
+import { mapPropertyApiData } from 'src/common/map-api-property-data';
+
 const GET_SINGLE_BUILDING = gql`
   query UseActiveBuilding($id: Int!, $filter: PropertyFilter) {
     building(id: $id) {
@@ -15,8 +17,32 @@ const GET_SINGLE_BUILDING = gql`
           calc_price_per_sqm
           rooms
           area
-          floor
-          published_at
+          floor_min: floor
+          date: published_at
+        }
+      }
+      vzd {
+        apartments {
+          date: sale_date
+          price
+          floor_min: space_group_lowest_floor
+          floor_max: space_group_highest_floor
+          area: apartment_total_area_m2
+          rooms: room_count
+        }
+        premises {
+          date: sale_date
+          price
+          floor_min: space_group_lowest_floor
+          floor_max: space_group_highest_floor
+          area: space_group_total_area_m2
+          rooms: space_count_in_space_group
+        }
+        houses {
+          date: sale_date
+          price
+          floor_min: building_overground_floors
+          area: building_total_area_m2
         }
       }
     }
@@ -41,5 +67,13 @@ export default function useActiveBuilding() {
       },
     },
   });
-  return { data: data?.building || {}, error, loading };
+  return { data: mapVzdData(data?.building), error, loading };
+}
+
+function mapVzdData(building) {
+  if (!building) {
+    return {};
+  }
+
+  return mapPropertyApiData(building);
 }
