@@ -13,7 +13,7 @@ const containerStyle = {
   height: '100%',
 };
 
-export const MIN_ZOOM_FOR_BUILDINGS = 17;
+export const MIN_ZOOM_FOR_BUILDINGS = 15;
 export const MIN_ZOOM_FOR_HIGHLIGHTED_REGION = 12;
 export const MAX_ZOOM_FOR_HIGHLIGHTED_REGION = 14;
 
