@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://map.brokalys.com" target="_blank">
+  <a href="https://brokalys.com" target="_blank">
     <img src="/map-demo.png" alt="Brokalys Map" />
   </a>
 </p>
