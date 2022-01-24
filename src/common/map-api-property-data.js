@@ -16,9 +16,10 @@ export function mapPropertyApiData(building) {
       ...building.properties.results.map((row) => ({
         ...row,
         source: 'classifieds',
+        type: row.type === 'office' ? 'premise' : row.type,
       })),
       ...building.vzd.apartments.map(mapVzdSalesData('apartment')),
-      ...building.vzd.premises.map(mapVzdSalesData('office')),
+      ...building.vzd.premises.map(mapVzdSalesData('premise')),
       ...building.vzd.houses.map(mapVzdSalesData('house')),
     ],
   };

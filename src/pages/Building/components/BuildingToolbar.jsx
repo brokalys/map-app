@@ -9,7 +9,7 @@ const sourceOptions = [
 const categoryOptions = [
   { value: 'apartment', text: 'Apartment' },
   { value: 'house', text: 'House' },
-  { value: 'office', text: 'Premise' },
+  { value: 'premise', text: 'Premise' },
 ];
 const typeOptions = [
   { value: 'sell', text: 'Sell' },
