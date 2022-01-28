@@ -87,7 +87,7 @@ function BuildingsLoaded(props) {
     dispatch(actions.returnToHomeClicked());
   };
 
-  if (!locatedBuilding || locatedBuilding.data.length === 0) {
+  if (!locatedBuilding) {
     return (
       <Container
         lottie={{
