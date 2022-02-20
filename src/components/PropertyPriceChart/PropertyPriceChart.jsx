@@ -180,7 +180,12 @@ function PropertyPriceChartContainer() {
   if (loading) {
     return (
       <Dimmer inverted active>
-        <Loader />
+        <Loader>
+          Loading price data..
+          <hr />
+          Depending on the size of the region, this might take a few minutes.
+          Please be patient.
+        </Loader>
       </Dimmer>
     );
   }

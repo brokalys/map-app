@@ -37,6 +37,10 @@ const rigaOptions = riga.features.map((row) => ({
   text: row.properties.name,
 }));
 
+const sourceOptions = [
+  { value: 'classifieds', text: 'Classifieds' },
+  { value: 'real-sales', text: 'Real sales' },
+];
 const categoryOptions = [
   { value: 'apartment', text: 'Apartment' },
   { value: 'house', text: 'House' },
@@ -53,7 +57,9 @@ const priceTypeOptions = [
 
 function FilterToolbar() {
   const dispatch = useDispatch();
-  const { category, type, price } = useSelector(neighborhoodFilterSelector);
+  const { category, type, price, source } = useSelector(
+    neighborhoodFilterSelector,
+  );
   const { id: neighborhood } = useSelector(selectedNeighborhoodSelector);
 
   /**
@@ -104,6 +110,18 @@ function FilterToolbar() {
       </Menu>
 
       <Menu secondary>
+        <Menu.Item fitted>
+          <Dropdown
+            placeholder="Select data source"
+            fluid
+            selection
+            value={source}
+            options={sourceOptions}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ source: data.value }))
+            }
+          />
+        </Menu.Item>
         <Menu.Item fitted className={styles.categoryDropdown}>
           <Dropdown
             placeholder="Select category"
@@ -116,18 +134,20 @@ function FilterToolbar() {
             }
           />
         </Menu.Item>
-        <Menu.Item fitted>
-          <Dropdown
-            placeholder="Select type"
-            fluid
-            selection
-            value={type}
-            options={typeOptions}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ type: data.value }))
-            }
-          />
-        </Menu.Item>
+        {source === 'classifieds' && (
+          <Menu.Item fitted>
+            <Dropdown
+              placeholder="Select type"
+              fluid
+              selection
+              value={type}
+              options={typeOptions}
+              onChange={(event, data) =>
+                dispatch(setNeighborhoodFilters({ type: data.value }))
+              }
+            />
+          </Menu.Item>
+        )}
 
         <Menu.Item fitted>
           <Dropdown

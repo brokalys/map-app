@@ -15,7 +15,7 @@ export default function usePriceMeanData() {
   const { data: results, loading } = usePriceData();
 
   // Still loading..
-  if (loading > 0) {
+  if (loading) {
     return {
       change: {},
     };

@@ -38,5 +38,5 @@ export const selectedNeighborhoodSelector = createSelector(
 
 export const neighborhoodFilterSelector = createSelector(
   selectNeighborhood,
-  (state) => state.filters,
+  (state) => ({ source: 'classifieds', ...state.filters }),
 );

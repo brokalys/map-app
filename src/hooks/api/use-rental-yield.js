@@ -8,10 +8,21 @@ function findLastWithValue(data) {
 }
 
 export default function useRentalYield() {
-  const { data: rentData } = usePriceData({ type: 'rent' });
-  const { data: sellData } = usePriceData({ type: 'sell' });
+  const { data: rentData, loading: isRentDataLoading } = usePriceData({
+    type: 'rent',
+  });
+  const { data: sellData, loading: isSellDataLoading } = usePriceData({
+    type: 'sell',
+  });
 
-  if (!rentData.length || !sellData.length) {
+  console.log('loading', isRentDataLoading, isSellDataLoading);
+
+  if (
+    isRentDataLoading ||
+    isSellDataLoading ||
+    !rentData.length ||
+    !sellData.length
+  ) {
     return 0;
   }
 
