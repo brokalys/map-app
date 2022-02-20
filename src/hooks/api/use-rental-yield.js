@@ -15,8 +15,6 @@ export default function useRentalYield() {
     type: 'sell',
   });
 
-  console.log('loading', isRentDataLoading, isSellDataLoading);
-
   if (
     isRentDataLoading ||
     isSellDataLoading ||
