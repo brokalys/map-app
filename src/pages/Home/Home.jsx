@@ -7,7 +7,10 @@ import FilterToolbar from 'src/components/FilterToolbar';
 import PropertyPriceChart from 'src/components/PropertyPriceChart';
 import MeanPrice from 'src/components/Statistics/MeanPriceInFilterLocation';
 import RentalYield from 'src/components/Statistics/RentalYieldInFilterLocation';
-import { selectedNeighborhoodSelector } from 'src/store/selectors';
+import {
+  neighborhoodFilterSelector,
+  selectedNeighborhoodSelector,
+} from 'src/store/selectors';
 
 import styles from './Home.module.css';
 
@@ -15,6 +18,7 @@ export default function Home() {
   const {
     properties: { name: locationName },
   } = useSelector(selectedNeighborhoodSelector);
+  const { source } = useSelector(neighborhoodFilterSelector);
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function Home() {
         >
           <Statistic.Group size="small">
             <MeanPrice />
-            <RentalYield />
+            {source === 'classifieds' && <RentalYield />}
           </Statistic.Group>
         </ErrorBoundary>
       </div>
