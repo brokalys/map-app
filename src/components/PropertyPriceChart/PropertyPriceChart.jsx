@@ -26,7 +26,7 @@ function removeOutliers(data) {
   return fixedData;
 }
 
-function useChartData(results, { priceType, showOutliers }) {
+function useChartData(results, { priceType, showOutliers, source }) {
   const data = useMemo(
     () =>
       results.map((row) => {
@@ -44,20 +44,23 @@ function useChartData(results, { priceType, showOutliers }) {
   const cleanedData = useMemo(() => removeOutliers(data), [data]);
 
   return {
-    data: showOutliers && cleanedData.length > 9 ? cleanedData : data,
+    data: !showOutliers && cleanedData.length > 9 ? cleanedData : data,
     hasOutliers: cleanedData.length !== data.length,
   };
 }
 
 function PropertyPriceChart(props) {
   const dispatch = useDispatch();
-  const { price: priceType, outliers: showOutliers } = useSelector(
-    neighborhoodFilterSelector,
-  );
+  const {
+    price: priceType,
+    outliers: showOutliers,
+    source,
+  } = useSelector(neighborhoodFilterSelector);
 
   const { data, hasOutliers } = useChartData(props.results, {
     priceType,
     showOutliers,
+    source,
   });
 
   const maxPrice = data.reduce(
@@ -109,7 +112,11 @@ function PropertyPriceChart(props) {
               {slice.points.map((point) => (
                 <div key={point.id}>
                   <div>
-                    <strong>{moment(point.data.x).format('YYYY-MM-DD')}</strong>
+                    <strong>
+                      {moment(point.data.x).format(
+                        source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                      )}
+                    </strong>
                   </div>
                   <div>
                     <strong>Max:</strong> <Price value={point.data.max} />
@@ -135,7 +142,7 @@ function PropertyPriceChart(props) {
         }}
         axisBottom={{
           format: '%Y-%m',
-          tickValues: 'every 2 months',
+          tickValues: 'every 3 months',
           tickRotation: -90,
         }}
         axisLeft={{
