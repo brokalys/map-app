@@ -31,21 +31,25 @@ export default function Home() {
         <FilterToolbar />
         <PropertyPriceChart />
 
-        <Header as="h3">Last datapoint</Header>
+        {source === 'classifieds' && (
+          <>
+            <Header as="h3">Last datapoint</Header>
 
-        <ErrorBoundary
-          fallback={
-            <Message negative>
-              Failed loading the data. Please try again later.
-            </Message>
-          }
-          onError={Bugsnag.notify}
-        >
-          <Statistic.Group size="small">
-            <MeanPrice />
-            {source === 'classifieds' && <RentalYield />}
-          </Statistic.Group>
-        </ErrorBoundary>
+            <ErrorBoundary
+              fallback={
+                <Message negative>
+                  Failed loading the data. Please try again later.
+                </Message>
+              }
+              onError={Bugsnag.notify}
+            >
+              <Statistic.Group size="small">
+                <MeanPrice />
+                <RentalYield />
+              </Statistic.Group>
+            </ErrorBoundary>
+          </>
+        )}
       </div>
     </>
   );
