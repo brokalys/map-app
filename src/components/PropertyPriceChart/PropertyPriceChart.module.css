@@ -1,5 +1,5 @@
 .container {
-  height: 350px;
+  height: 380px;
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 0 !important;
@@ -7,6 +7,14 @@
 
 .chartWrapper {
   height: 100%;
+}
+
+.priceChartWrapper {
+  height: 65%;
+}
+
+.countChartWrapper {
+  height: 35%;
 }
 
 .tooltip {

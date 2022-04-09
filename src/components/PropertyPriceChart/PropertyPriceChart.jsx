@@ -1,8 +1,9 @@
 import { Defs } from '@nivo/core';
 import { ResponsiveLine } from '@nivo/line';
+import { Crosshair } from '@nivo/tooltip';
 import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Checkbox, Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 
@@ -33,7 +34,7 @@ function useChartData(results, { priceType, showOutliers, source }) {
         const prices = priceType === 'sqm' ? row.pricePerSqm : row.price;
         return {
           ...prices,
-
+          count: row.count,
           x: row.start_datetime.substr(0, 10),
           y: prices.mean,
         };
@@ -62,11 +63,22 @@ function PropertyPriceChart(props) {
     showOutliers,
     source,
   });
+  const countData = useMemo(
+    () =>
+      data.map((row) => ({
+        ...row,
+        y: row.count,
+      })),
+    [data],
+  );
 
   const maxPrice = data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
     0,
   );
+
+  const [crosshairAPosition, setCrosshairAPosition] = useState(null);
+  const [crosshairBPosition, setCrosshairBPosition] = useState(null);
 
   function Price(props) {
     return (
@@ -87,96 +99,163 @@ function PropertyPriceChart(props) {
 
   return (
     <div className={styles.chartWrapper}>
-      <ResponsiveLine
-        data={[
-          {
-            id: 'Average Price',
-            data,
-          },
-        ]}
-        margin={{ top: 10, right: 5, bottom: 70, left: 60 }}
-        xScale={{
-          type: 'time',
-          format: '%Y-%m-%d',
-          precision: 'month',
-        }}
-        xFormat="time:%Y-%m-%d"
-        yScale={{
-          type: 'linear',
-          stacked: false,
-          max: maxPrice * 1.05,
-        }}
-        sliceTooltip={({ slice }) => {
-          return (
-            <div className={styles.tooltip}>
-              {slice.points.map((point) => (
-                <div key={point.id}>
-                  <div>
-                    <strong>
-                      {moment(point.data.x).format(
-                        source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
-                      )}
-                    </strong>
+      <div className={styles.priceChartWrapper}>
+        <ResponsiveLine
+          data={[
+            {
+              id: 'Average Price',
+              data,
+            },
+          ]}
+          margin={{ top: 10, right: 5, bottom: 10, left: 60 }}
+          yScale={{
+            type: 'linear',
+            stacked: false,
+            max: maxPrice * 1.05,
+          }}
+          enableSlices="x"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div className={styles.tooltip}>
+                {slice.points.map((point) => (
+                  <div key={point.id}>
+                    <div>
+                      <strong>
+                        {moment(point.data.x).format(
+                          source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                        )}
+                      </strong>
+                    </div>
+                    <div>
+                      <strong>Max:</strong> <Price value={point.data.max} />
+                    </div>
+                    <div>
+                      <strong>{point.serieId}:</strong>{' '}
+                      <Price value={point.data.yFormatted} />
+                    </div>
+                    <div>
+                      <strong>Min:</strong> <Price value={point.data.min} />
+                    </div>
+                    <hr />
+                    <div>
+                      <strong>Mode:</strong> <Price value={point.data.mode} />
+                    </div>
+                    <div>
+                      <strong>Median:</strong>{' '}
+                      <Price value={point.data.median} />
+                    </div>
+                    <hr />
+                    <div>
+                      <strong>Data points:</strong> {point.data.count}
+                    </div>
                   </div>
-                  <div>
-                    <strong>Max:</strong> <Price value={point.data.max} />
-                  </div>
-                  <div>
-                    <strong>{point.serieId}:</strong>{' '}
-                    <Price value={point.data.yFormatted} />
-                  </div>
-                  <div>
-                    <strong>Min:</strong> <Price value={point.data.min} />
-                  </div>
-                  <hr />
-                  <div>
-                    <strong>Mode:</strong> <Price value={point.data.mode} />
-                  </div>
-                  <div>
-                    <strong>Median:</strong> <Price value={point.data.median} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        }}
-        axisBottom={{
-          format: '%Y-%m',
-          tickValues: 'every 3 months',
-          tickRotation: -90,
-        }}
-        axisLeft={{
-          format: (value) => `${value} €`,
-        }}
-        enablePoints={true}
-        curve="monotoneX"
-        useMesh={true}
-        enableSlices="x"
-        layers={[
-          'grid',
-          'markers',
-          'axes',
-          'areas',
-          'crosshair',
-          AreaLayer,
-          'lines',
-          'points',
-          'slices',
-          'mesh',
-          'legends',
-        ]}
-      />
-
-      {hasOutliers && (
-        <Checkbox
-          className={styles.outlierCheckbox}
-          label="show outliers"
-          checked={showOutliers}
-          onChange={(event, data) =>
-            dispatch(setNeighborhoodFilters({ outliers: data.checked }))
-          }
+                ))}
+              </div>
+            );
+          }}
+          axisBottom={false}
+          axisLeft={{
+            format: (value) => `${value} €`,
+          }}
+          curve="monotoneX"
+          useMesh
+          layers={[
+            'grid',
+            'markers',
+            'axes',
+            'areas',
+            (props) => (
+              <CustomCrosshair
+                {...props}
+                currentSlice={crosshairBPosition || props.currentSlice}
+              />
+            ),
+            AreaLayer,
+            'lines',
+            'points',
+            'slices',
+            'mesh',
+            'legends',
+            (props) => setCrosshairAPosition(props.currentSlice),
+          ]}
         />
-      )}
+      </div>
+
+      <div className={styles.countChartWrapper}>
+        <ResponsiveLine
+          data={[
+            {
+              id: 'Data point count',
+              data: countData,
+            },
+          ]}
+          margin={{ right: 5, top: 5, bottom: 70, left: 60 }}
+          padding={0}
+          axisLeft={{
+            tickValues: 2,
+          }}
+          gridYValues={4}
+          axisBottom={{
+            format: (x) => {
+              return moment(x).format(
+                source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+              );
+            },
+            tickRotation: -90,
+          }}
+          enableSlices="x"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div className={styles.tooltip}>
+                {slice.points.map((point) => (
+                  <div key={point.id}>
+                    <div>
+                      <strong>
+                        {moment(point.data.x).format(
+                          source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                        )}
+                      </strong>
+                    </div>
+                    <div>
+                      <strong>Data points:</strong> {point.data.count}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+          useMesh
+          layers={[
+            'grid',
+            'markers',
+            'axes',
+            'areas',
+            (props) => (
+              <CustomCrosshair
+                {...props}
+                currentSlice={crosshairAPosition || props.currentSlice}
+              />
+            ),
+            'lines',
+            'points',
+            'slices',
+            'mesh',
+            'legends',
+            (props) => setCrosshairBPosition(props.currentSlice),
+          ]}
+        />
+
+        {hasOutliers && (
+          <Checkbox
+            className={styles.outlierCheckbox}
+            label="show outliers"
+            checked={showOutliers}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ outliers: data.checked }))
+            }
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -238,6 +317,22 @@ function AreaLayer(props) {
         strokeWidth={0.4}
       />
     </>
+  );
+}
+
+function CustomCrosshair(props) {
+  if (!props.currentSlice) {
+    return null;
+  }
+
+  return (
+    <Crosshair
+      width={props.innerWidth}
+      height={props.innerHeight}
+      x={props.currentSlice.x}
+      y={props.currentSlice.y}
+      type="x"
+    />
   );
 }
 
