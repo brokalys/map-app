@@ -21,6 +21,7 @@
   background: #fff;
   padding: 9px 12px;
   border: 1px solid #ccc;
+  max-width: 300px;
 }
 
 .outlierCheckbox {

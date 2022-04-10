@@ -71,6 +71,7 @@ function PropertyPriceChart(props) {
       })),
     [data],
   );
+  const isSourceClassifieds = source === 'classifieds';
 
   const maxPrice = data.reduce(
     (carry, { max }) => (max > carry ? max : carry),
@@ -119,10 +120,19 @@ function PropertyPriceChart(props) {
               <div className={styles.tooltip}>
                 {slice.points.map((point) => (
                   <div key={point.id}>
+                    {!isSourceClassifieds && (
+                      <Message warning size="mini">
+                        <strong>Data might not be fully accurate.</strong>
+                        Brokalys exposes all the available data, however it
+                        takes time for all real-sales to be released by VZD.
+                        Therefore the last quarters might have incomplete
+                        data-set.
+                      </Message>
+                    )}
                     <div>
                       <strong>
                         {moment(point.data.x).format(
-                          source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                          isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
                         )}
                       </strong>
                     </div>
@@ -164,13 +174,14 @@ function PropertyPriceChart(props) {
             'markers',
             'axes',
             'areas',
+            isSourceClassifieds || WarningLayer,
+            AreaLayer,
             (props) => (
               <CustomCrosshair
                 {...props}
                 currentSlice={crosshairBPosition || props.currentSlice}
               />
             ),
-            AreaLayer,
             'lines',
             'points',
             'slices',
@@ -198,7 +209,7 @@ function PropertyPriceChart(props) {
           axisBottom={{
             format: (x) => {
               return moment(x).format(
-                source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
               );
             },
             tickRotation: -90,
@@ -212,7 +223,7 @@ function PropertyPriceChart(props) {
                     <div>
                       <strong>
                         {moment(point.data.x).format(
-                          source === 'classifieds' ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                          isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
                         )}
                       </strong>
                     </div>
@@ -230,6 +241,7 @@ function PropertyPriceChart(props) {
             'markers',
             'axes',
             'areas',
+            isSourceClassifieds || WarningLayer,
             (props) => (
               <CustomCrosshair
                 {...props}
@@ -317,6 +329,24 @@ function AreaLayer(props) {
         strokeWidth={0.4}
       />
     </>
+  );
+}
+
+function WarningLayer(props) {
+  const areaGenerator = area()
+    .x(({ position }) => {
+      const point = props.points.at(-3);
+      return position.x > point.x ? position.x : point.x;
+    })
+    .y0((d) => 0)
+    .y1((d) => props.innerHeight);
+
+  return (
+    <path
+      d={areaGenerator(props.series[0].data)}
+      fill="#f9cd31"
+      fillOpacity={0.3}
+    />
   );
 }
 
