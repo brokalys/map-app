@@ -5,7 +5,14 @@ import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Checkbox, Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
+import {
+  Checkbox,
+  Dimmer,
+  Loader,
+  Message,
+  Progress,
+  Segment,
+} from 'semantic-ui-react';
 
 import usePriceData from 'src/hooks/api/use-property-price-chart-data';
 import { setNeighborhoodFilters } from 'src/store/actions';
@@ -273,7 +280,7 @@ function PropertyPriceChart(props) {
 }
 
 function PropertyPriceChartContainer() {
-  const { data, loading, error } = usePriceData();
+  const { data, loading, loadingState, error } = usePriceData();
 
   if (loading) {
     return (
@@ -281,8 +288,15 @@ function PropertyPriceChartContainer() {
         <Loader>
           Loading price data..
           <hr />
-          Depending on the size of the region, this might take a few minutes.
-          Please be patient.
+          <p>
+            Depending on the size of the region, this might take a few minutes.
+            Please be patient.
+          </p>
+          <Progress
+            value={loadingState.totalResults - loadingState.loadingResults}
+            total={loadingState.totalResults}
+            indicating
+          />
         </Loader>
       </Dimmer>
     );

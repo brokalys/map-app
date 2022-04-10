@@ -92,6 +92,10 @@ export default function usePriceData(filterOverrides = {}) {
   return {
     data: data?.response?.results || [],
     loading: loading || loadingResults > 0,
+    loadingState: {
+      totalResults: loadingResults + data?.response?.results.length,
+      loadingResults,
+    },
     error,
   };
 }
