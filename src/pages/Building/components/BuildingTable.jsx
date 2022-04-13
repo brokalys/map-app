@@ -139,11 +139,11 @@ function useQuerystringFilters() {
     () => [
       { id: 'source', value: source },
       { id: 'category', value: category },
-      { id: 'type', value: source === 'classifieds' ? type : undefined },
+      { id: 'type', value: source !== 'real-sales' ? type : undefined },
       {
         id: 'rent_type',
         value:
-          source === 'classifieds' && type === 'rent' ? rentType : undefined,
+          source !== 'real-sales' && type === 'rent' ? rentType : undefined,
       },
     ],
     [source, category, type, rentType],
