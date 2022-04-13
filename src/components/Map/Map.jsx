@@ -1,7 +1,8 @@
-import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import React, { useCallback, useState } from 'react';
+import { GoogleMap } from '@react-google-maps/api';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import useGoogleMaps from 'src/hooks/use-google-maps';
 import useMapCenter from 'src/hooks/use-map-center';
 import * as actions from 'src/store/actions';
 
@@ -21,9 +22,7 @@ function Map(props) {
   const center = useMapCenter();
   const [map, setMap] = useState(null);
 
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
-  });
+  const { isLoaded, loadError } = useGoogleMaps();
 
   const dispatch = useDispatch();
   const onBoundsChanged = useCallback(() => {
@@ -34,6 +33,11 @@ function Map(props) {
     () => dispatch(actions.mapProjectionChanged(map)),
     [dispatch, map],
   );
+
+  useEffect(() => {
+    if (!map) return;
+    dispatch(actions.mapBoundsChanged(map));
+  }, [center, dispatch, map]);
 
   const renderMap = () => {
     const options = {

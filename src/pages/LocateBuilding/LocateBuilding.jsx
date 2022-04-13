@@ -25,6 +25,7 @@ function buildPolygon(bounds) {
 function locateActiveBuilding(buildings, currentPosition) {
   let locatedBuilding;
   let minDistance = Infinity;
+  const maxDistance = 500;
 
   // Find the building closest to current position
   buildings.forEach((building) => {
@@ -33,7 +34,7 @@ function locateActiveBuilding(buildings, currentPosition) {
       geolib.getCenter(buildPolygon(building.bounds)),
     );
 
-    if (distance < minDistance) {
+    if (distance < minDistance && distance < maxDistance) {
       minDistance = distance;
       locatedBuilding = building;
     }

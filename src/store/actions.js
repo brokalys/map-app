@@ -1,10 +1,11 @@
 import {
   CLICK_ON_BUILDING,
+  CLICK_ON_SUGGESTED_ADDRESS,
   MAP_BOUNDS_CHANGED,
   MAP_PROJECTION_CHANGED,
+  RETURN_TO_HOME_CLICKED,
   SET_NEIGHBORHOOD_FILTERS,
   SET_SELECTED_NEIGHBORHOOD,
-  RETURN_TO_HOME_CLICKED,
 } from './actionTypes';
 
 export const clickOnBuilding = (payload) => ({
@@ -33,5 +34,10 @@ export const setNeighborhoodFilters = (payload) => ({
 
 export const setSelectedNeighborhood = (payload) => ({
   type: SET_SELECTED_NEIGHBORHOOD,
+  payload,
+});
+
+export const clickOnSuggestedAddress = (payload) => ({
+  type: CLICK_ON_SUGGESTED_ADDRESS,
   payload,
 });

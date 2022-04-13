@@ -8,6 +8,11 @@ export default function mapReducer(state = initialState, action) {
   switch (action.type) {
     case MAP_PROJECTION_CHANGED: {
       const { payload: map } = action;
+
+      if (!map.getBounds()) {
+        return state;
+      }
+
       const bounds = {
         nw: {
           lat: map.getBounds().getSouthWest().lat(),

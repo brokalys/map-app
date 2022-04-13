@@ -18,6 +18,7 @@ function* setMapCenter({ payload: map }) {
     newPath += `/building/${parts[3]}`;
   }
 
+  if (currentPath.endsWith('/locate-building')) return;
   if (newPath === currentPath) return;
 
   yield put(replace(newPath + search));

@@ -9,6 +9,7 @@ import {
   Sidebar,
 } from 'semantic-ui-react';
 
+import AddressLookup from 'src/components/AddressLookup';
 import Footer from 'src/components/Footer';
 import SplitPaneRight from 'src/containers/SplitPaneRight';
 import Building from 'src/pages/Building';
@@ -33,6 +34,10 @@ function App(props) {
           <Menu.Item className={styles.navigationLogo}>
             <img src="https://brokalys.com/favicon.png" alt="logo" />
             <h1>Brokalys</h1>
+          </Menu.Item>
+
+          <Menu.Item>
+            <AddressLookup />
           </Menu.Item>
 
           <Menu.Item>
