@@ -128,15 +128,6 @@ function PropertyPriceChart(props) {
               <div className={styles.tooltip}>
                 {slice.points.map((point) => (
                   <div key={point.id}>
-                    {!isSourceClassifieds && point.index >= data.length - 3 && (
-                      <Message warning size="mini">
-                        <strong>Data might not be fully accurate.</strong>
-                        Brokalys exposes all the available data, however it
-                        takes time for all real-sales to be released by VZD.
-                        Therefore the last quarters might have incomplete
-                        data-set.
-                      </Message>
-                    )}
                     <div>
                       <strong>
                         {moment(point.data.x).format(
@@ -166,6 +157,15 @@ function PropertyPriceChart(props) {
                     <div>
                       <strong>Data points:</strong> {point.data.count}
                     </div>
+                    {!isSourceClassifieds && point.index >= data.length - 3 && (
+                      <Message warning size="mini">
+                        <strong>Data might not be fully accurate.</strong>
+                        Brokalys exposes all the available data, however it
+                        takes time for all real-sales to be released by VZD.
+                        Therefore the last quarters might have incomplete
+                        data-set.
+                      </Message>
+                    )}
                   </div>
                 ))}
               </div>
