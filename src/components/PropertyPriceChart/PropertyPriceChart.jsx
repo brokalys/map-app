@@ -15,6 +15,7 @@ import {
 } from 'semantic-ui-react';
 
 import usePriceData from 'src/hooks/api/use-property-price-chart-data';
+import useProgress from 'src/hooks/use-progress';
 import { setNeighborhoodFilters } from 'src/store/actions';
 import { neighborhoodFilterSelector } from 'src/store/selectors';
 
@@ -281,6 +282,10 @@ function PropertyPriceChart(props) {
 
 function PropertyPriceChartContainer() {
   const { data, loading, loadingState, error } = usePriceData();
+  const progressValue = useProgress(
+    loadingState.totalResults * 0.9,
+    loadingState.totalResults - loadingState.loadingResults,
+  );
 
   if (loading) {
     return (
@@ -293,7 +298,7 @@ function PropertyPriceChartContainer() {
             Please be patient.
           </p>
           <Progress
-            value={loadingState.totalResults - loadingState.loadingResults}
+            value={progressValue}
             total={loadingState.totalResults}
             indicating
           />
