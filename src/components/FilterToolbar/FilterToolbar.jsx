@@ -128,9 +128,7 @@ function FilterToolbar() {
             fluid
             selection
             value={category}
-            options={categoryOptions.filter(
-              ({ value }) => source === 'classifieds' || value !== 'land',
-            )}
+            options={categoryOptions}
             onChange={(event, data) =>
               dispatch(setNeighborhoodFilters({ category: data.value }))
             }
