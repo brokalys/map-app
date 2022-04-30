@@ -18,7 +18,7 @@ export default function Home() {
   const {
     properties: { name: locationName },
   } = useSelector(selectedNeighborhoodSelector);
-  const { source } = useSelector(neighborhoodFilterSelector);
+  const { source, category } = useSelector(neighborhoodFilterSelector);
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function Home() {
             >
               <Statistic.Group size="small">
                 <MeanPrice />
-                <RentalYield />
+                {category !== 'land' && <RentalYield />}
               </Statistic.Group>
             </ErrorBoundary>
           </>

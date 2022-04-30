@@ -117,9 +117,14 @@ function FilterToolbar() {
             selection
             value={source}
             options={sourceOptions}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ source: data.value }))
-            }
+            onChange={(event, data) => {
+              const filters = Object.assign(
+                {},
+                { source: data.value },
+                data.value === 'real-sales' ? { type: 'sell' } : {},
+              );
+              dispatch(setNeighborhoodFilters(filters));
+            }}
           />
         </Menu.Item>
         <Menu.Item fitted className={styles.categoryDropdown}>
@@ -129,25 +134,30 @@ function FilterToolbar() {
             selection
             value={category}
             options={categoryOptions}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ category: data.value }))
-            }
+            onChange={(event, data) => {
+              const filters = Object.assign(
+                {},
+                { category: data.value },
+                data.value === 'land' ? { type: 'sell' } : {},
+              );
+              dispatch(setNeighborhoodFilters(filters));
+            }}
           />
         </Menu.Item>
-        {source === 'classifieds' && (
-          <Menu.Item fitted>
-            <Dropdown
-              placeholder="Select type"
-              fluid
-              selection
-              value={type}
-              options={typeOptions}
-              onChange={(event, data) =>
-                dispatch(setNeighborhoodFilters({ type: data.value }))
-              }
-            />
-          </Menu.Item>
-        )}
+
+        <Menu.Item fitted>
+          <Dropdown
+            placeholder="Select type"
+            fluid
+            selection
+            value={type}
+            options={typeOptions}
+            onChange={(event, data) =>
+              dispatch(setNeighborhoodFilters({ type: data.value }))
+            }
+            disabled={source === 'real-sales' || category === 'land'}
+          />
+        </Menu.Item>
 
         <Menu.Item fitted>
           <Dropdown
