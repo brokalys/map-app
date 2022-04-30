@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Provider } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';
@@ -15,7 +15,9 @@ import store, { history } from './store';
 
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <ErrorBoundary>
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -25,7 +27,6 @@ ReactDOM.render(
       </ConnectedRouter>
     </Provider>
   </ErrorBoundary>,
-  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
