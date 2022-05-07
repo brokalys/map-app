@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import { Pagination, Table } from 'semantic-ui-react';
 
-import useQuerystringParam from 'src/hooks/use-querystring-param';
+import useBuildingFilters from 'src/hooks/use-building-filters';
 
 import BuildingStats from './BuildingStats';
 import styles from './BuildingTable.module.css';
@@ -125,15 +125,19 @@ function getCellTextAlign(cell) {
 }
 
 function usePageSize() {
-  const [page, setPage] = useQuerystringParam('page');
-  return [parseInt(page || 1, 10) - 1, setPage];
+  const [{ page }, setQuery] = useBuildingFilters();
+  const setPage = useCallback(
+    (newPage) => {
+      setQuery({ page: newPage });
+    },
+    [setQuery],
+  );
+  return [page - 1, setPage];
 }
 
 function useQuerystringFilters() {
-  const [source] = useQuerystringParam('source');
-  const [category] = useQuerystringParam('category');
-  const [type] = useQuerystringParam('type');
-  const [rentType] = useQuerystringParam('rent_type');
+  const [{ source, category, type, rent_type: rentType }] =
+    useBuildingFilters();
 
   return useMemo(
     () => [

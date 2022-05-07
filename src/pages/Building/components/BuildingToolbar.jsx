@@ -1,6 +1,6 @@
 import { Dropdown, Menu } from 'semantic-ui-react';
 
-import useQuerystringParam from 'src/hooks/use-querystring-param';
+import useBuildingFilters from 'src/hooks/use-building-filters';
 
 const sourceOptions = [
   { value: 'real-sales', text: 'Real Sales' },
@@ -28,10 +28,8 @@ const resetPage = {
 };
 
 export default function BuildingToolbar() {
-  const [source, setSource] = useQuerystringParam('source', resetPage);
-  const [category, setCategory] = useQuerystringParam('category', resetPage);
-  const [type, setType] = useQuerystringParam('type', resetPage);
-  const [rentType, setRentType] = useQuerystringParam('rent_type', resetPage);
+  const [{ source, category, type, rent_type: rentType }, setQuery] =
+    useBuildingFilters();
 
   return (
     <>
@@ -42,7 +40,9 @@ export default function BuildingToolbar() {
           selection
           value={source}
           options={sourceOptions}
-          onChange={(event, data) => setSource(data.value)}
+          onChange={(event, data) =>
+            setQuery({ ...resetPage, source: data.value || undefined })
+          }
         />
       </Menu.Item>
       <Menu.Item fitted>
@@ -52,7 +52,9 @@ export default function BuildingToolbar() {
           selection
           value={category}
           options={categoryOptions}
-          onChange={(event, data) => setCategory(data.value)}
+          onChange={(event, data) =>
+            setQuery({ ...resetPage, category: data.value || undefined })
+          }
         />
       </Menu.Item>
 
@@ -65,7 +67,9 @@ export default function BuildingToolbar() {
               selection
               value={type}
               options={typeOptions}
-              onChange={(event, data) => setType(data.value)}
+              onChange={(event, data) =>
+                setQuery({ ...resetPage, type: data.value || undefined })
+              }
             />
           </Menu.Item>
 
@@ -78,7 +82,9 @@ export default function BuildingToolbar() {
                 fluid
                 value={rentType}
                 options={rentTypeOptions}
-                onChange={(event, data) => setRentType(data.value)}
+                onChange={(event, data) =>
+                  setQuery({ ...resetPage, rent_type: data.value || undefined })
+                }
               />
             </Menu.Item>
           )}
