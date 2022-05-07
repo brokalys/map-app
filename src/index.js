@@ -1,19 +1,17 @@
 import { ApolloProvider } from '@apollo/client';
-import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { Provider } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import { QueryParamProvider } from 'use-query-params';
 
 import App from './App.jsx';
 import client from './apollo-client';
 import Bugsnag from './bugsnag';
+import { MapContext } from './hooks/use-map-context';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import store, { history } from './store';
 
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
 
@@ -21,15 +19,15 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <ErrorBoundary>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <ApolloProvider client={client}>
+    <Router>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <ApolloProvider client={client}>
+          <MapContext>
             <App />
-          </ApolloProvider>
-        </QueryParamProvider>
-      </ConnectedRouter>
-    </Provider>
+          </MapContext>
+        </ApolloProvider>
+      </QueryParamProvider>
+    </Router>
   </ErrorBoundary>,
 );
 

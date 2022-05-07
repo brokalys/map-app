@@ -1,11 +1,10 @@
 import { GoogleMap } from '@react-google-maps/api';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import useSetMapCenter from 'src/hooks/navigation/use-set-map-center';
 import useGoogleMaps from 'src/hooks/use-google-maps';
 import useMapCenter from 'src/hooks/use-map-center';
-import * as actions from 'src/store/actions';
+import useMapContext from 'src/hooks/use-map-context';
 
 import BuildingPolygons from './components/BuildingPolygons';
 import HighlightedPolygon from './components/HighlightedPolygon';
@@ -19,29 +18,51 @@ export const MIN_ZOOM_FOR_BUILDINGS = 15;
 export const MIN_ZOOM_FOR_HIGHLIGHTED_REGION = 12;
 export const MAX_ZOOM_FOR_HIGHLIGHTED_REGION = 14;
 
+function calculateBounds(map) {
+  if (!map.getBounds()) {
+    return {};
+  }
+
+  return {
+    nw: {
+      lat: map.getBounds().getSouthWest().lat(),
+      lng: map.getBounds().getNorthEast().lng(),
+    },
+    ne: {
+      lat: map.getBounds().getNorthEast().lat(),
+      lng: map.getBounds().getNorthEast().lng(),
+    },
+
+    sw: {
+      lat: map.getBounds().getSouthWest().lat(),
+      lng: map.getBounds().getSouthWest().lng(),
+    },
+    se: {
+      lat: map.getBounds().getNorthEast().lat(),
+      lng: map.getBounds().getSouthWest().lng(),
+    },
+  };
+}
+
 function Map(props) {
+  const [, setMapBounds] = useMapContext();
   const setMapCenter = useSetMapCenter();
   const center = useMapCenter();
   const [map, setMap] = useState(null);
 
   const { isLoaded, loadError } = useGoogleMaps();
 
-  const dispatch = useDispatch();
   const onBoundsChanged = useCallback(() => {
     if (!map) return;
     setMapCenter(map);
-    dispatch(actions.mapProjectionChanged(map));
-  }, [dispatch, setMapCenter, map]);
+    setMapBounds(calculateBounds(map));
+  }, [setMapBounds, setMapCenter, map]);
   const onProjectionChanged = useCallback(
-    () => dispatch(actions.mapProjectionChanged(map)),
-    [dispatch, map],
+    () => setMapBounds(calculateBounds(map)),
+    [setMapBounds, map],
   );
 
-  useEffect(() => {
-    if (!map) return;
-    setMapCenter(map);
-    dispatch(actions.mapProjectionChanged(map));
-  }, [dispatch, center, setMapCenter, map]);
+  useEffect(onBoundsChanged, [onBoundsChanged]);
 
   const renderMap = () => {
     const options = {
