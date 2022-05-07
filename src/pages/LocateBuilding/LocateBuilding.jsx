@@ -1,5 +1,5 @@
 import * as geolib from 'geolib';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Message } from 'semantic-ui-react';
 
 import useGoToBuilding from 'src/hooks/navigation/use-go-to-building';
@@ -75,7 +75,7 @@ export default function LocateBuilding() {
 }
 
 function BuildingsLoaded(props) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { lat, lng } = useMapCenter();
   const goToBuilding = useGoToBuilding();
@@ -88,7 +88,7 @@ function BuildingsLoaded(props) {
   };
   const onReturnHomeButtonClick = () => {
     const [, coords] = location.pathname.split('/');
-    history.push(`/${coords}${location.search}`);
+    navigate(`/${coords}${location.search}`);
   };
 
   if (!locatedBuilding) {

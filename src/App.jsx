@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -98,37 +98,29 @@ function App(props) {
       </Sidebar>
 
       <Sidebar.Pusher as={Container} fluid className={styles.container}>
-        <Switch>
-          <Route
-            path={[
-              '/:lat,:lng,:zoom/building/:buildingId(\\d+)',
-              '/:lat,:lng,:zoom/locate-building',
-              '/:lat,:lng,:zoom',
-              '/',
-            ]}
-          >
-            <Grid className={styles.grid}>
-              <Grid.Column computer={9} className={styles.leftPanel}>
-                <Switch>
-                  <Route path="/:lat,:lng,:zoom/building/:buildingId(\d+)">
-                    <Building />
-                  </Route>
-
-                  <Route path="/:lat,:lng,:zoom/locate-building">
-                    <LocateBuilding />
-                  </Route>
-
-                  <Route path="*">
-                    <Home />
-                  </Route>
-                </Switch>
-              </Grid.Column>
-              <Grid.Column computer={7} className={styles.rightPanel}>
-                <SplitPaneRight />
-              </Grid.Column>
-            </Grid>
-          </Route>
-        </Switch>
+        <Grid className={styles.grid}>
+          <Grid.Column computer={9} className={styles.leftPanel}>
+            <Routes>
+              <Route path=":lat,:lng,:zoom">
+                <Route path="building/:buildingId" element={<Building />} />
+                <Route path="locate-building" element={<LocateBuilding />} />
+                <Route index element={<Home />} />
+              </Route>
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </Grid.Column>
+          <Grid.Column computer={7} className={styles.rightPanel}>
+            <Routes>
+              <Route path="/" element={<SplitPaneRight />}>
+                <Route path=":lat,:lng,:zoom">
+                  <Route path="building/:buildingId" />
+                  <Route path="*" />
+                </Route>
+                <Route path="*" />
+              </Route>
+            </Routes>
+          </Grid.Column>
+        </Grid>
       </Sidebar.Pusher>
     </Sidebar.Pushable>
   );

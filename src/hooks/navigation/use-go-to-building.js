@@ -1,9 +1,9 @@
 import queryString from 'query-string';
 import { useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function useGoToBuilding() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   return useCallback(
@@ -22,8 +22,8 @@ export default function useGoToBuilding() {
         { skipEmptyString: true },
       );
 
-      history.push(`${url}?${qs}`);
+      navigate(`${url}?${qs}`);
     },
-    [location, history],
+    [location, navigate],
   );
 }

@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Menu, Message } from 'semantic-ui-react';
 
 import BuildingToolbar from './BuildingToolbar';
 
 export default function Header(props) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const onReturnClick = useCallback(() => {
     const [, coords] = location.pathname.split('/');
-    history.push(`/${coords}${location.search}`);
-  }, [location, history]);
+    navigate(`/${coords}${location.search}`);
+  }, [location, navigate]);
 
   return (
     <>

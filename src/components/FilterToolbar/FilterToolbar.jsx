@@ -1,6 +1,6 @@
 import { latvia, riga } from '@brokalys/location-json-schemas';
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
@@ -50,7 +50,7 @@ const priceTypeOptions = [
 ];
 
 function FilterToolbar() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [{ category, type, priceType, source, neighborhood }, setQuery] =
     useChartFilters();
@@ -60,7 +60,7 @@ function FilterToolbar() {
     const {
       centerCoords: { lat, lng },
     } = getRegionData(id);
-    history.push(`/${lat},${lng},13${location.search}`);
+    navigate(`/${lat},${lng},13${location.search}`);
 
     setQuery({ neighborhood: id });
   }

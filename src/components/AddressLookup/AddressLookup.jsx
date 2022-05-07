@@ -3,7 +3,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 
 import useGoogleMaps from 'src/hooks/use-google-maps';
@@ -14,7 +14,7 @@ const SEARCH_OPTIONS = {
 };
 
 export default function AddressLookup() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [address, setAddress] = useState('');
 
   const { isLoaded, loadError } = useGoogleMaps();
@@ -36,11 +36,11 @@ export default function AddressLookup() {
 
           const path = `/${lat},${lng},${zoom}/locate-building`;
 
-          history.push(path);
+          navigate(path);
         })
         .catch((error) => console.error('Error', error));
     },
-    [history],
+    [navigate],
   );
 
   if (!isLoaded || loadError) return null;

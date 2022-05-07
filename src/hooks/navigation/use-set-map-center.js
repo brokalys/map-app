@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function useSetMapCenter() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   return useCallback(
@@ -20,8 +20,8 @@ export default function useSetMapCenter() {
       if (currentPath.endsWith('/locate-building')) return;
       if (newPath === currentPath) return;
 
-      history.replace(newPath + search);
+      navigate(newPath + search, { replace: true });
     },
-    [location, history],
+    [location, navigate],
   );
 }
