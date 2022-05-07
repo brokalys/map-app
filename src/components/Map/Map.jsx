@@ -2,6 +2,7 @@ import { GoogleMap } from '@react-google-maps/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import useSetMapCenter from 'src/hooks/navigation/use-set-map-center';
 import useGoogleMaps from 'src/hooks/use-google-maps';
 import useMapCenter from 'src/hooks/use-map-center';
 import * as actions from 'src/store/actions';
@@ -19,6 +20,7 @@ export const MIN_ZOOM_FOR_HIGHLIGHTED_REGION = 12;
 export const MAX_ZOOM_FOR_HIGHLIGHTED_REGION = 14;
 
 function Map(props) {
+  const setMapCenter = useSetMapCenter();
   const center = useMapCenter();
   const [map, setMap] = useState(null);
 
@@ -27,8 +29,9 @@ function Map(props) {
   const dispatch = useDispatch();
   const onBoundsChanged = useCallback(() => {
     if (!map) return;
-    dispatch(actions.mapBoundsChanged(map));
-  }, [dispatch, map]);
+    setMapCenter(map);
+    dispatch(actions.mapProjectionChanged(map));
+  }, [dispatch, setMapCenter, map]);
   const onProjectionChanged = useCallback(
     () => dispatch(actions.mapProjectionChanged(map)),
     [dispatch, map],
@@ -36,8 +39,9 @@ function Map(props) {
 
   useEffect(() => {
     if (!map) return;
-    dispatch(actions.mapBoundsChanged(map));
-  }, [center, dispatch, map]);
+    setMapCenter(map);
+    dispatch(actions.mapProjectionChanged(map));
+  }, [dispatch, center, setMapCenter, map]);
 
   const renderMap = () => {
     const options = {

@@ -5,7 +5,6 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import createSagaMiddleware from 'redux-saga';
 
 import createRootReducer from './reducers';
-import rootSaga from './sagas';
 
 export const history = createHashHistory({
   hashType: 'slash',
@@ -18,5 +17,3 @@ export default createStore(
     applyMiddleware(routerMiddleware(history), sagaMiddleware),
   ),
 );
-
-sagaMiddleware.run(rootSaga);
