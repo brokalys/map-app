@@ -39,7 +39,8 @@
     "sass": "^1.45.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
-    "transliteration": "^2.1.11"
+    "transliteration": "^2.1.11",
+    "use-query-params": "^1.2.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.9.0",

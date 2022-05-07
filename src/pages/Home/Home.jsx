@@ -1,24 +1,23 @@
+import { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useSelector } from 'react-redux';
 import { Header, Message, Statistic } from 'semantic-ui-react';
 
 import Bugsnag from 'src/bugsnag';
+import getRegionData from 'src/common/get-region-data';
 import FilterToolbar from 'src/components/FilterToolbar';
 import PropertyPriceChart from 'src/components/PropertyPriceChart';
 import MeanPrice from 'src/components/Statistics/MeanPriceInFilterLocation';
 import RentalYield from 'src/components/Statistics/RentalYieldInFilterLocation';
-import {
-  neighborhoodFilterSelector,
-  selectedNeighborhoodSelector,
-} from 'src/store/selectors';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 import styles from './Home.module.css';
 
 export default function Home() {
-  const {
-    properties: { name: locationName },
-  } = useSelector(selectedNeighborhoodSelector);
-  const { source, category } = useSelector(neighborhoodFilterSelector);
+  const [{ source, category, neighborhood }] = useChartFilters();
+  const { name: locationName } = useMemo(
+    () => getRegionData(neighborhood),
+    [neighborhood],
+  );
 
   return (
     <>

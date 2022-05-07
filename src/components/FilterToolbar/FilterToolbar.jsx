@@ -1,17 +1,11 @@
 import { latvia, riga } from '@brokalys/location-json-schemas';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
-import {
-  setNeighborhoodFilters,
-  setSelectedNeighborhood,
-} from 'src/store/actions';
-import {
-  neighborhoodFilterSelector,
-  selectedNeighborhoodSelector,
-} from 'src/store/selectors';
+import getRegionData from 'src/common/get-region-data';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 import styles from './FilterToolbar.module.css';
 
@@ -56,11 +50,20 @@ const priceTypeOptions = [
 ];
 
 function FilterToolbar() {
-  const dispatch = useDispatch();
-  const { category, type, price, source } = useSelector(
-    neighborhoodFilterSelector,
-  );
-  const { id: neighborhood } = useSelector(selectedNeighborhoodSelector);
+  const history = useHistory();
+  const location = useLocation();
+  const [{ category, type, priceType, source, neighborhood }, setQuery] =
+    useChartFilters();
+
+  function setNeighborhood(id) {
+    // Center the map on the newly selected neighborhood and highlight it
+    const {
+      centerCoords: { lat, lng },
+    } = getRegionData(id);
+    history.push(`/${lat},${lng},13${location.search}`);
+
+    setQuery({ neighborhood: id });
+  }
 
   /**
    * Improved search operation to ignore all UTF-8 characters.
@@ -87,9 +90,7 @@ function FilterToolbar() {
                 ? RIGA_LOCATION_ID
                 : neighborhood
             }
-            onChange={(event, data) =>
-              dispatch(setSelectedNeighborhood(data.value))
-            }
+            onChange={(event, data) => setNeighborhood(data.value)}
           />
         </Menu.Item>
 
@@ -101,9 +102,7 @@ function FilterToolbar() {
               selection
               options={rigaOptions}
               value={neighborhood}
-              onChange={(event, data) =>
-                dispatch(setSelectedNeighborhood(data.value))
-              }
+              onChange={(event, data) => setNeighborhood(data.value)}
             />
           </Menu.Item>
         )}
@@ -123,7 +122,8 @@ function FilterToolbar() {
                 { source: data.value },
                 data.value === 'real-sales' ? { type: 'sell' } : {},
               );
-              dispatch(setNeighborhoodFilters(filters));
+
+              setQuery(filters);
             }}
           />
         </Menu.Item>
@@ -140,7 +140,8 @@ function FilterToolbar() {
                 { category: data.value },
                 data.value === 'land' ? { type: 'sell' } : {},
               );
-              dispatch(setNeighborhoodFilters(filters));
+
+              setQuery(filters);
             }}
           />
         </Menu.Item>
@@ -152,9 +153,9 @@ function FilterToolbar() {
             selection
             value={type}
             options={typeOptions}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ type: data.value }))
-            }
+            onChange={(event, data) => {
+              setQuery({ type: data.value });
+            }}
             disabled={source === 'real-sales' || category === 'land'}
           />
         </Menu.Item>
@@ -164,11 +165,11 @@ function FilterToolbar() {
             placeholder="Select price type"
             fluid
             selection
-            value={price}
+            value={priceType}
             options={priceTypeOptions}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ price: data.value }))
-            }
+            onChange={(event, data) => {
+              setQuery({ priceType: data.value });
+            }}
           />
         </Menu.Item>
       </Menu>

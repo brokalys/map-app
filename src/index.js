@@ -4,7 +4,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Provider } from 'react-redux';
+import { Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import { QueryParamProvider } from 'use-query-params';
 
 import App from './App.jsx';
 import client from './apollo-client';
@@ -21,9 +23,11 @@ root.render(
   <ErrorBoundary>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <ApolloProvider client={client}>
+            <App />
+          </ApolloProvider>
+        </QueryParamProvider>
       </ConnectedRouter>
     </Provider>
   </ErrorBoundary>,

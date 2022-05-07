@@ -4,7 +4,6 @@ import { Crosshair } from '@nivo/tooltip';
 import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
 import React, { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Checkbox,
   Dimmer,
@@ -15,9 +14,8 @@ import {
 } from 'semantic-ui-react';
 
 import usePriceData from 'src/hooks/api/use-property-price-chart-data';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 import useProgress from 'src/hooks/use-progress';
-import { setNeighborhoodFilters } from 'src/store/actions';
-import { neighborhoodFilterSelector } from 'src/store/selectors';
 
 import styles from './PropertyPriceChart.module.css';
 
@@ -59,12 +57,8 @@ function useChartData(results, { priceType, showOutliers, source }) {
 }
 
 function PropertyPriceChart(props) {
-  const dispatch = useDispatch();
-  const {
-    price: priceType,
-    outliers: showOutliers,
-    source,
-  } = useSelector(neighborhoodFilterSelector);
+  const [{ priceType, outliers: showOutliers, source }, setQuery] =
+    useChartFilters();
 
   const { data, hasOutliers } = useChartData(props.results, {
     priceType,
@@ -270,9 +264,9 @@ function PropertyPriceChart(props) {
             className={styles.outlierCheckbox}
             label="show outliers"
             checked={showOutliers}
-            onChange={(event, data) =>
-              dispatch(setNeighborhoodFilters({ outliers: data.checked }))
-            }
+            onChange={(event, data) => {
+              setQuery({ outliers: data.checked });
+            }}
           />
         )}
       </div>

@@ -1,7 +1,5 @@
-import { useSelector } from 'react-redux';
-
 import usePriceData from 'src/hooks/api/use-property-price-chart-data';
-import { neighborhoodFilterSelector } from 'src/store/selectors';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 function findLastWithValue(data) {
   return data
@@ -11,7 +9,7 @@ function findLastWithValue(data) {
 }
 
 export default function usePriceMeanData() {
-  const { price: priceType } = useSelector(neighborhoodFilterSelector);
+  const [{ priceType }] = useChartFilters();
   const { data: results, loading } = usePriceData();
 
   // Still loading..

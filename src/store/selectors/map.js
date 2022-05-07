@@ -18,8 +18,3 @@ function convertBoundsToRegionString(bounds) {
 export const mapRegionSelector = createSelector(selectMap, (state) =>
   convertBoundsToRegionString(state.bounds),
 );
-
-export const mapBoundsSelector = createSelector(
-  selectMap,
-  (state) => state.bounds,
-);

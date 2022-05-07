@@ -4,8 +4,6 @@ import {
   MAP_BOUNDS_CHANGED,
   MAP_PROJECTION_CHANGED,
   RETURN_TO_HOME_CLICKED,
-  SET_NEIGHBORHOOD_FILTERS,
-  SET_SELECTED_NEIGHBORHOOD,
 } from './actionTypes';
 
 export const clickOnBuilding = (payload) => ({
@@ -24,16 +22,6 @@ export const mapBoundsChanged = (payload) => ({
 
 export const mapProjectionChanged = (payload) => ({
   type: MAP_PROJECTION_CHANGED,
-  payload,
-});
-
-export const setNeighborhoodFilters = (payload) => ({
-  type: SET_NEIGHBORHOOD_FILTERS,
-  payload,
-});
-
-export const setSelectedNeighborhood = (payload) => ({
-  type: SET_SELECTED_NEIGHBORHOOD,
   payload,
 });
 

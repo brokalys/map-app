@@ -1,10 +1,9 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useSelector } from 'react-redux';
 import { Icon, Popup, Statistic } from 'semantic-ui-react';
 
 import usePriceData from 'src/hooks/api/use-property-price-mean-data';
-import { neighborhoodFilterSelector } from 'src/store/selectors';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 import styles from './MeanPriceInFilterLocation.module.css';
 
@@ -18,7 +17,7 @@ function Description() {
 }
 
 function MeanPriceInFilterLocation() {
-  const { price: priceType } = useSelector(neighborhoodFilterSelector);
+  const [{ priceType }] = useChartFilters();
   const data = usePriceData();
 
   const mean = data.price;

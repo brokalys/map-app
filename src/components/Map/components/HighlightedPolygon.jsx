@@ -1,10 +1,15 @@
 import { Polygon } from '@react-google-maps/api';
-import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
-import { selectedNeighborhoodSelector } from 'src/store/selectors';
+import getRegionData from 'src/common/get-region-data';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 export default function BuildingPolygons() {
-  const { region } = useSelector(selectedNeighborhoodSelector);
+  const [{ neighborhood }] = useChartFilters();
+  const { region = [] } = useMemo(
+    () => getRegionData(neighborhood),
+    [neighborhood],
+  );
 
   return (
     <Polygon

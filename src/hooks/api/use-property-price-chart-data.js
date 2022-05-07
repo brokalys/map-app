@@ -1,11 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import {
-  neighborhoodFilterSelector,
-  selectedNeighborhoodSelector,
-} from 'src/store/selectors';
+import useChartFilters from 'src/hooks/use-price-chart-filters';
 
 const query = gql`
   query (
@@ -52,13 +48,12 @@ const query = gql`
 `;
 export default function usePriceData(filterOverrides = {}) {
   const [pollInterval, setPollInterval] = useState(0);
-  const { category, type, source } = useSelector(neighborhoodFilterSelector);
-  const { id } = useSelector(selectedNeighborhoodSelector);
+  const [{ category, type, source, neighborhood }] = useChartFilters();
 
   const filters = {
     category,
     type,
-    location_classificator: id,
+    location_classificator: neighborhood,
     ...filterOverrides,
   };
   const filterStr = encodeURIComponent(JSON.stringify(filters));
