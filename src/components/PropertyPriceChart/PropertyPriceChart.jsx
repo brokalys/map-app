@@ -19,6 +19,8 @@ import useProgress from 'src/hooks/use-progress';
 
 import styles from './PropertyPriceChart.module.css';
 
+const CrosshairContext = React.createContext();
+
 function removeOutliers(data) {
   const maxPoints = data.map(({ max }) => max);
   const sum = maxPoints.reduce((carry, num) => carry + num, 0);
@@ -80,8 +82,7 @@ function PropertyPriceChart(props) {
     0,
   );
 
-  const [crosshairAPosition, setCrosshairAPosition] = useState(null);
-  const [crosshairBPosition, setCrosshairBPosition] = useState(null);
+  const crosshairPosition = useState();
 
   function Price(props) {
     return (
@@ -101,176 +102,166 @@ function PropertyPriceChart(props) {
   }
 
   return (
-    <div className={styles.chartWrapper}>
-      <div className={styles.priceChartWrapper}>
-        <ResponsiveLine
-          data={[
-            {
-              id: 'Average Price',
-              data,
-            },
-          ]}
-          margin={{ top: 10, right: 5, bottom: 10, left: 60 }}
-          yScale={{
-            type: 'linear',
-            stacked: false,
-            max: maxPrice * 1.05,
-          }}
-          enableSlices="x"
-          sliceTooltip={({ slice }) => {
-            return (
-              <div className={styles.tooltip}>
-                {slice.points.map((point) => (
-                  <div key={point.id}>
-                    <div>
-                      <strong>
-                        {moment(point.data.x).format(
-                          isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
-                        )}
-                      </strong>
-                    </div>
-                    <div>
-                      <strong>Max:</strong> <Price value={point.data.max} />
-                    </div>
-                    <div>
-                      <strong>{point.serieId}:</strong>{' '}
-                      <Price value={point.data.yFormatted} />
-                    </div>
-                    <div>
-                      <strong>Min:</strong> <Price value={point.data.min} />
-                    </div>
-                    <hr />
-                    <div>
-                      <strong>Mode:</strong> <Price value={point.data.mode} />
-                    </div>
-                    <div>
-                      <strong>Median:</strong>{' '}
-                      <Price value={point.data.median} />
-                    </div>
-                    <hr />
-                    <div>
-                      <strong>Data points:</strong> {point.data.count}
-                    </div>
-                    {!isSourceClassifieds && point.index >= data.length - 3 && (
-                      <Message warning size="mini">
-                        <strong>Data might not be fully accurate.</strong>
-                        Brokalys exposes all the available data, however it
-                        takes time for all real-sales to be released by VZD.
-                        Therefore the last quarters might have incomplete
-                        data-set.
-                      </Message>
-                    )}
-                  </div>
-                ))}
-              </div>
-            );
-          }}
-          axisBottom={false}
-          axisLeft={{
-            format: (value) => `${value} €`,
-          }}
-          curve="monotoneX"
-          useMesh
-          layers={[
-            'grid',
-            'markers',
-            'axes',
-            'areas',
-            isSourceClassifieds || WarningLayer,
-            AreaLayer,
-            (props) => (
-              <CustomCrosshair
-                {...props}
-                currentSlice={crosshairBPosition || props.currentSlice}
-              />
-            ),
-            'lines',
-            'points',
-            'slices',
-            'mesh',
-            'legends',
-            (props) => setCrosshairAPosition(props.currentSlice),
-          ]}
-        />
-      </div>
-
-      <div className={styles.countChartWrapper}>
-        <ResponsiveLine
-          data={[
-            {
-              id: 'Data point count',
-              data: countData,
-            },
-          ]}
-          margin={{ right: 5, top: 5, bottom: 70, left: 60 }}
-          padding={0}
-          axisLeft={{
-            tickValues: 2,
-          }}
-          gridYValues={4}
-          axisBottom={{
-            format: (x) => {
-              return moment(x).format(
-                isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
-              );
-            },
-            tickRotation: -90,
-          }}
-          enableSlices="x"
-          sliceTooltip={({ slice }) => {
-            return (
-              <div className={styles.tooltip}>
-                {slice.points.map((point) => (
-                  <div key={point.id}>
-                    <div>
-                      <strong>
-                        {moment(point.data.x).format(
-                          isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
-                        )}
-                      </strong>
-                    </div>
-                    <div>
-                      <strong>Data points:</strong> {point.data.count}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            );
-          }}
-          useMesh
-          layers={[
-            'grid',
-            'markers',
-            'axes',
-            'areas',
-            isSourceClassifieds || WarningLayer,
-            (props) => (
-              <CustomCrosshair
-                {...props}
-                currentSlice={crosshairAPosition || props.currentSlice}
-              />
-            ),
-            'lines',
-            'points',
-            'slices',
-            'mesh',
-            'legends',
-            (props) => setCrosshairBPosition(props.currentSlice),
-          ]}
-        />
-
-        {hasOutliers && (
-          <Checkbox
-            className={styles.outlierCheckbox}
-            label="show outliers"
-            checked={showOutliers}
-            onChange={(event, data) => {
-              setQuery({ outliers: data.checked });
+    <CrosshairContext.Provider value={crosshairPosition}>
+      <div className={styles.chartWrapper}>
+        <div className={styles.priceChartWrapper}>
+          <ResponsiveLine
+            data={[
+              {
+                id: 'Average Price',
+                data,
+              },
+            ]}
+            margin={{ top: 10, right: 5, bottom: 10, left: 60 }}
+            yScale={{
+              type: 'linear',
+              stacked: false,
+              max: maxPrice * 1.05,
             }}
+            enableSlices="x"
+            sliceTooltip={({ slice }) => {
+              return (
+                <div className={styles.tooltip}>
+                  {slice.points.map((point) => (
+                    <div key={point.id}>
+                      <div>
+                        <strong>
+                          {moment(point.data.x).format(
+                            isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                          )}
+                        </strong>
+                      </div>
+                      <div>
+                        <strong>Max:</strong> <Price value={point.data.max} />
+                      </div>
+                      <div>
+                        <strong>{point.serieId}:</strong>{' '}
+                        <Price value={point.data.yFormatted} />
+                      </div>
+                      <div>
+                        <strong>Min:</strong> <Price value={point.data.min} />
+                      </div>
+                      <hr />
+                      <div>
+                        <strong>Mode:</strong> <Price value={point.data.mode} />
+                      </div>
+                      <div>
+                        <strong>Median:</strong>{' '}
+                        <Price value={point.data.median} />
+                      </div>
+                      <hr />
+                      <div>
+                        <strong>Data points:</strong> {point.data.count}
+                      </div>
+                      {!isSourceClassifieds && point.index >= data.length - 3 && (
+                        <Message warning size="mini">
+                          <strong>Data might not be fully accurate.</strong>
+                          Brokalys exposes all the available data, however it
+                          takes time for all real-sales to be released by VZD.
+                          Therefore the last quarters might have incomplete
+                          data-set.
+                        </Message>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
+            axisBottom={false}
+            axisLeft={{
+              format: (value) => `${value} €`,
+            }}
+            curve="monotoneX"
+            useMesh
+            layers={[
+              'grid',
+              'markers',
+              'axes',
+              'areas',
+              isSourceClassifieds || WarningLayer,
+              AreaLayer,
+              CustomCrosshair,
+              'lines',
+              'points',
+              'slices',
+              'mesh',
+              'legends',
+            ]}
           />
-        )}
+        </div>
+
+        <div className={styles.countChartWrapper}>
+          <ResponsiveLine
+            data={[
+              {
+                id: 'Data point count',
+                data: countData,
+              },
+            ]}
+            margin={{ right: 5, top: 5, bottom: 70, left: 60 }}
+            padding={0}
+            axisLeft={{
+              tickValues: 2,
+            }}
+            gridYValues={4}
+            axisBottom={{
+              format: (x) => {
+                return moment(x).format(
+                  isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                );
+              },
+              tickRotation: -90,
+            }}
+            enableSlices="x"
+            sliceTooltip={({ slice }) => {
+              return (
+                <div className={styles.tooltip}>
+                  {slice.points.map((point) => (
+                    <div key={point.id}>
+                      <div>
+                        <strong>
+                          {moment(point.data.x).format(
+                            isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
+                          )}
+                        </strong>
+                      </div>
+                      <div>
+                        <strong>Data points:</strong> {point.data.count}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
+            useMesh
+            layers={[
+              'grid',
+              'markers',
+              'axes',
+              'areas',
+              isSourceClassifieds || WarningLayer,
+              CustomCrosshair,
+              'lines',
+              'points',
+              'slices',
+              'mesh',
+              'legends',
+            ]}
+          />
+
+          {hasOutliers && (
+            <Checkbox
+              className={styles.outlierCheckbox}
+              label="show outliers"
+              checked={showOutliers}
+              onChange={(event, data) => {
+                setQuery({ outliers: data.checked });
+              }}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </CrosshairContext.Provider>
   );
 }
 
@@ -345,26 +336,36 @@ function AreaLayer(props) {
   );
 }
 
-function WarningLayer(props) {
-  const areaGenerator = area()
-    .x(({ position }) => {
-      const point = props.points.at(-3);
+const warningAreaGenerator = (innerHeight, points) =>
+  area()
+    .x(({ position }, idx, points) => {
+      const point = points.at(-3).position;
       return position.x > point.x ? position.x : point.x;
     })
-    .y0((d) => 0)
-    .y1((d) => props.innerHeight);
+    .y1(() => innerHeight)(points);
 
-  return (
-    <path
-      d={areaGenerator(props.series[0].data)}
-      fill="#f9cd31"
-      fillOpacity={0.3}
-    />
+function WarningLayer(props) {
+  const points = props.series[0].data;
+  const path = useMemo(
+    () => warningAreaGenerator(props.innerHeight, points),
+    [points, props.innerHeight],
   );
+
+  return <path d={path} fill="#f9cd31" fillOpacity={0.3} />;
 }
 
 function CustomCrosshair(props) {
-  if (!props.currentSlice) {
+  const [crosshairPosition, setCrosshairPosition] =
+    React.useContext(CrosshairContext);
+
+  React.useEffect(() => {
+    const position = props.currentSlice
+      ? { x: props.currentSlice.x, y: props.currentSlice.y }
+      : undefined;
+    setCrosshairPosition(position);
+  }, [setCrosshairPosition, props.currentSlice]);
+
+  if (!crosshairPosition) {
     return null;
   }
 
@@ -372,8 +373,8 @@ function CustomCrosshair(props) {
     <Crosshair
       width={props.innerWidth}
       height={props.innerHeight}
-      x={props.currentSlice.x}
-      y={props.currentSlice.y}
+      x={crosshairPosition.x}
+      y={crosshairPosition.y}
       type="x"
     />
   );
