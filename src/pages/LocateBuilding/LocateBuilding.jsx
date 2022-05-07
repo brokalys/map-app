@@ -1,10 +1,10 @@
 import * as geolib from 'geolib';
-import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Button, Message } from 'semantic-ui-react';
 
+import useGoToBuilding from 'src/hooks/navigation/use-go-to-building';
 import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
 import useMapCenter from 'src/hooks/use-map-center';
-import * as actions from 'src/store/actions';
 
 import styles from './LocateBuilding.module.css';
 import loadingAnimationData from './animations/loading.json';
@@ -75,17 +75,20 @@ export default function LocateBuilding() {
 }
 
 function BuildingsLoaded(props) {
-  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const { lat, lng } = useMapCenter();
+  const goToBuilding = useGoToBuilding();
   const locatedBuilding = locateActiveBuilding(props.buildings || [], {
     latitude: lat,
     longitude: lng,
   });
   const onButtonClick = () => {
-    dispatch(actions.clickOnBuilding(locatedBuilding.id));
+    goToBuilding(locatedBuilding.id);
   };
   const onReturnHomeButtonClick = () => {
-    dispatch(actions.returnToHomeClicked());
+    const [, coords] = location.pathname.split('/');
+    history.push(`/${coords}${location.search}`);
   };
 
   if (!locatedBuilding) {

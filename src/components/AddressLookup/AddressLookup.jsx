@@ -3,11 +3,10 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 
 import useGoogleMaps from 'src/hooks/use-google-maps';
-import * as actions from 'src/store/actions';
 
 const SEARCH_OPTIONS = {
   componentRestrictions: { country: 'lv' },
@@ -15,7 +14,7 @@ const SEARCH_OPTIONS = {
 };
 
 export default function AddressLookup() {
-  const dispatch = useDispatch();
+  const history = useHistory();
   const [address, setAddress] = useState('');
 
   const { isLoaded, loadError } = useGoogleMaps();
@@ -31,11 +30,17 @@ export default function AddressLookup() {
       geocodeByAddress(selectedAddress)
         .then((results) => getLatLng(results[0]))
         .then((latLng) => {
-          dispatch(actions.clickOnSuggestedAddress(latLng));
+          const lat = String(latLng.lat).substr(0, 7);
+          const lng = String(latLng.lng).substr(0, 7);
+          const zoom = 16;
+
+          const path = `/${lat},${lng},${zoom}/locate-building`;
+
+          history.push(path);
         })
         .catch((error) => console.error('Error', error));
     },
-    [dispatch],
+    [history],
   );
 
   if (!isLoaded || loadError) return null;

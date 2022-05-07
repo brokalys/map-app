@@ -1,17 +1,16 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Button, Menu, Message } from 'semantic-ui-react';
-
-import { returnToHomeClicked } from 'src/store/actions';
 
 import BuildingToolbar from './BuildingToolbar';
 
 export default function Header(props) {
-  const dispatch = useDispatch();
-  const onReturnClick = useCallback(
-    () => dispatch(returnToHomeClicked()),
-    [dispatch],
-  );
+  const history = useHistory();
+  const location = useLocation();
+  const onReturnClick = useCallback(() => {
+    const [, coords] = location.pathname.split('/');
+    history.push(`/${coords}${location.search}`);
+  }, [location, history]);
 
   return (
     <>
