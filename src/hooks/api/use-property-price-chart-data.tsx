@@ -100,10 +100,10 @@ export default function usePriceData(filterOverrides = {}) {
       }
 
       if (loadingResults > 5) {
-        return loadingResults * 200;
+        return loadingResults * 400;
       }
 
-      return 1000;
+      return 2000;
     });
   }, [loadingResults, error]);
 
