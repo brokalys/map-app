@@ -8,18 +8,13 @@ export default function useProgress(
 
   useEffect(() => {
     if (progress < maxProgress) {
-      setTimeout(() => setProgress((state) => state + 1), 800);
+      setTimeout(() => setProgress((state) => state + 1), 1000);
     }
   }, [progress, maxProgress]);
 
   useEffect(() => {
-    setProgress((state) => {
-      if (state > currentProgress) {
-        return state;
-      }
-      return currentProgress;
-    });
+    setProgress(currentProgress);
   }, [currentProgress]);
 
-  return progress;
+  return currentProgress > progress ? currentProgress : progress;
 }
