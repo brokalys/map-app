@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.45",
-    "@brokalys/location-json-schemas": "^1.2.0",
+    "@brokalys/location-json-schemas": "^1.4.3",
     "@bugsnag/js": "^7.1.0",
     "@bugsnag/plugin-react": "^7.1.0",
     "@nivo/bar": "^0.79.1",
