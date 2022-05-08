@@ -4,7 +4,7 @@ import type { ComputedDatum, CustomLayer, Datum } from '@nivo/line';
 import { Crosshair } from '@nivo/tooltip';
 import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import {
   Checkbox,
   Dimmer,
@@ -182,6 +182,7 @@ const PropertyPriceChart: React.FC<PropertyPriceChartProps> = (props) => {
                 </div>
               );
             }}
+            animate={false}
             axisBottom={null}
             axisLeft={{
               format: (value) => `${value} €`,
@@ -218,6 +219,7 @@ const PropertyPriceChart: React.FC<PropertyPriceChartProps> = (props) => {
               tickValues: 2,
             }}
             gridYValues={4}
+            animate={false}
             axisBottom={{
               format: (x) => {
                 return moment(x).format(
@@ -370,11 +372,11 @@ const WarningLayer: CustomLayer = (props) => {
 
 const CustomCrosshair: CustomLayer = (props) => {
   const [crosshairPosition, setCrosshairPosition] =
-    React.useContext(CrosshairContext);
+    useContext(CrosshairContext);
 
   const { currentSlice } = props as unknown as { currentSlice: Datum };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const position = currentSlice
       ? { x: currentSlice.x, y: currentSlice.y }
       : undefined;
