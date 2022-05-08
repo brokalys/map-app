@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install
-        run: yarn install --no-progress --non-interactive
+        run: yarn install --frozen-lockfile
       - name: Test
-        run: yarn test
+        run: yarn test --passWithNoTests
+      - name: Build 🔧
+        run: yarn build
