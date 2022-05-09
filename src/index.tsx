@@ -3,7 +3,7 @@ import type { Location } from 'history';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, useLocation, useNavigate } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import { QueryParamProvider } from 'use-query-params';
 
@@ -40,7 +40,7 @@ root.render(
   <>
     {/* @ts-expect-error */}
     <ErrorBoundary>
-      <BrowserRouter>
+      <HashRouter>
         <QueryParamProvider ReactRouterRoute={RouteAdapter}>
           <ApolloProvider client={client}>
             <MapContext>
@@ -48,7 +48,7 @@ root.render(
             </MapContext>
           </ApolloProvider>
         </QueryParamProvider>
-      </BrowserRouter>
+      </HashRouter>
     </ErrorBoundary>
     ,
   </>,
