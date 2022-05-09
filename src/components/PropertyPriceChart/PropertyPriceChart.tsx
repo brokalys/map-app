@@ -194,7 +194,7 @@ const PropertyPriceChart: React.FC<PropertyPriceChartProps> = (props) => {
               'markers',
               'axes',
               'areas',
-              isSourceClassifieds ? WarningLayer : NoopLayer,
+              isSourceClassifieds ? NoopLayer : WarningLayer,
               AreaLayer,
               CustomCrosshair,
               'lines',
@@ -255,7 +255,7 @@ const PropertyPriceChart: React.FC<PropertyPriceChartProps> = (props) => {
               'markers',
               'axes',
               'areas',
-              isSourceClassifieds ? WarningLayer : NoopLayer,
+              isSourceClassifieds ? NoopLayer : WarningLayer,
               CustomCrosshair,
               'lines',
               'points',
@@ -362,10 +362,7 @@ const warningAreaGenerator = (innerHeight: number, points: ComputedDatum[]) =>
 
 const WarningLayer: CustomLayer = (props) => {
   const points = props.series[0].data;
-  const path = useMemo(
-    () => warningAreaGenerator(props.innerHeight, points),
-    [points, props.innerHeight],
-  );
+  const path = warningAreaGenerator(props.innerHeight, points);
 
   return <path d={path} fill="#f9cd31" fillOpacity={0.3} />;
 };
