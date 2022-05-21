@@ -50,6 +50,5 @@ root.render(
         </QueryParamProvider>
       </HashRouter>
     </ErrorBoundary>
-    ,
   </>,
 );
