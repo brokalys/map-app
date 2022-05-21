@@ -2,13 +2,14 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Dimmer, Loader, Message, Segment } from 'semantic-ui-react';
 
-import useActiveBuilding from 'src/hooks/api/use-active-building';
+import useActiveEstate from 'src/hooks/use-active-estate';
 
 import BuildingTable from './components/BuildingTable';
 import Header from './components/Header';
+import LandTable from './components/LandTable';
 
 function Body() {
-  const { data: activeBuilding, error, loading } = useActiveBuilding();
+  const { estateType, data: activeEstate, error, loading } = useActiveEstate();
 
   if (loading) {
     return (
@@ -33,7 +34,7 @@ function Body() {
     );
   }
 
-  if (!activeBuilding) {
+  if (!activeEstate) {
     return (
       <Message warning>
         <Message.Header>Building not found</Message.Header>
@@ -42,7 +43,11 @@ function Body() {
     );
   }
 
-  return <BuildingTable building={activeBuilding} />;
+  if (estateType === 'land') {
+    return <LandTable estate={activeEstate as any} />;
+  }
+
+  return <BuildingTable building={activeEstate as any} />;
 }
 
 export default function BuildingContainer() {

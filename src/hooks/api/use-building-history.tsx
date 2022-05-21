@@ -1,11 +1,10 @@
 import { gql, useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
 
 import { mapPropertyApiData } from 'src/common/map-api-property-data';
 import type { Building } from 'src/types/building';
 
 const GET_SINGLE_BUILDING = gql`
-  query UseActiveBuilding($id: Int!, $filter: PropertyFilter) {
+  query UseBuildingHistory($id: Int!, $filter: PropertyFilter) {
     building(id: $id) {
       id
       bounds
@@ -50,13 +49,15 @@ const GET_SINGLE_BUILDING = gql`
   }
 `;
 
-export default function useActiveBuilding() {
-  const { buildingId } = useParams();
+export default function useBuildingHistory(
+  estateId: string,
+  { skip = false }: { skip?: boolean } = {},
+) {
   const { data, error, loading } = useQuery<{ building: Building }>(
     GET_SINGLE_BUILDING,
     {
       variables: {
-        id: Number(buildingId),
+        id: Number(estateId),
         filter: {
           category: {
             in: ['apartment', 'house', 'office'],
@@ -69,6 +70,7 @@ export default function useActiveBuilding() {
           },
         },
       },
+      skip,
     },
   );
   return { data: mapVzdData(data?.building), error, loading };

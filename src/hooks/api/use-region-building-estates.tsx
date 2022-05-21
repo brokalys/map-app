@@ -13,7 +13,10 @@ const GET_BUILDINGS = gql`
   }
 `;
 
-export default function useRegionBuildings(region: string) {
+export default function useRegionBuildingEstates(
+  region: string,
+  { skip = false }: { skip?: boolean } = {},
+) {
   const { loading, error, data } = useQuery<{
     bounds?: { buildings: Building[] };
   }>(GET_BUILDINGS, {
@@ -23,6 +26,7 @@ export default function useRegionBuildings(region: string) {
     context: {
       debounceKey: 'GET_BUILDINGS',
     },
+    skip,
   });
 
   return {

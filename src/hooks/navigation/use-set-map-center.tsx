@@ -14,11 +14,11 @@ export default function useSetMapCenter() {
       const currentPath = location.pathname;
       const search = location.search;
       const parts = currentPath.split('/');
+      const afterLocation = parts.slice(2);
 
-      let newPath = `/${lat},${lng},${zoom}`;
-      if (parts[2] === 'building' && zoom > 14) {
-        newPath += `/building/${parts[3]}`;
-      }
+      const newPath = `/${lat},${lng},${zoom}${
+        afterLocation.length ? '/' : ''
+      }${afterLocation.join('/')}`;
 
       if (currentPath.endsWith('/locate-building')) return;
       if (newPath === currentPath) return;

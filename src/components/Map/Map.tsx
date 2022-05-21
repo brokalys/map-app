@@ -6,7 +6,8 @@ import useGoogleMaps from 'src/hooks/use-google-maps';
 import useMapCenter from 'src/hooks/use-map-center';
 import useMapContext from 'src/hooks/use-map-context';
 
-import BuildingPolygons from './components/BuildingPolygons';
+import EstatePolygons from './components/EstatePolygons';
+import EstateTypeSwitch from './components/EstateTypeSwitch';
 import HighlightedPolygon from './components/HighlightedPolygon';
 
 const containerStyle = {
@@ -97,7 +98,9 @@ function Map() {
           center.zoom >= MIN_ZOOM_FOR_HIGHLIGHTED_REGION && (
             <HighlightedPolygon />
           )}
-        {center.zoom >= MIN_ZOOM_FOR_BUILDINGS && <BuildingPolygons />}
+        {center.zoom >= MIN_ZOOM_FOR_BUILDINGS && <EstatePolygons />}
+
+        <EstateTypeSwitch disabled={center.zoom < MIN_ZOOM_FOR_BUILDINGS} />
       </GoogleMap>
     );
   };

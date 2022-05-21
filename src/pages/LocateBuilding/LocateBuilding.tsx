@@ -2,8 +2,8 @@ import * as geolib from 'geolib';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Message } from 'semantic-ui-react';
 
-import useGoToBuilding from 'src/hooks/navigation/use-go-to-building';
-import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
+import useGoToEstate from 'src/hooks/navigation/use-go-to-estate';
+import useActiveRegionEstates from 'src/hooks/use-active-region-estates';
 import useMapCenter from 'src/hooks/use-map-center';
 import type { Building } from 'src/types/building';
 
@@ -51,7 +51,7 @@ function locateActiveBuilding(
 }
 
 export default function LocateBuilding() {
-  const { data: buildings, loading, error } = useActiveRegionBuildings();
+  const { data: buildings, loading, error } = useActiveRegionEstates();
 
   if (loading) {
     return (
@@ -78,7 +78,7 @@ export default function LocateBuilding() {
     );
   }
 
-  return <BuildingsLoaded buildings={buildings} />;
+  return <BuildingsLoaded buildings={buildings as any} />;
 }
 
 interface BuildingsLoadedProps {
@@ -89,7 +89,7 @@ const BuildingsLoaded: React.FC<BuildingsLoadedProps> = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { lat, lng } = useMapCenter();
-  const goToBuilding = useGoToBuilding();
+  const goToProperty = useGoToEstate('building');
   const locatedBuilding = locateActiveBuilding(props.buildings || [], {
     latitude: lat,
     longitude: lng,
@@ -117,7 +117,7 @@ const BuildingsLoaded: React.FC<BuildingsLoadedProps> = (props) => {
   }
 
   const onButtonClick = () => {
-    goToBuilding(locatedBuilding.id);
+    goToProperty(locatedBuilding.id);
   };
 
   return (

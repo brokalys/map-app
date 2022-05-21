@@ -2,21 +2,21 @@ import { Polygon } from '@react-google-maps/api';
 import { useLocation, useParams } from 'react-router-dom';
 import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 
-import useGoToBuilding from 'src/hooks/navigation/use-go-to-building';
-import useActiveRegionBuildings from 'src/hooks/use-active-region-buildings';
-import type { Building } from 'src/types/building';
+import useGoToEstate from 'src/hooks/navigation/use-go-to-estate';
+import useActiveRegionEstates from 'src/hooks/use-active-region-estates';
+import type { Estate } from 'src/types/estate';
 
 import styles from './BuildingPolygons.module.css';
 
-function BuildingPolygons() {
+function EstatePolygons() {
   const location = useLocation();
-  const goToBuilding = useGoToBuilding();
   const disableInteraction = location.pathname.endsWith('/locate-building');
-  const { buildingId } = useParams();
-  const { loading, data: buildings } = useActiveRegionBuildings();
+  const { estateId } = useParams();
+  const { type, loading, data: estates } = useActiveRegionEstates();
+  const goToEstate = useGoToEstate(type);
 
-  const onBuildingClick = (building: Building) => {
-    goToBuilding(building.id);
+  const onPolygonClick = (estate: Estate) => {
+    goToEstate(estate.id);
   };
 
   if (disableInteraction) {
@@ -38,16 +38,16 @@ function BuildingPolygons() {
 
   return (
     <>
-      {buildings.map((building) => (
+      {estates.map((estate) => (
         <Polygon
-          key={building.id}
-          onClick={() => onBuildingClick(building)}
-          paths={building.bounds.split(', ').map((row: string) => {
+          key={estate.id}
+          onClick={() => onPolygonClick(estate)}
+          paths={estate.bounds.split(', ').map((row: string) => {
             const [lat, lng] = row.split(' ');
             return { lat: parseFloat(lat), lng: parseFloat(lng) };
           })}
           options={
-            buildingId && buildingId === building.id.toString()
+            estateId && estateId === estate.id.toString()
               ? { strokeColor: 'green', fillColor: 'green' }
               : { strokeColor: 'black', fillColor: 'black' }
           }
@@ -57,4 +57,4 @@ function BuildingPolygons() {
   );
 }
 
-export default BuildingPolygons;
+export default EstatePolygons;

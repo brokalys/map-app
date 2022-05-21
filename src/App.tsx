@@ -103,7 +103,10 @@ function App() {
           <Grid.Column computer={9} className={styles.leftPanel}>
             <Routes>
               <Route path=":lat,:lng,:zoom">
-                <Route path="building/:buildingId" element={<Building />} />
+                <Route
+                  path="estate/:estateType/:estateId"
+                  element={<Building />}
+                />
                 <Route path="locate-building" element={<LocateBuilding />} />
                 <Route index element={<Home />} />
               </Route>
@@ -114,7 +117,7 @@ function App() {
             <Routes>
               <Route path="/" element={<SplitPaneRight />}>
                 <Route path=":lat,:lng,:zoom">
-                  <Route path="building/:buildingId" />
+                  <Route path="estate/:estateType/:estateId" />
                   <Route path="*" />
                 </Route>
                 <Route path="*" />

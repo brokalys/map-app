@@ -1,4 +1,5 @@
 import type { Building } from 'src/types/building';
+import type { Land } from 'src/types/land';
 import type { VZDProperty } from 'src/types/vzd';
 
 function mapVzdSalesData(category: string) {
@@ -11,19 +12,28 @@ function mapVzdSalesData(category: string) {
   });
 }
 
-export function mapPropertyApiData(building: Building) {
+export function mapPropertyApiData(estate: Building | Land) {
   return {
-    ...building,
+    ...estate,
 
     data: [
-      ...building.properties!.results.map((row) => ({
+      ...estate.properties!.results.map((row) => ({
         ...row,
         source: 'classifieds',
         type: row.type === 'office' ? 'premise' : row.type,
       })),
-      ...building.vzd!.apartments.map(mapVzdSalesData('apartment')),
-      ...building.vzd!.premises.map(mapVzdSalesData('premise')),
-      ...building.vzd!.houses.map(mapVzdSalesData('house')),
+      ...('apartments' in estate.vzd!
+        ? estate.vzd!.apartments.map(mapVzdSalesData('apartment'))
+        : []),
+      ...('premises' in estate.vzd!
+        ? estate.vzd!.premises.map(mapVzdSalesData('premise'))
+        : []),
+      ...('houses' in estate.vzd!
+        ? estate.vzd!.houses.map(mapVzdSalesData('house'))
+        : []),
+      ...('land' in estate.vzd!
+        ? estate.vzd!.land.map(mapVzdSalesData('house'))
+        : []),
     ],
   };
 }

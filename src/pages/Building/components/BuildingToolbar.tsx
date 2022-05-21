@@ -1,6 +1,7 @@
 import { Dropdown, Menu } from 'semantic-ui-react';
 
 import useBuildingFilters from 'src/hooks/use-building-filters';
+import usePageEstateType from 'src/hooks/use-page-estate-type';
 
 const sourceOptions = [
   { value: 'real-sales', text: 'Real Sales' },
@@ -30,6 +31,7 @@ const resetPage = {
 export default function BuildingToolbar() {
   const [{ source, category, type, rent_type: rentType }, setQuery] =
     useBuildingFilters();
+  const estateType = usePageEstateType();
 
   return (
     <>
@@ -45,21 +47,24 @@ export default function BuildingToolbar() {
           }
         />
       </Menu.Item>
-      <Menu.Item fitted>
-        <Dropdown
-          placeholder="Select category"
-          clearable
-          selection
-          value={category}
-          options={categoryOptions}
-          onChange={(event, data) =>
-            setQuery({
-              ...resetPage,
-              category: String(data.value) || undefined,
-            })
-          }
-        />
-      </Menu.Item>
+
+      {estateType !== 'land' && (
+        <Menu.Item fitted>
+          <Dropdown
+            placeholder="Select category"
+            clearable
+            selection
+            value={category}
+            options={categoryOptions}
+            onChange={(event, data) =>
+              setQuery({
+                ...resetPage,
+                category: String(data.value) || undefined,
+              })
+            }
+          />
+        </Menu.Item>
+      )}
 
       {source !== 'real-sales' && (
         <>
@@ -79,7 +84,7 @@ export default function BuildingToolbar() {
             />
           </Menu.Item>
 
-          {type === 'rent' && (
+          {estateType !== 'land' && type === 'rent' && (
             <Menu.Item fitted>
               <Dropdown
                 placeholder="Select rent type"

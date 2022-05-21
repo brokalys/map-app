@@ -18,4 +18,10 @@ export interface VZDPremise extends Data {
   area: number;
 }
 
-export type VZDProperty = VZDApartment | VZDHouse | VZDPremise;
+export interface VZDLand extends Data {
+  category: string;
+  price: number;
+  area: number;
+}
+
+export type VZDProperty = VZDApartment | VZDHouse | VZDPremise | VZDLand;
