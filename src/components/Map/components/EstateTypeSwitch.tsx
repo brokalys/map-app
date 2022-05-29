@@ -23,7 +23,7 @@ const EstateTypeSwitch: React.FC<EstateTypeSwitchProps> = (props) => {
     <div className={styles.container}>
       <Popup
         content="Zoom in to see data about specific buildings or land plots"
-        position="top center"
+        position="bottom center"
         disabled={!props.disabled}
         trigger={
           <Button.Group size="large">

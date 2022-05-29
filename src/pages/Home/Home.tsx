@@ -48,7 +48,7 @@ export default function Home() {
               }
               onError={(error) => Bugsnag.notify(error)}
             >
-              <Statistic.Group size="small">
+              <Statistic.Group size="small" className={styles.statistics}>
                 <MeanPrice />
                 {category !== 'land' && <RentalYield />}
               </Statistic.Group>
