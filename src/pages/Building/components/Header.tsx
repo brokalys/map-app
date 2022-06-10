@@ -7,7 +7,7 @@ import BuildingToolbar from './BuildingToolbar';
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const onReturnClick = useCallback(() => {
+  const onReturnHomeClick = useCallback(() => {
     const [, coords] = location.pathname.split('/');
     navigate(`/${coords}${location.search}`);
   }, [location, navigate]);
@@ -17,10 +17,10 @@ export default function Header() {
       <Menu secondary>
         <Menu.Item fitted>
           <Button
-            content="Return"
+            content="Return home"
             icon="left arrow"
             labelPosition="left"
-            onClick={onReturnClick}
+            onClick={onReturnHomeClick}
           />
         </Menu.Item>
       </Menu>
