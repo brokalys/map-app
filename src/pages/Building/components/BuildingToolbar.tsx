@@ -42,6 +42,7 @@ export default function BuildingToolbar() {
           selection
           value={source}
           options={sourceOptions}
+          selectOnBlur={false}
           onChange={(event, data) =>
             setQuery({ ...resetPage, source: String(data.value) || undefined })
           }
@@ -56,6 +57,7 @@ export default function BuildingToolbar() {
             selection
             value={category}
             options={categoryOptions}
+            selectOnBlur={false}
             onChange={(event, data) =>
               setQuery({
                 ...resetPage,
@@ -75,6 +77,7 @@ export default function BuildingToolbar() {
               selection
               value={type}
               options={typeOptions}
+              selectOnBlur={false}
               onChange={(event, data) =>
                 setQuery({
                   ...resetPage,
@@ -93,6 +96,7 @@ export default function BuildingToolbar() {
                 fluid
                 value={rentType}
                 options={rentTypeOptions}
+                selectOnBlur={false}
                 onChange={(event, data) =>
                   setQuery({
                     ...resetPage,

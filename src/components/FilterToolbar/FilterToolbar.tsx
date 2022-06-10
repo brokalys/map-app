@@ -100,6 +100,7 @@ function FilterToolbar() {
                 ? RIGA_LOCATION_ID
                 : neighborhood
             }
+            selectOnBlur={false}
             onChange={(event, data) => setNeighborhood(String(data.value))}
           />
         </Menu.Item>
@@ -112,6 +113,7 @@ function FilterToolbar() {
               selection
               options={rigaOptions}
               value={neighborhood}
+              selectOnBlur={false}
               onChange={(event, data) => setNeighborhood(String(data.value))}
             />
           </Menu.Item>
@@ -126,6 +128,7 @@ function FilterToolbar() {
             selection
             value={source}
             options={sourceOptions}
+            selectOnBlur={false}
             onChange={(event, data) => {
               const filters = Object.assign(
                 {},
@@ -144,6 +147,7 @@ function FilterToolbar() {
             selection
             value={category}
             options={categoryOptions}
+            selectOnBlur={false}
             onChange={(event, data) => {
               const filters = Object.assign(
                 {},
@@ -163,6 +167,7 @@ function FilterToolbar() {
             selection
             value={type}
             options={typeOptions}
+            selectOnBlur={false}
             onChange={(event, data) => {
               setQuery({ type: String(data.value) });
             }}
@@ -177,6 +182,7 @@ function FilterToolbar() {
             selection
             value={priceType}
             options={priceTypeOptions}
+            selectOnBlur={false}
             onChange={(event, data) => {
               setQuery({ priceType: String(data.value) });
             }}
