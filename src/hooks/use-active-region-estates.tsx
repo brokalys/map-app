@@ -38,12 +38,12 @@ export default function useActiveRegionEstates() {
     loading: buildingsLoading,
     data: buildingsData,
     error: buildingsError,
-  } = useRegionBuildingEstates(region, { skip: isLandType });
+  } = useRegionBuildingEstates(region, { skip: isLandType || !region });
   const {
     loading: landLoading,
     data: landData,
     error: landError,
-  } = useRegionLandEstates(region, { skip: !isLandType });
+  } = useRegionLandEstates(region, { skip: !isLandType || !region });
 
   if (isLandType) {
     return {
