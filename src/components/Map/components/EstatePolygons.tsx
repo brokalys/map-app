@@ -25,14 +25,11 @@ function EstatePolygons() {
 
   if (loading) {
     return (
-      <>
-        {/* @ts-expect-error */}
-        <Segment circular className={styles.loadingIndicator}>
-          <Dimmer active>
-            <Loader />
-          </Dimmer>
-        </Segment>
-      </>
+      <Segment circular className={styles.loadingIndicator}>
+        <Dimmer active>
+          <Loader />
+        </Dimmer>
+      </Segment>
     );
   }
 

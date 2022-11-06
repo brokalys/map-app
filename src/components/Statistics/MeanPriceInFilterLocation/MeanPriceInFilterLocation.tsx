@@ -75,14 +75,11 @@ function MeanPriceInFilterLocation() {
 
 function MeanPriceInFilterLocationContainer() {
   return (
-    <>
-      {/* @ts-expect-error */}
-      <Statistic>
-        <React.Suspense fallback={<Skeleton height={60} width={240} />}>
-          <MeanPriceInFilterLocation />
-        </React.Suspense>
-      </Statistic>
-    </>
+    <Statistic>
+      <React.Suspense fallback={<Skeleton height={60} width={240} />}>
+        <MeanPriceInFilterLocation />
+      </React.Suspense>
+    </Statistic>
   );
 }
 

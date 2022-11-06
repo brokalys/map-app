@@ -237,7 +237,6 @@ const BuildingTable: React.FC<BuildingTableProps> = (props) => {
         </div>
       )}
 
-      {/* @ts-expect-error */}
       <Table singleLine={hasResults} sortable>
         <Table.Header>
           {headerGroups.map((headerGroup) => (
@@ -253,7 +252,7 @@ const BuildingTable: React.FC<BuildingTableProps> = (props) => {
                       ? column.isSortedDesc
                         ? 'descending'
                         : 'ascending'
-                      : null
+                      : undefined
                   }
                 >
                   {column.render('Header')}

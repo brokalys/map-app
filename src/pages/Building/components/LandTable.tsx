@@ -190,7 +190,6 @@ const LandTable: React.FC<LandTableProps> = (props) => {
         </div>
       )}
 
-      {/* @ts-expect-error */}
       <Table singleLine={hasResults} sortable>
         <Table.Header>
           {headerGroups.map((headerGroup) => (
@@ -206,7 +205,7 @@ const LandTable: React.FC<LandTableProps> = (props) => {
                       ? column.isSortedDesc
                         ? 'descending'
                         : 'ascending'
-                      : null
+                      : undefined
                   }
                 >
                   {column.render('Header')}

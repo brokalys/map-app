@@ -401,11 +401,8 @@ const NoopLayer: CustomLayer = () => null;
 
 export default function PropertyPriceChartWrapper() {
   return (
-    <>
-      {/* @ts-expect-error */}
-      <Segment basic className={styles.container}>
-        <PropertyPriceChartContainer />
-      </Segment>
-    </>
+    <Segment basic className={styles.container}>
+      <PropertyPriceChartContainer />
+    </Segment>
   );
 }

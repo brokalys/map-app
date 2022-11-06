@@ -25,21 +25,18 @@ function Description() {
 
 function RentalYieldInFilterLocationContainer() {
   return (
-    <>
-      {/* @ts-expect-error */}
-      <Statistic>
-        <React.Suspense fallback={<Skeleton height={42} />}>
-          <RentalYieldInFilterLocation />
-        </React.Suspense>
-        <Statistic.Label>
-          Rental Yield{' '}
-          <Popup
-            content={<Description />}
-            trigger={<Icon name="help circle" />}
-          />
-        </Statistic.Label>
-      </Statistic>
-    </>
+    <Statistic>
+      <React.Suspense fallback={<Skeleton height={42} />}>
+        <RentalYieldInFilterLocation />
+      </React.Suspense>
+      <Statistic.Label>
+        Rental Yield{' '}
+        <Popup
+          content={<Description />}
+          trigger={<Icon name="help circle" />}
+        />
+      </Statistic.Label>
+    </Statistic>
   );
 }
 

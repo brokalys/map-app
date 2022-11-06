@@ -27,66 +27,60 @@ const BuildingStats: React.FC<BuildingStatsProps> = (props) => {
   };
 
   return (
-    <>
-      {/* @ts-expect-error */}
-      <Grid textAlign="center">
-        <Grid.Row columns={3} divided>
-          <Grid.Column>
-            {/* @ts-expect-error */}
-            <Statistic size="small">
-              <Statistic.Label>Min</Statistic.Label>
-              <Statistic.Value>
-                {min.total.toLocaleString()}
-                <small>€</small>
-              </Statistic.Value>
-              <Statistic.Label>
-                ({min.sqm.toLocaleString()}{' '}
-                <small>
-                  €/m<sup>2</sup>
-                </small>
-                )
-              </Statistic.Label>
-            </Statistic>
-          </Grid.Column>
+    <Grid textAlign="center">
+      <Grid.Row columns={3} divided>
+        <Grid.Column>
+          <Statistic size="small">
+            <Statistic.Label>Min</Statistic.Label>
+            <Statistic.Value>
+              {min.total.toLocaleString()}
+              <small>€</small>
+            </Statistic.Value>
+            <Statistic.Label>
+              ({min.sqm.toLocaleString()}{' '}
+              <small>
+                €/m<sup>2</sup>
+              </small>
+              )
+            </Statistic.Label>
+          </Statistic>
+        </Grid.Column>
 
-          <Grid.Column>
-            {/* @ts-expect-error */}
-            <Statistic size="small">
-              <Statistic.Label>Average</Statistic.Label>
-              <Statistic.Value>
-                {avg.total.toLocaleString()}
-                <small>€</small>
-              </Statistic.Value>
-              <Statistic.Label>
-                ({avg.sqm.toLocaleString()}{' '}
-                <small>
-                  €/m<sup>2</sup>
-                </small>
-                )
-              </Statistic.Label>
-            </Statistic>
-          </Grid.Column>
+        <Grid.Column>
+          <Statistic size="small">
+            <Statistic.Label>Average</Statistic.Label>
+            <Statistic.Value>
+              {avg.total.toLocaleString()}
+              <small>€</small>
+            </Statistic.Value>
+            <Statistic.Label>
+              ({avg.sqm.toLocaleString()}{' '}
+              <small>
+                €/m<sup>2</sup>
+              </small>
+              )
+            </Statistic.Label>
+          </Statistic>
+        </Grid.Column>
 
-          <Grid.Column>
-            {/* @ts-expect-error */}
-            <Statistic size="small">
-              <Statistic.Label>Max</Statistic.Label>
-              <Statistic.Value>
-                {max.total.toLocaleString()}
-                <small>€</small>
-              </Statistic.Value>
-              <Statistic.Label>
-                ({max.sqm.toLocaleString()}{' '}
-                <small>
-                  €/m<sup>2</sup>
-                </small>
-                )
-              </Statistic.Label>
-            </Statistic>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </>
+        <Grid.Column>
+          <Statistic size="small">
+            <Statistic.Label>Max</Statistic.Label>
+            <Statistic.Value>
+              {max.total.toLocaleString()}
+              <small>€</small>
+            </Statistic.Value>
+            <Statistic.Label>
+              ({max.sqm.toLocaleString()}{' '}
+              <small>
+                €/m<sup>2</sup>
+              </small>
+              )
+            </Statistic.Label>
+          </Statistic>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   );
 };
 export default BuildingStats;

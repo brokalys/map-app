@@ -13,15 +13,12 @@ function Body() {
 
   if (loading) {
     return (
-      <>
-        {/* @ts-expect-error */}
-        <Segment basic>
-          <Dimmer inverted active>
-            <Loader content="Loading the building data.." />
-          </Dimmer>
-          <Skeleton count={20} />
-        </Segment>
-      </>
+      <Segment basic>
+        <Dimmer inverted active>
+          <Loader content="Loading the building data.." />
+        </Dimmer>
+        <Skeleton count={20} />
+      </Segment>
     );
   }
 

@@ -98,7 +98,6 @@ function App() {
       </Sidebar>
 
       <Sidebar.Pusher as={Container} fluid className={styles.container}>
-        {/* @ts-expect-error */}
         <Grid className={styles.grid}>
           <Grid.Column computer={9} className={styles.leftPanel}>
             <Routes>
