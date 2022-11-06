@@ -1,9 +1,13 @@
 .container {
-  margin: 30px -5px 25px;
-  padding-bottom: 5px;
+  margin: 30px -5px 0;
 }
 
 .categoryDropdown {
   width: 120px;
   max-width: 120px;
+}
+
+.secondaryToolbar {
+  flex-wrap: wrap;
+  gap: 10px 0;
 }

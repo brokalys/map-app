@@ -1,7 +1,9 @@
 import { latvia, riga } from '@brokalys/location-json-schemas';
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Dropdown, Input, Menu } from 'semantic-ui-react';
 import type { DropdownItemProps } from 'semantic-ui-react';
 import { transliterate } from 'transliteration';
 
@@ -11,6 +13,8 @@ import useChartFilters from 'src/hooks/use-price-chart-filters';
 import styles from './FilterToolbar.module.css';
 
 const RIGA_LOCATION_ID = 'latvia-riga';
+const MIN_DATE = new Date('1998-01-01');
+const MAX_DATE = new Date();
 
 const locationOptions = latvia.features
   .filter(
@@ -50,11 +54,24 @@ const priceTypeOptions = [
   { value: 'sqm', text: 'Price/sqm' },
 ];
 
+const toISOIgnoreTimezone = (inputDate: Date) => {
+  return new Date(
+    inputDate.getFullYear() +
+      '-' +
+      ('0' + (inputDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + inputDate.getDate()).slice(-2) +
+      'T00:00:00.000Z',
+  );
+};
+
 function FilterToolbar() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [{ category, type, priceType, source, neighborhood }, setQuery] =
-    useChartFilters();
+  const [
+    { category, type, priceType, source, neighborhood, start: startDate },
+    setQuery,
+  ] = useChartFilters();
 
   function setNeighborhood(id: string) {
     // Center the map on the newly selected neighborhood and highlight it
@@ -88,7 +105,7 @@ function FilterToolbar() {
 
   return (
     <div className={styles.container}>
-      <Menu secondary>
+      <Menu secondary className={styles.primaryToolbar}>
         <Menu.Item fitted>
           <Dropdown
             placeholder="Select location"
@@ -120,7 +137,7 @@ function FilterToolbar() {
         )}
       </Menu>
 
-      <Menu secondary>
+      <Menu secondary className={styles.secondaryToolbar}>
         <Menu.Item fitted>
           <Dropdown
             placeholder="Select data source"
@@ -188,9 +205,42 @@ function FilterToolbar() {
             }}
           />
         </Menu.Item>
+
+        {source === 'real-sales' && (
+          <Menu.Item fitted position="right">
+            <DatePicker
+              selected={startDate}
+              onChange={(date: Date) =>
+                setQuery({ start: toISOIgnoreTimezone(date) })
+              }
+              startDate={startDate}
+              dateFormat="yyyy, QQQ"
+              showQuarterYearPicker
+              customInput={<CustomDateInput />}
+              minDate={MIN_DATE}
+              maxDate={MAX_DATE}
+            />
+          </Menu.Item>
+        )}
       </Menu>
     </div>
   );
 }
+
+const CustomDateInput = React.forwardRef(
+  (
+    // @ts-expect-error
+    { value, onClick }: unknown,
+    ref: React.Ref<HTMLInputElement>,
+  ) => (
+    <Input
+      icon="calendar"
+      label={{ content: 'starting from' }}
+      labelPosition="left"
+      value={value}
+      onClick={onClick}
+    />
+  ),
+);
 
 export default FilterToolbar;

@@ -69,7 +69,8 @@ export interface PriceResult {
 
 export default function usePriceData(filterOverrides = {}) {
   const [pollInterval, setPollInterval] = useState(0);
-  const [{ category, type, source, neighborhood }] = useChartFilters();
+  const [{ category, type, source, neighborhood, start: startDate }] =
+    useChartFilters();
 
   const filters = {
     category,
@@ -83,7 +84,10 @@ export default function usePriceData(filterOverrides = {}) {
     response?: { loadingResults: number; results?: PriceResult[] };
   }>(query, {
     variables: {
-      start: source === 'classifieds' ? '2018-01-01' : '2013-01-01',
+      start:
+        source === 'classifieds'
+          ? '2018-01-01'
+          : startDate.toISOString().substr(0, 10),
       discard: source === 'classifieds' ? 0.1 : 0,
       filters: filterStr,
       source,
