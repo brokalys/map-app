@@ -1,6 +1,6 @@
 {
   "name": "map-app",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "homepage": "https://brokalys.com",
   "private": true,
   "dependencies": {
