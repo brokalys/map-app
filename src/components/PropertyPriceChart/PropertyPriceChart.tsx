@@ -220,9 +220,16 @@ const PropertyPriceChart: React.FC<PropertyPriceChartProps> = (props) => {
             axisLeft={{
               tickValues: 2,
             }}
+            xScale={{
+              type: 'time',
+              format: '%Y-%m-%d',
+              useUTC: false,
+              precision: 'day',
+            }}
             gridYValues={4}
             animate={false}
             axisBottom={{
+              tickValues: 10,
               format: (x) => {
                 return moment(x).format(
                   isSourceClassifieds ? 'YYYY-MM-DD' : 'YYYY [Q]Q',
@@ -364,7 +371,7 @@ const warningAreaGenerator = (innerHeight: number, points: ComputedDatum[]) =>
 
 const WarningLayer: CustomLayer = (props) => {
   const points = props.series[0].data;
-  const path = warningAreaGenerator(props.innerHeight, points);
+  const path = warningAreaGenerator(props.innerHeight, points as any);
 
   return <path d={path} fill="#f9cd31" fillOpacity={0.3} />;
 };
