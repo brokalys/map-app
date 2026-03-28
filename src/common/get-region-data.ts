@@ -3,15 +3,28 @@ import type {
   LatviaGeoJsonFeature,
   RigaGeoJsonFeature,
 } from '@brokalys/location-json-schemas';
+import type { Position } from 'geojson';
 
 const highlightedRegionRigaMap = riga.features.reduce<
   Record<string, RigaGeoJsonFeature>
->((carry, row) => ({ ...carry, [row.properties.id]: row }), {});
+>(
+  (carry: Record<string, RigaGeoJsonFeature>, row: RigaGeoJsonFeature) => ({
+    ...carry,
+    [row.properties.id]: row,
+  }),
+  {},
+);
 const highlightedRegionLatviaMap = latvia.features.reduce<
   Record<string, LatviaGeoJsonFeature>
->((carry, row) => ({ ...carry, [row.properties.id]: row }), {});
+>(
+  (carry: Record<string, LatviaGeoJsonFeature>, row: LatviaGeoJsonFeature) => ({
+    ...carry,
+    [row.properties.id]: row,
+  }),
+  {},
+);
 
-function getCenterCoords(arr: Array<GeoJSON.Position>) {
+function getCenterCoords(arr: Array<Position>) {
   const coords = arr.reduce(
     (x, y) => [x[0] + y[0] / arr.length, x[1] + y[1] / arr.length],
     [0, 0],

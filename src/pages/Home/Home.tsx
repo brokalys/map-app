@@ -43,7 +43,7 @@ export default function Home() {
                 Failed loading the data. Please try again later.
               </Message>
             }
-            onError={(error) => Bugsnag.notify(error)}
+            onError={(error) => Bugsnag.notify(error as Error)}
           >
             <Statistic.Group size="small" className={styles.statistics}>
               <MeanPrice />

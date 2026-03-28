@@ -12,16 +12,16 @@ import packageJson from '../package.json';
 
 const debounceLink = new DebounceLink(1500);
 const httpLink = new HttpLink({
-  uri: process.env.REACT_APP_API_ENDPOINT,
+  uri: import.meta.env.VITE_API_ENDPOINT,
 });
 const restLink = new RestLink({
-  uri: process.env.REACT_APP_STATIC_API_ENDPOINT,
+  uri: import.meta.env.VITE_STATIC_API_ENDPOINT,
 });
 
 const authLink = setContext((_, { headers }) => ({
   headers: {
     ...headers,
-    'x-api-key': process.env.REACT_APP_BROKALYS_API_KEY,
+    'x-api-key': import.meta.env.VITE_BROKALYS_API_KEY,
   },
 }));
 
