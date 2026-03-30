@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react';
-import PlacesAutocomplete, {
+import PlacesAutocompleteOriginal, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+
+const PlacesAutocomplete = PlacesAutocompleteOriginal as any;
 import { useNavigate } from 'react-router-dom';
 import type { StrictDropdownProps } from 'semantic-ui-react';
 import { Dropdown } from 'semantic-ui-react';
@@ -54,13 +56,13 @@ export default function AddressLookup() {
       onChange={setAddress}
       searchOptions={SEARCH_OPTIONS}
     >
-      {({ suggestions, loading, getInputProps }) => (
+      {({ suggestions, loading, getInputProps }: any) => (
         <Dropdown
           fluid
           selection
           clearable
           search={(options) => options}
-          options={suggestions.map((item) => ({
+          options={suggestions.map((item: any) => ({
             text: item.description,
             value: item.description,
           }))}

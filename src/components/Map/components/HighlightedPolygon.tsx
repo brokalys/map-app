@@ -13,8 +13,8 @@ export default function BuildingPolygons() {
 
   return (
     <Polygon
-      paths={region.map((polygon) =>
-        polygon.map(([lng, lat]) => ({ lng, lat })),
+      paths={region.map((polygon: number[][]) =>
+        polygon.map(([lng, lat]: number[]) => ({ lng, lat })),
       )}
       options={{ strokeColor: 'black', fillColor: 'black', fillOpacity: 0.2 }}
     />

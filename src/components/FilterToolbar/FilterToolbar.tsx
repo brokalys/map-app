@@ -210,8 +210,8 @@ function FilterToolbar() {
           <Menu.Item fitted position="right">
             <DatePicker
               selected={startDate}
-              onChange={(date: Date) =>
-                setQuery({ start: toISOIgnoreTimezone(date) })
+              onChange={(date: Date | null) =>
+                date && setQuery({ start: toISOIgnoreTimezone(date) })
               }
               startDate={startDate}
               dateFormat="yyyy, QQQ"

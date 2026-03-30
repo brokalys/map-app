@@ -1,6 +1,11 @@
 import { Defs } from '@nivo/core';
 import { ResponsiveLine } from '@nivo/line';
-import type { ComputedDatum, CustomLayer, Datum } from '@nivo/line';
+import type {
+  ComputedDatum,
+  DefaultSeries,
+  LineCustomSvgLayer,
+  SliceData,
+} from '@nivo/line';
 import { Crosshair } from '@nivo/tooltip';
 import { area, curveMonotoneX } from 'd3-shape';
 import moment from 'moment';
@@ -328,11 +333,11 @@ function PropertyPriceChartContainer() {
   return <PropertyPriceChart results={data} />;
 }
 
-const AreaLayer: CustomLayer = (props) => {
-  const areaGenerator = area<ComputedDatum>()
+const AreaLayer: LineCustomSvgLayer<DefaultSeries> = (props) => {
+  const areaGenerator = area<ComputedDatum<DefaultSeries>>()
     .x((d) => (props.xScale as any)(d.data.x || 0))
-    .y0((d) => (props.yScale as any)(d.data.min || 0))
-    .y1((d) => (props.yScale as any)(d.data.max || 0))
+    .y0((d) => (props.yScale as any)((d.data as any).min || 0))
+    .y1((d) => (props.yScale as any)((d.data as any).max || 0))
     .curve(curveMonotoneX);
 
   return (
@@ -361,26 +366,31 @@ const AreaLayer: CustomLayer = (props) => {
   );
 };
 
-const warningAreaGenerator = (innerHeight: number, points: ComputedDatum[]) =>
-  area<ComputedDatum>()
+const warningAreaGenerator = (
+  innerHeight: number,
+  points: ComputedDatum<DefaultSeries>[],
+) =>
+  area<ComputedDatum<DefaultSeries>>()
     .x(({ position }) => {
       const point = points.at(-3)!.position;
       return position.x > point.x ? position.x : point.x;
     })
     .y1(() => innerHeight)(points)!;
 
-const WarningLayer: CustomLayer = (props) => {
+const WarningLayer: LineCustomSvgLayer<DefaultSeries> = (props) => {
   const points = props.series[0].data;
   const path = warningAreaGenerator(props.innerHeight, points as any);
 
   return <path d={path} fill="#f9cd31" fillOpacity={0.3} />;
 };
 
-const CustomCrosshair: CustomLayer = (props) => {
+const CustomCrosshair: LineCustomSvgLayer<DefaultSeries> = (props) => {
   const [crosshairPosition, setCrosshairPosition] =
     useContext(CrosshairContext);
 
-  const { currentSlice } = props as unknown as { currentSlice: Datum };
+  const { currentSlice } = props as unknown as {
+    currentSlice: SliceData<DefaultSeries>;
+  };
 
   useEffect(() => {
     const position = currentSlice
@@ -404,7 +414,7 @@ const CustomCrosshair: CustomLayer = (props) => {
   );
 };
 
-const NoopLayer: CustomLayer = () => null;
+const NoopLayer: LineCustomSvgLayer<DefaultSeries> = () => null;
 
 export default function PropertyPriceChartWrapper() {
   return (
