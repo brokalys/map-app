@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Test
         run: yarn test
       - name: Build 🔧

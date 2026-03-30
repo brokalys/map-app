@@ -9,11 +9,13 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 import App from './App';
 import client from './apollo-client';
-import Bugsnag from './bugsnag';
+import Bugsnag, { isBugsnagEnabled } from './bugsnag';
 import { MapContext } from './hooks/use-map-context';
 import './index.css';
 
-const ErrorBoundary = Bugsnag.getPlugin('react')!.createErrorBoundary(React);
+const ErrorBoundary = isBugsnagEnabled
+  ? Bugsnag.getPlugin('react')!.createErrorBoundary(React)
+  : React.Fragment;
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
