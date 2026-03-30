@@ -68,7 +68,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "resolutions": {
     "@types/react": "^18.3.28",
@@ -86,5 +86,6 @@
     "cz-emoji": {
       "symbol": true
     }
-  }
+  },
+  "packageManager": "yarn@4.13.0"
 }

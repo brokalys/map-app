@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Header, Message, Statistic } from 'semantic-ui-react';
 
-import Bugsnag from 'src/bugsnag';
+import Bugsnag, { isBugsnagEnabled } from 'src/bugsnag';
 import getRegionData from 'src/common/get-region-data';
 import FilterToolbar from 'src/components/FilterToolbar';
 import PropertyPriceChart from 'src/components/PropertyPriceChart';
@@ -43,7 +43,9 @@ export default function Home() {
                 Failed loading the data. Please try again later.
               </Message>
             }
-            onError={(error) => Bugsnag.notify(error as Error)}
+            onError={(error) =>
+              isBugsnagEnabled && Bugsnag.notify(error as Error)
+            }
           >
             <Statistic.Group size="small" className={styles.statistics}>
               <MeanPrice />
